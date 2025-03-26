@@ -9,8 +9,8 @@ export default function Page() {
     <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
       <TaskSection />
       <BoardSection />
-      <CalendarSection />
       <AnalyticsSection />
+      <CalendarSection />
     </div>
   );
 }

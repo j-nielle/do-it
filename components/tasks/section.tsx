@@ -9,7 +9,7 @@ export default function TaskSection() {
   return (
     <section className="flex flex-col gap-2 max-h-[346px]">
       <p className="font-bold text-xl">Tasks Section</p>
-      <Card className="h-full">
+      <Card className="h-full" radius="sm">
         <TaskButtonGroup />
         <Divider />
         <ScrollArea className="h-[253px]">
