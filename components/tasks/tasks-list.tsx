@@ -1,28 +1,26 @@
-'use client'
+"use client";
 
 // import { index } from "@/services/tasks";
 // import { Task } from "@/types/tasks";
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
 export default function TasksList() {
-	// const [tasks, setTasks] = useState<Task[]>([]);
+  // const [tasks, setTasks] = useState<Task[]>([]);
 
-	// useEffect(() => {
-	// 	loadTasks();
-	// }, []);
+  // useEffect(() => {
+  // 	loadTasks();
+  // }, []);
 
-	// const loadTasks = async () => {
-	// 	const tasks = await index();
-	// 	setTasks(tasks);
-	// };
+  // const loadTasks = async () => {
+  // 	const tasks = await index();
+  // 	setTasks(tasks);
+  // };
 
-	// useEffect(() => {
-	// 	if(tasks.length > 0) {
-	// 		console.log(tasks);
-	// 	}
-	// },[tasks])
+  // useEffect(() => {
+  // 	if(tasks.length > 0) {
+  // 		console.log(tasks);
+  // 	}
+  // },[tasks])
 
-	return (
-		<div>TasksList</div>
-	)
+  return <div>TasksList</div>;
 }

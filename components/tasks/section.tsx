@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function Tasks() {
-	return (
-		<div>Tasks</div>
-	)
+  return <section className="outline outline-blue-500">Tasks Section</section>;
 }

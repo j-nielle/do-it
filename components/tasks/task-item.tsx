@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function TaskItem() {
-	return (
-		<div>task-item</div>
-	)
+  return <div>task-item</div>;
 }
