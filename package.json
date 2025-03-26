@@ -1,5 +1,5 @@
 {
-  "name": "next-app-template",
+  "name": "do-it",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@heroui/button": "2.2.16",
+    "@heroui/card": "^2.2.15",
     "@heroui/code": "2.2.12",
+    "@heroui/divider": "^2.2.11",
     "@heroui/form": "^2.1.15",
+    "@heroui/image": "^2.2.10",
     "@heroui/input": "2.4.16",
     "@heroui/kbd": "2.2.12",
     "@heroui/link": "2.2.13",
@@ -26,19 +29,19 @@
     "clsx": "2.1.1",
     "firebase": "^11.5.0",
     "firebase-admin": "^13.2.0",
-    "framer-motion": "11.13.1",
+    "framer-motion": "^12.6.0",
     "intl-messageformat": "^10.5.0",
-    "next": "15.0.4",
+    "next": "^15.2.4",
     "next-themes": "^0.4.4",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "15.0.4",
     "@react-types/shared": "3.25.0",
     "@types/node": "20.5.7",
-    "@types/react": "18.3.3",
-    "@types/react-dom": "18.3.0",
+    "@types/react": "19.0.12",
+    "@types/react-dom": "19.0.4",
     "@typescript-eslint/eslint-plugin": "8.11.0",
     "@typescript-eslint/parser": "8.11.0",
     "autoprefixer": "10.4.19",
