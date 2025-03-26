@@ -3,7 +3,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { DASHBOARD_ROUTE, ROOT_ROUTE, SESSION_COOKIE_NAME } from "@/lib/constants";
+import {
+  DASHBOARD_ROUTE,
+  ROOT_ROUTE,
+  SESSION_COOKIE_NAME,
+} from "@/lib/constants";
 
 export async function createSession(uid: string) {
   const cookieStore = await cookies();

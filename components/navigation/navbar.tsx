@@ -11,10 +11,13 @@ import { cookies } from "next/headers";
 import { SESSION_COOKIE_NAME } from "@/lib/constants";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { AuthNavLink, NavLinkItems, NavLogoLink, NavMenuItems } from './navlink';
 import {
-  GithubIcon,
-} from "@/components/icons";
+  AuthNavLink,
+  NavLinkItems,
+  NavLogoLink,
+  NavMenuItems,
+} from "./navlink";
+import { GithubIcon } from "@/components/icons";
 
 export const Navbar = async () => {
   const cookieStore = await cookies();

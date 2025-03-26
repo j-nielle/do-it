@@ -20,7 +20,8 @@ export const AuthNavLink = ({ session }: { session: string | null }) => {
   return userSessionId ? (
     <Button
       className="hidden sm:flex justify-start items-center gap-1"
-      onPress={handleLogout}>
+      onPress={handleLogout}
+    >
       Logout
     </Button>
   ) : (
@@ -30,7 +31,8 @@ export const AuthNavLink = ({ session }: { session: string | null }) => {
         pathname === "/login"
           ? siteConfig.links.register
           : siteConfig.links.login
-      }>
+      }
+    >
       {pathname === "/login" ? "Register" : "Login"}
     </NextLink>
   );
@@ -42,7 +44,8 @@ export const NavLogoLink = ({ session }: { session: string | null }) => {
   return (
     <NextLink
       className="flex justify-start items-center gap-1"
-      href={userSessionId ? "/dashboard" : "/"}>
+      href={userSessionId ? "/dashboard" : "/"}
+    >
       <Logo />
       <p className="font-bold text-inherit uppercase">Do It</p>
     </NextLink>
@@ -59,10 +62,11 @@ export const NavLinkItems = ({ session }: { session: string | null }) => {
             <NextLink
               className={clsx(
                 linkStyles({ color: "foreground" }),
-                "data-[active=true]:text-primary data-[active=true]:font-medium"
+                "data-[active=true]:text-primary data-[active=true]:font-medium",
               )}
               color="foreground"
-              href={item.href}>
+              href={item.href}
+            >
               {item.label}
             </NextLink>
           </NavbarItem>
@@ -87,7 +91,8 @@ export const NavMenuItems = ({ session }: { session: string | null }) => {
                 ? siteConfig.links.register
                 : siteConfig.links.login
             }
-            size="lg">
+            size="lg"
+          >
             {pathname === "/login" ? "Register" : "Login"}
           </Link>
         </NavbarMenuItem>
@@ -98,7 +103,8 @@ export const NavMenuItems = ({ session }: { session: string | null }) => {
               <Link
                 color={item.href === pathname ? "primary" : "foreground"}
                 href={item.href}
-                size="lg">
+                size="lg"
+              >
                 {item.label}
               </Link>
             </NavbarMenuItem>
