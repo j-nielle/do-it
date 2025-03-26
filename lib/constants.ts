@@ -8,3 +8,11 @@ export const protectedRoutes = [DASHBOARD_ROUTE, SETTINGS_ROUTE];
 export const authRoutes = [LOGIN_ROUTE, REGISTER_ROUTE];
 
 export const SESSION_COOKIE_NAME = "user_session";
+
+/** form-related section */
+
+export enum TaskStatus {
+  TODO = "TODO",
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
+}

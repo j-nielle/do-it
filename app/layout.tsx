@@ -1,11 +1,11 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
+import { Inconsolata } from 'next/font/google'
 
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navigation/navbar";
 
 export const metadata: Metadata = {
@@ -26,6 +26,11 @@ export const viewport: Viewport = {
   ],
 };
 
+const inconsolata = Inconsolata({
+  subsets: ['latin'],
+  display: 'swap',
+})
+
 export default async function RootLayout({
   children,
 }: {
@@ -37,7 +42,7 @@ export default async function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
+          inconsolata.className,
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>

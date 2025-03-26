@@ -1,7 +1,13 @@
 import React from "react";
+import { Card, CardBody } from "@heroui/card";
 
 export default function Analytics() {
   return (
-    <section className="col-span-2 outline outline-red-500">Analytics</section>
+    <section className="sm:col-span-4 flex flex-col gap-2">
+      <p className="font-bold text-xl">Analytics</p>
+      <Card>
+        <CardBody>Charts here and there</CardBody>
+      </Card>
+    </section>
   );
 }

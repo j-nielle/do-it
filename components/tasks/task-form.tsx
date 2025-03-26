@@ -1,28 +1,38 @@
+"use client";
+
 import React from "react";
-import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
-import { Divider } from "@heroui/divider";
-import { Image } from "@heroui/image";
+import { Form } from "@heroui/form";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
+import {
+  IconClockHour3Filled,
+  IconPinFilled,
+  IconSquareCheckFilled,
+} from "@tabler/icons-react";
+import { TaskStatus } from "@/lib/constants";
 
 export default function TaskForm() {
   return (
-    <Card>
-      <CardHeader className="flex gap-3">
-        <Image
-          alt="heroui logo"
-          height={40}
-          radius="sm"
-          src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-          width={40}
-        />
-        <div className="flex flex-col">
-          <p className="text-md">HeroUI</p>
-          <p className="text-small text-default-500">heroui.com</p>
-        </div>
-      </CardHeader>
-      <Divider />
-      <CardBody>
-        <p>Task Form</p>
-      </CardBody>
-    </Card>
+    <Form className="w-full">
+      <Input isRequired type="text" id="title" label="Task Title" />
+      <Input isRequired type="text" id="description" label="Task Description" />
+      <Select isRequired label="Task Status" placeholder="Select status">
+        <SelectItem
+          key={TaskStatus.TODO}
+          startContent={<IconPinFilled size={12} />}>
+          To Do
+        </SelectItem>
+        <SelectItem
+          key={TaskStatus.PENDING}
+          startContent={<IconClockHour3Filled size={12} />}>
+          Pending
+        </SelectItem>
+        <SelectItem
+          key={TaskStatus.COMPLETED}
+          startContent={<IconSquareCheckFilled size={12} />}>
+          Completed
+        </SelectItem>
+      </Select>
+    </Form>
   );
 }
