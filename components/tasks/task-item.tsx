@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useId } from "react";
+import { Card, CardBody } from "@heroui/card";
 
 export default function TaskItem() {
-  return <div>task-item</div>;
+  const id = useId();
+  return (
+    <Card id={id} shadow="sm" radius="sm">
+      <CardBody>task-item</CardBody>
+    </Card>
+  );
 }

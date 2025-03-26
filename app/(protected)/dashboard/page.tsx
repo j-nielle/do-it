@@ -1,16 +1,16 @@
 import React from "react";
-import Tasks from "@/components/tasks/section";
-import Analytics from "@/components/analytics/section";
-import Calendar from "@/components/calendar/section";
-import Board from "@/components/board/section";
+import TaskSection from "@/components/tasks/section";
+import AnalyticsSection from "@/components/analytics/section";
+import CalendarSection from "@/components/calendar/section";
+import BoardSection from "@/components/board/section";
 
 export default function Page() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-      <Tasks />
-      <Board />
-      <Calendar />
-      <Analytics />
+      <TaskSection />
+      <BoardSection />
+      <CalendarSection />
+      <AnalyticsSection />
     </div>
   );
 }
