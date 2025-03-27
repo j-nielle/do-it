@@ -19,11 +19,7 @@ export enum TaskStatus {
 }
 
 export const TASK_COLUMNS = [
-  { id: TaskStatus.TODO, title: "TO DO", className: "bg-blue-500/65" },
-  { id: TaskStatus.PENDING, title: "PENDING", className: "bg-yellow-500/65" },
-  {
-    id: TaskStatus.COMPLETED,
-    title: "COMPLETED",
-    className: "bg-green-500/65",
-  },
-];
+  { id: "TODO", title: "To Do" },
+  { id: "PENDING", title: "Pending" },
+  { id: "COMPLETED", title: "Completed" },
+] as const;

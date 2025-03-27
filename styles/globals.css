@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.backlog-status {
+  @apply !bg-gray-200;
+}
+.todo-status {
+  @apply !bg-blue-500/65;
+}
+.pending-status {
+  @apply !bg-yellow-500/65;
+}
+.completed-status {
+  @apply !bg-green-500/65;
+}

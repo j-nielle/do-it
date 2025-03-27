@@ -4,6 +4,7 @@ import BoardColumn from "./board-column";
 import TaskItem from "@/components/tasks/task-item";
 import { TaskContainer } from "@/types/task";
 import { TASK_COLUMNS } from "@/lib/constants";
+import { taskColumnStyles } from "@/lib/variants/task";
 
 export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
   return (
@@ -16,7 +17,7 @@ export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
               <BoardColumn
                 key={column.id}
                 id={column.id}
-                className={column.className}>
+                className={taskColumnStyles({ status: column.id })}>
                 <div className="mb-2 font-bold">{column.title}</div>
                 {tasks[column.id].map((task, index) => {
                   return (
