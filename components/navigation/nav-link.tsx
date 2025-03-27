@@ -2,16 +2,16 @@
 
 import React from "react";
 import NextLink from "next/link";
+import clsx from "clsx";
+import { Link } from "@heroui/link";
 import { link as linkStyles } from "@heroui/theme";
 import { usePathname } from "next/navigation";
 import { Button } from "@heroui/button";
+import { NavbarItem, NavbarMenuItem } from "@heroui/navbar";
 import { siteConfig } from "@/config/site";
 import { handleLogout } from "@/lib/firebase/auth";
 import { useUserSession } from "@/hooks/useUserSession";
 import { Logo } from "@/components/icons";
-import { NavbarItem, NavbarMenuItem } from "@heroui/navbar";
-import clsx from "clsx";
-import { Link } from "@heroui/link";
 
 export const AuthNavLink = ({ session }: { session: string | null }) => {
   const userSessionId = useUserSession(session);

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
+import { SharedSelection } from "@heroui/system";
 import {
   IconClockHour3Filled,
   IconPinFilled,
@@ -12,7 +13,6 @@ import {
 import { TaskStatus } from "@/lib/constants";
 import { addTask } from "@/services/tasks";
 import { TaskFields } from "@/types/task";
-import { SharedSelection } from "@heroui/system";
 
 export default function TaskForm({ onClose }: { onClose: () => void }) {
   const [values, setValues] = useState<TaskFields>({
@@ -50,20 +50,24 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         label="Task Status"
         placeholder="Select status"
         selectedKeys={values.status ? new Set([values.status]) : new Set()}
-        onSelectionChange={handleSelectStatus}>
+        onSelectionChange={handleSelectStatus}
+      >
         <SelectItem
           key={TaskStatus.TODO}
-          startContent={<IconPinFilled size={12} />}>
+          startContent={<IconPinFilled size={12} />}
+        >
           To Do
         </SelectItem>
         <SelectItem
           key={TaskStatus.PENDING}
-          startContent={<IconClockHour3Filled size={12} />}>
+          startContent={<IconClockHour3Filled size={12} />}
+        >
           Pending
         </SelectItem>
         <SelectItem
           key={TaskStatus.COMPLETED}
-          startContent={<IconSquareCheckFilled size={12} />}>
+          startContent={<IconSquareCheckFilled size={12} />}
+        >
           Completed
         </SelectItem>
       </Select>

@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { TaskStatus } from "@/lib/constants";
 import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 import { Task, TaskContainer } from "@/types/task";
 import { getTasks, onTasksUpdate } from "@/services/tasks";
+import { TaskStatus } from "@/lib/constants";
 import TaskSection from "@/components/tasks/task-section";
 import BoardSection from "@/components/board/board-section";
 

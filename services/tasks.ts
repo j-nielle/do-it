@@ -1,5 +1,3 @@
-import { db, tasksCollection } from "@/config/firebase";
-import { Task, TaskFields } from "@/types/task";
 import {
   DocumentData,
   Query,
@@ -12,6 +10,8 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
+import { db, tasksCollection } from "@/config/firebase";
+import { Task, TaskFields } from "@/types/task";
 
 export async function getTasks(query?: Query): Promise<Task[]> {
   let querySnapshot = null;
@@ -31,7 +31,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>
+  callback: React.Dispatch<React.SetStateAction<Task[]>>,
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -43,7 +43,7 @@ export function subscribeToTasks(
 }
 
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
 ) {
   const q = query(collection(db, "tasks"));
   const unsub = subscribeToTasks(q, setTasks);

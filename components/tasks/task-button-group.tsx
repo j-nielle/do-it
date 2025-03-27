@@ -37,7 +37,8 @@ export default function TaskButtonGroup() {
         size="sm"
         isOpen={isOpen}
         placement="top"
-        onOpenChange={onOpenChange}>
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -52,7 +53,8 @@ export default function TaskButtonGroup() {
                   fullWidth
                   color="danger"
                   variant="flat"
-                  onPress={onClose}>
+                  onPress={onClose}
+                >
                   Cancel
                 </Button>
                 <Button type="submit" fullWidth color="primary" form="taskForm">

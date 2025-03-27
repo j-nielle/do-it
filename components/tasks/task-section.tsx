@@ -1,10 +1,10 @@
 import React from "react";
 import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import TaskButtonGroup from "./task-button-group";
 import { TaskStatus } from "@/lib/constants";
 import { Task } from "@/types/task";
 import { TaskBacklog } from "./task-backlog";
+import TaskButtonGroup from "./task-button-group";
 
 export default function TaskSection({ tasks }: { tasks: Task[] }) {
   return (

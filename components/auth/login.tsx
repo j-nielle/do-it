@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Button } from "@heroui/button";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { createSession } from "@/lib/actions/auth";
 
 export default function Login() {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { updateTask } from "@/services/tasks";
@@ -38,7 +38,8 @@ export default function TaskItem({
       ref={ref}
       id={id}
       shadow="sm"
-      radius="sm">
+      radius="sm"
+    >
       <CardBody>{children}</CardBody>
     </Card>
   );

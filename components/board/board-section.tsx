@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, CardBody } from "@heroui/card";
-import BoardColumn from "./board-column";
-import TaskItem from "@/components/tasks/task-item";
 import { TaskContainer } from "@/types/task";
 import { TASK_COLUMNS } from "@/lib/constants";
 import { taskColumnStyles } from "@/lib/variants/task";
+import TaskItem from "@/components/tasks/task-item";
+import BoardColumn from "./board-column";
 
 export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
   return (
