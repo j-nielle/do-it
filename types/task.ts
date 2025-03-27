@@ -4,19 +4,33 @@ export interface Task {
   id: string;
   title: string;
   status: TaskStatus;
-  category?: "";
+  category?: TaskCategory;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type TaskDragData = {
+  task: Task;
+  type: "task"
 }
 
 export type TaskCategory =
-  | "Health"
-  | "Work"
-  | "Learning"
-  | "Finance"
-  | "Social";
+  | "HEALTH"
+  | "WORK"
+  | "LEARNING"
+  | "FINANCE"
+  | "SOCIAL"
+  | "UNCATEGORIZED";
 
-export type TaskContainer = Record<TaskStatus, Task[]>;
+export type TaskContainer = {
+  BACKLOG: Task[];
+  TODO: Task[];
+  PENDING: Task[];
+  COMPLETED: Task[];
+};
 
 export type TaskFields = {
   title?: string;
   status?: string;
+  category?: TaskCategory;
 };

@@ -3,6 +3,7 @@ import {
   Query,
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   onSnapshot,
@@ -31,7 +32,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>,
+  callback: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -43,7 +44,7 @@ export function subscribeToTasks(
 }
 
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   const q = query(collection(db, "tasks"));
   const unsub = subscribeToTasks(q, setTasks);
@@ -74,6 +75,16 @@ export async function addTask(fields: TaskFields) {
       updatedAt: serverTimestamp(),
     });
     console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+}
+
+export async function deleteTask(taskId: string) {
+  try {
+    const tasksRef = doc(db, "tasks", taskId);
+    await deleteDoc(tasksRef);
+    console.log("Document deleted");
   } catch (error) {
     console.error("Error adding document: ", error);
   }

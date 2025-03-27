@@ -12,8 +12,8 @@ import {
   useDisclosure,
   useDraggable,
 } from "@heroui/modal";
-import { IconTrash } from "@tabler/icons-react";
 import TaskForm from "./task-form";
+import TaskDeleteZone from "./task-delete-zone";
 
 export default function TaskButtonGroup() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -26,9 +26,7 @@ export default function TaskButtonGroup() {
           <Button color="primary" fullWidth onPress={onOpen}>
             Add new task
           </Button>
-          <Button isIconOnly variant="faded">
-            <IconTrash size={16} />
-          </Button>
+          <TaskDeleteZone />
         </div>
       </CardHeader>
       <Modal
@@ -37,8 +35,7 @@ export default function TaskButtonGroup() {
         size="sm"
         isOpen={isOpen}
         placement="top"
-        onOpenChange={onOpenChange}
-      >
+        onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
@@ -53,8 +50,7 @@ export default function TaskButtonGroup() {
                   fullWidth
                   color="danger"
                   variant="flat"
-                  onPress={onClose}
-                >
+                  onPress={onClose}>
                   Cancel
                 </Button>
                 <Button type="submit" fullWidth color="primary" form="taskForm">

@@ -4,9 +4,11 @@ import React, { useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { updateTask } from "@/services/tasks";
+import { Task } from "@/types/task";
 
 export default function TaskItem({
   id,
+  task,
   index,
   containerId,
   children,
@@ -15,13 +17,18 @@ export default function TaskItem({
   index: number;
   containerId: string;
   children?: React.ReactNode;
+  task?: Task;
 }) {
   const { ref, sortable, isDropping } = useSortable({
     id,
     index,
     group: containerId,
-    type: "item",
-    accept: ["item"],
+    type: "task",
+    accept: ["task"],
+    data: {
+      type: "task",
+      task: task,
+    },
   });
 
   const status = sortable.group as string;
@@ -38,8 +45,7 @@ export default function TaskItem({
       ref={ref}
       id={id}
       shadow="sm"
-      radius="sm"
-    >
+      radius="sm">
       <CardBody>{children}</CardBody>
     </Card>
   );

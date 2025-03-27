@@ -26,6 +26,7 @@ export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
                       key={task.id}
                       id={task.id}
                       index={index}
+                      task={task}
                       containerId={column.id}
                     >
                       {task.title}
