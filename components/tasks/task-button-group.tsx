@@ -12,9 +12,8 @@ import {
   useDisclosure,
   useDraggable,
 } from "@heroui/modal";
-import { IconFilterFilled } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 import TaskForm from "./task-form";
-import { addTask } from "@/services/tasks";
 
 export default function TaskButtonGroup() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -28,7 +27,7 @@ export default function TaskButtonGroup() {
             Add new task
           </Button>
           <Button isIconOnly variant="faded">
-            <IconFilterFilled size={16} />
+            <IconTrash size={16} />
           </Button>
         </div>
       </CardHeader>
