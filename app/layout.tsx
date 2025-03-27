@@ -6,7 +6,7 @@ import { Inconsolata } from 'next/font/google'
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { Navbar } from "@/components/navigation/navbar";
+import { Navbar } from "@/components/navigation/nav-bar";
 
 export const metadata: Metadata = {
   title: {

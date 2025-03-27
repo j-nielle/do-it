@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import TaskButtonGroup from "./button-group";
+import TaskButtonGroup from "./task-button-group";
 import TaskItem from "./task-item";
-import { ScrollArea } from "@/components/shadcn-ui/ScrollArea";
+import { ScrollArea } from "@/components/shadcn-ui/scroll-area";
 
 export default function TaskSection() {
   return (

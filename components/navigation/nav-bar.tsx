@@ -16,7 +16,7 @@ import {
   NavLinkItems,
   NavLogoLink,
   NavMenuItems,
-} from "./navlink";
+} from "./nav-link";
 import { GithubIcon } from "@/components/icons";
 
 export const Navbar = async () => {

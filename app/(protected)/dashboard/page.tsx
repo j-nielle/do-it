@@ -1,8 +1,8 @@
 import React from "react";
-import TaskSection from "@/components/tasks/section";
-import AnalyticsSection from "@/components/analytics/section";
-import CalendarSection from "@/components/calendar/section";
-import BoardSection from "@/components/board/section";
+import TaskSection from "@/components/tasks/task-section";
+import AnalyticsSection from "@/components/analytics/analytics-section";
+import CalendarSection from "@/components/calendar/calendar-section";
+import BoardSection from "@/components/board/board-section";
 
 export default function Page() {
   return (
