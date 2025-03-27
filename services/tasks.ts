@@ -1,14 +1,19 @@
-import { firestore, tasksCollection } from "@/config/firebase";
-import { Task, UpdateTaskFields } from "@/types/task";
+import { db, tasksCollection } from "@/config/firebase";
+import { Task, TaskFields } from "@/types/task";
 import {
   DocumentData,
   Query,
+  addDoc,
+  collection,
   doc,
   getDocs,
+  onSnapshot,
+  query,
+  serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 
-export async function index(query?: Query): Promise<Task[]> {
+export async function getTasks(query?: Query): Promise<Task[]> {
   let querySnapshot = null;
 
   if (query) {
@@ -24,16 +29,52 @@ export async function index(query?: Query): Promise<Task[]> {
   return localTasks as Task[];
 }
 
-export async function updateTask(
-  taskId: string,
-  updatedFields: UpdateTaskFields
+export function subscribeToTasks(
+  queryRef: Query,
+  callback: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
-  const taskRef = doc(firestore, "tasks", taskId);
+  return onSnapshot(queryRef, (snapshot) => {
+    const tasks = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Task[];
+    callback(tasks);
+  });
+}
+
+export function onTasksUpdate(
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+) {
+  const q = query(collection(db, "tasks"));
+  const unsub = subscribeToTasks(q, setTasks);
+
+  return () => unsub();
+}
+
+export async function updateTask(taskId: string, fields: TaskFields) {
+  const taskRef = doc(db, "tasks", taskId);
 
   try {
-    await updateDoc(taskRef, updatedFields);
+    await updateDoc(taskRef, {
+      ...fields,
+      updatedAt: serverTimestamp(),
+    });
     console.log("Task updated successfully");
   } catch (error) {
     console.error("Error updating task: ", error);
+  }
+}
+
+export async function addTask(fields: TaskFields) {
+  try {
+    const tasksRef = collection(db, "tasks");
+    const docRef = await addDoc(tasksRef, {
+      ...fields,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
   }
 }

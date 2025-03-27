@@ -5,7 +5,7 @@ import { TaskStatus } from "@/lib/constants";
 import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 import { Task, TaskContainer } from "@/types/task";
-import { index } from "@/services/tasks";
+import { getTasks, onTasksUpdate } from "@/services/tasks";
 import TaskSection from "@/components/tasks/task-section";
 import BoardSection from "@/components/board/board-section";
 
@@ -23,6 +23,10 @@ export default function TaskDropzone() {
   }, []);
 
   useEffect(() => {
+    onTasksUpdate(setTasks);
+  }, []);
+
+  useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(({ status }) => status === TaskStatus.BACKLOG),
       TODO: tasks.filter(({ status }) => status === TaskStatus.TODO),
@@ -32,7 +36,7 @@ export default function TaskDropzone() {
   }, [tasks]);
 
   const loadTasks = async () => {
-    const tasks = await index();
+    const tasks = await getTasks();
     setTasks(tasks);
   };
 
@@ -41,14 +45,7 @@ export default function TaskDropzone() {
   };
 
   return (
-    <DragDropProvider
-      onDragOver={handleDragOver}
-      onDragEnd={(event) => {
-        const { target } = event.operation;
-        if (event.canceled) return;
-
-        console.log(target?.id, target);
-      }}>
+    <DragDropProvider onDragOver={handleDragOver}>
       <TaskSection tasks={containers.BACKLOG} />
       <BoardSection tasks={containers} />
     </DragDropProvider>

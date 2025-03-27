@@ -16,11 +16,11 @@ export let firebase =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 export const auth = getAuth(firebase);
-export const firestore = getFirestore(firebase);
+export const db = getFirestore(firebase);
 export const analytics =
   firebase.name && typeof window !== "undefined"
     ? getAnalytics(firebase)
     : null;
 export const googleProvider = new GoogleAuthProvider();
 
-export const tasksCollection = collection(firestore, "tasks");
+export const tasksCollection = collection(db, "tasks");

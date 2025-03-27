@@ -16,7 +16,7 @@ export default function TaskItem({
   containerId: string;
   children?: React.ReactNode;
 }) {
-  const { ref, sortable } = useSortable({
+  const { ref, sortable, isDropping } = useSortable({
     id,
     index,
     group: containerId,
@@ -27,10 +27,10 @@ export default function TaskItem({
   const status = sortable.group as string;
 
   useEffect(() => {
-    if (id && status !== undefined) {
+    if (isDropping && id && status !== undefined) {
       updateTask(id, { status });
     }
-  }, [id, status]);
+  }, [id, status, isDropping]);
 
   return (
     <Card

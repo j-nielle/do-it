@@ -14,6 +14,7 @@ import {
 } from "@heroui/modal";
 import { IconFilterFilled } from "@tabler/icons-react";
 import TaskForm from "./task-form";
+import { addTask } from "@/services/tasks";
 
 export default function TaskButtonGroup() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -37,8 +38,7 @@ export default function TaskButtonGroup() {
         size="sm"
         isOpen={isOpen}
         placement="top"
-        onOpenChange={onOpenChange}
-      >
+        onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
@@ -46,18 +46,17 @@ export default function TaskButtonGroup() {
                 Add new task
               </ModalHeader>
               <ModalBody>
-                <TaskForm />
+                <TaskForm onClose={onClose} />
               </ModalBody>
               <ModalFooter>
                 <Button
                   fullWidth
                   color="danger"
                   variant="flat"
-                  onPress={onClose}
-                >
+                  onPress={onClose}>
                   Cancel
                 </Button>
-                <Button fullWidth color="primary" onPress={onClose}>
+                <Button type="submit" fullWidth color="primary" form="taskForm">
                   Save
                 </Button>
               </ModalFooter>
