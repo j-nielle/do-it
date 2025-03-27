@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -22,3 +22,5 @@ export const analytics =
     ? getAnalytics(firebase)
     : null;
 export const googleProvider = new GoogleAuthProvider();
+
+export const tasksCollection = collection(firestore, "tasks");
