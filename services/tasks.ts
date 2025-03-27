@@ -1,6 +1,12 @@
-import { tasksCollection } from "@/config/firebase";
-import { Task } from "@/types/task";
-import { DocumentData, Query, getDocs } from "firebase/firestore";
+import { firestore, tasksCollection } from "@/config/firebase";
+import { Task, UpdateTaskFields } from "@/types/task";
+import {
+  DocumentData,
+  Query,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 
 export async function index(query?: Query): Promise<Task[]> {
   let querySnapshot = null;
@@ -16,4 +22,18 @@ export async function index(query?: Query): Promise<Task[]> {
   });
 
   return localTasks as Task[];
+}
+
+export async function updateTask(
+  taskId: string,
+  updatedFields: UpdateTaskFields
+) {
+  const taskRef = doc(firestore, "tasks", taskId);
+
+  try {
+    await updateDoc(taskRef, updatedFields);
+    console.log("Task updated successfully");
+  } catch (error) {
+    console.error("Error updating task: ", error);
+  }
 }

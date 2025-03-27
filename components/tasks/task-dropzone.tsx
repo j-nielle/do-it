@@ -41,7 +41,14 @@ export default function TaskDropzone() {
   };
 
   return (
-    <DragDropProvider onDragOver={handleDragOver}>
+    <DragDropProvider
+      onDragOver={handleDragOver}
+      onDragEnd={(event) => {
+        const { target } = event.operation;
+        if (event.canceled) return;
+
+        console.log(target?.id, target);
+      }}>
       <TaskSection tasks={containers.BACKLOG} />
       <BoardSection tasks={containers} />
     </DragDropProvider>

@@ -7,3 +7,8 @@ export interface Task {
 }
 
 export type TaskContainer = Record<TaskStatus, Task[]>;
+
+export type UpdateTaskFields = {
+  title?: string;
+  status?: string;
+};
