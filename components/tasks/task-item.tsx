@@ -29,7 +29,8 @@ export default function TaskItem({
       ref={ref}
       id={id}
       shadow="sm"
-      radius="sm">
+      radius="sm"
+    >
       <CardBody>{children}</CardBody>
     </Card>
   );

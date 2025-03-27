@@ -23,7 +23,8 @@ export const TaskBacklog = ({ tasks, id }: TaskBacklogProps) => {
             key={task.id}
             id={task.id}
             index={index}
-            containerId={TaskStatus.BACKLOG}>
+            containerId={TaskStatus.BACKLOG}
+          >
             {task.title}
           </TaskItem>
         ))}

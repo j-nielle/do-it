@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const dashboardMetadata: Metadata = {
   metadataBase: new URL(
-    "https://do-it-personal-task-manager.vercel.app/dashboard"
+    "https://do-it-personal-task-manager.vercel.app/dashboard",
   ),
   title: { default: "Dashboard", template: "%s" },
   description: "dashboard",
@@ -18,4 +18,4 @@ export const dashboardMetadata: Metadata = {
     url: "https://do-it-personal-task-manager.vercel.app/dashboard",
     siteName: "Just Do It - Task Management | Dashboard",
   },
-}
+};

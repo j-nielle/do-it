@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
-import { Inconsolata } from 'next/font/google'
+import { Inconsolata } from "next/font/google";
 
 import { Providers } from "./providers";
 
@@ -10,7 +10,7 @@ import { Navbar } from "@/components/navigation/nav-bar";
 
 export const metadata: Metadata = {
   title: {
-    default: 'Just Do It - Task Management',
+    default: "Just Do It - Task Management",
     template: `${siteConfig.name} | %s`,
   },
   description: siteConfig.description,
@@ -27,9 +27,9 @@ export const viewport: Viewport = {
 };
 
 const inconsolata = Inconsolata({
-  subsets: ['latin'],
-  display: 'swap',
-})
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default async function RootLayout({
   children,

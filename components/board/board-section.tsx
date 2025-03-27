@@ -17,7 +17,8 @@ export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
               <BoardColumn
                 key={column.id}
                 id={column.id}
-                className={taskColumnStyles({ status: column.id })}>
+                className={taskColumnStyles({ status: column.id })}
+              >
                 <div className="mb-2 font-bold">{column.title}</div>
                 {tasks[column.id].map((task, index) => {
                   return (
@@ -25,7 +26,8 @@ export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
                       key={task.id}
                       id={task.id}
                       index={index}
-                      containerId={column.id}>
+                      containerId={column.id}
+                    >
                       {task.title}
                     </TaskItem>
                   );

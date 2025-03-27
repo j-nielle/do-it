@@ -19,17 +19,20 @@ export default function TaskForm() {
       <Select isRequired label="Task Status" placeholder="Select status">
         <SelectItem
           key={TaskStatus.TODO}
-          startContent={<IconPinFilled size={12} />}>
+          startContent={<IconPinFilled size={12} />}
+        >
           To Do
         </SelectItem>
         <SelectItem
           key={TaskStatus.PENDING}
-          startContent={<IconClockHour3Filled size={12} />}>
+          startContent={<IconClockHour3Filled size={12} />}
+        >
           Pending
         </SelectItem>
         <SelectItem
           key={TaskStatus.COMPLETED}
-          startContent={<IconSquareCheckFilled size={12} />}>
+          startContent={<IconSquareCheckFilled size={12} />}
+        >
           Completed
         </SelectItem>
       </Select>
