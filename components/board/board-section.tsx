@@ -1,22 +1,36 @@
 import React from "react";
 import { Card, CardBody } from "@heroui/card";
+import BoardColumn from "./board-column";
+import TaskItem from "@/components/tasks/task-item";
+import { TaskContainer } from "@/types/task";
+import { TASK_COLUMNS } from "@/lib/constants";
 
-export default function BoardSection() {
+export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
   return (
     <section className="sm:col-span-3 flex flex-col gap-2 max-h-[346px]">
       <p className="font-bold text-xl">Kanban Board</p>
       <Card className="h-full" radius="sm">
         <CardBody>
           <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 h-full">
-            <Card shadow="sm" radius="sm" className="bg-blue-500/65">
-              <CardBody>TO DO</CardBody>
-            </Card>
-            <Card shadow="sm" radius="sm" className="bg-yellow-500/65">
-              <CardBody>PENDING</CardBody>
-            </Card>
-            <Card shadow="sm" radius="sm" className="bg-green-500/65">
-              <CardBody>COMPLETED</CardBody>
-            </Card>
+            {TASK_COLUMNS.map((column) => (
+              <BoardColumn
+                key={column.id}
+                id={column.id}
+                className={column.className}>
+                <div className="mb-2 font-bold">{column.title}</div>
+                {tasks[column.id].map((task, index) => {
+                  return (
+                    <TaskItem
+                      key={task.id}
+                      id={task.id}
+                      index={index}
+                      containerId={column.id}>
+                      {task.title}
+                    </TaskItem>
+                  );
+                })}
+              </BoardColumn>
+            ))}
           </section>
         </CardBody>
       </Card>

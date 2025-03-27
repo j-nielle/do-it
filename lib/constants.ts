@@ -9,10 +9,21 @@ export const authRoutes = [LOGIN_ROUTE, REGISTER_ROUTE];
 
 export const SESSION_COOKIE_NAME = "user_session";
 
-/** form-related section */
+/** tasks-related section */
 
 export enum TaskStatus {
+  BACKLOG = "BACKLOG",
   TODO = "TODO",
   PENDING = "PENDING",
   COMPLETED = "COMPLETED",
 }
+
+export const TASK_COLUMNS = [
+  { id: TaskStatus.TODO, title: "TO DO", className: "bg-blue-500/65" },
+  { id: TaskStatus.PENDING, title: "PENDING", className: "bg-yellow-500/65" },
+  {
+    id: TaskStatus.COMPLETED,
+    title: "COMPLETED",
+    className: "bg-green-500/65",
+  },
+];
