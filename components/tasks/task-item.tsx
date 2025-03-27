@@ -25,7 +25,7 @@ export default function TaskItem({
 
   return (
     <Card
-      className="z-20 cursor-move"
+      className="z-20 cursor-grab"
       ref={ref}
       id={id}
       shadow="sm"
