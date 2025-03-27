@@ -23,10 +23,10 @@ export default function TaskButtonGroup() {
     <>
       <CardHeader className="flex gap-3">
         <div className="flex flex-row justify-between gap-3 w-full">
-          <Button color="primary" size="sm" fullWidth onPress={onOpen}>
+          <Button color="primary" fullWidth onPress={onOpen}>
             Add new task
           </Button>
-          <Button isIconOnly variant="faded" size="sm">
+          <Button isIconOnly variant="faded">
             <IconFilterFilled size={16} />
           </Button>
         </div>
