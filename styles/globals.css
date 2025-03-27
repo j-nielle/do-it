@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/** had to do the styles here **/
+/** because the inline tailwindcss did not worked for some reason **/
+
 .backlog-status {
   @apply !bg-gray-200;
 }
