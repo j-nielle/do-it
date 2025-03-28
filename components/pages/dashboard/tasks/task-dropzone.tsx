@@ -11,8 +11,8 @@ import {
   updateTask,
 } from "@/services/tasks";
 import { TaskStatus } from "@/lib/constants";
-import TaskSection from "@/components/tasks/task-section";
-import BoardSection from "@/components/board/board-section";
+import TaskSection from "@/components/pages/dashboard/tasks/task-section";
+import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
 
 export default function TaskDropzone() {
   const [tasks, setTasks] = useState<Task[]>([]);
