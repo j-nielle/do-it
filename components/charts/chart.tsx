@@ -37,7 +37,7 @@ export default function Chart({
 
         // Calculate day difference
         const diff = Math.round(
-          (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24)
+          (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         // Format dates

@@ -24,7 +24,8 @@ export const TaskBacklog = ({ tasks, id }: TaskBacklogProps) => {
             id={task.id}
             index={index}
             task={task}
-            containerId={TaskStatus.BACKLOG}>
+            containerId={TaskStatus.BACKLOG}
+          >
             {task.title}
           </TaskItem>
         ))}

@@ -7,7 +7,7 @@ export type TaskHistory = {
   timestamp: Timestamp;
 };
 
-export type TaskDuration = { start: Timestamp | null; end: Timestamp | null }
+export type TaskDuration = { start: Timestamp | null; end: Timestamp | null };
 
 export interface Task {
   id: string;
@@ -29,7 +29,6 @@ export type TaskInputFields = {
   };
   statusHistory: TaskHistory[];
 };
-
 
 export type TaskDragData = {
   task: Task;

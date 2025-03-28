@@ -100,35 +100,42 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         label="Task Category"
         aria-label="Task Category"
         placeholder="Select category"
-        onSelectionChange={handleSelectCategory}>
+        onSelectionChange={handleSelectCategory}
+      >
         <SelectItem
           key={TaskCategory.HEALTH}
-          startContent={<IconBrandGoogleFit size={12} />}>
+          startContent={<IconBrandGoogleFit size={12} />}
+        >
           Health
         </SelectItem>
         <SelectItem
           key={TaskCategory.WORK}
-          startContent={<IconBriefcase size={12} />}>
+          startContent={<IconBriefcase size={12} />}
+        >
           Work
         </SelectItem>
         <SelectItem
           key={TaskCategory.LEARNING}
-          startContent={<IconBooks size={12} />}>
+          startContent={<IconBooks size={12} />}
+        >
           Learning
         </SelectItem>
         <SelectItem
           key={TaskCategory.FINANCE}
-          startContent={<IconCoin size={12} />}>
+          startContent={<IconCoin size={12} />}
+        >
           Finance
         </SelectItem>
         <SelectItem
           key={TaskCategory.SOCIAL}
-          startContent={<IconGlassChampagne size={12} />}>
+          startContent={<IconGlassChampagne size={12} />}
+        >
           Social
         </SelectItem>
         <SelectItem
           key={TaskCategory.UNCATEGORIZED}
-          startContent={<IconQuestionMark size={12} />}>
+          startContent={<IconQuestionMark size={12} />}
+        >
           Uncategorized
         </SelectItem>
       </Select>
@@ -137,10 +144,12 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         label="Task Status"
         aria-label="Task Status"
         placeholder="Select status"
-        onSelectionChange={handleSelectStatus}>
+        onSelectionChange={handleSelectStatus}
+      >
         <SelectItem
           key={TaskStatus.BACKLOG}
-          startContent={<IconArchive size={12} />}>
+          startContent={<IconArchive size={12} />}
+        >
           Backlog
         </SelectItem>
         <SelectItem key={TaskStatus.TODO} startContent={<IconPin size={12} />}>
@@ -148,12 +157,14 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         </SelectItem>
         <SelectItem
           key={TaskStatus.IN_PROGRESS}
-          startContent={<IconHourglassHigh size={12} />}>
+          startContent={<IconHourglassHigh size={12} />}
+        >
           In Progress
         </SelectItem>
         <SelectItem
           key={TaskStatus.COMPLETED}
-          startContent={<IconCheckbox size={12} />}>
+          startContent={<IconCheckbox size={12} />}
+        >
           Completed
         </SelectItem>
       </Select>

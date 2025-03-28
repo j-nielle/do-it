@@ -6,7 +6,7 @@ export default function TaskDeleteZone() {
   const { ref } = useDroppable({
     id: "TRASH_ZONE",
   });
-  
+
   return (
     <Button ref={ref} isIconOnly variant="faded">
       <IconTrash size={16} />

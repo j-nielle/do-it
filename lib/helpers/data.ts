@@ -10,7 +10,7 @@ export const getStatusCounts = (tasks: Task[]) => {
       acc[lastStatus] = (acc[lastStatus] || 0) + 1;
       return acc;
     },
-    {} as Record<TaskStatus, number>
+    {} as Record<TaskStatus, number>,
   );
 
   const counts = statusOrder.map((status) => statusCounts[status] || 0);
