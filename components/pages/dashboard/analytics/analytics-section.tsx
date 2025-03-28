@@ -1,14 +1,6 @@
 import React from "react";
 import { Card, CardBody } from "@heroui/card";
-import {
-  defaultBarChartOptions,
-  defaultBarChartSeries,
-  defaultHeatmapOptions,
-  defaultHeatmapSeries,
-  defaultRangeBarOptions,
-  defaultRangeBarSeries,
-} from "@/lib/constants";
-import { Chart } from "@/components/charts";
+import { StatusBarChart, Heatmap, TimelineChart } from "./visualizations";
 
 export default function AnalyticsSection() {
   return (
@@ -17,21 +9,9 @@ export default function AnalyticsSection() {
       <Card radius="sm">
         <CardBody>
           <p>Charts here and there</p>
-          <Chart
-            type="bar"
-            options={defaultBarChartOptions}
-            series={defaultBarChartSeries}
-          />
-          <Chart
-            type="rangeBar"
-            options={defaultRangeBarOptions}
-            series={defaultRangeBarSeries}
-          />
-          <Chart
-            type="heatmap"
-            options={defaultHeatmapOptions}
-            series={defaultHeatmapSeries}
-          />
+          <StatusBarChart />
+          <TimelineChart />
+          <Heatmap />
         </CardBody>
       </Card>
     </section>

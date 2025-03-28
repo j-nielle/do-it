@@ -14,8 +14,10 @@ import {
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
 import { Task, TaskInputFields } from "@/types/task";
-import { TaskStatus } from "@/lib/constants";
+import { statusOrder, TaskStatus } from "@/lib/constants";
 import { convertToTimestamp } from "@/lib/helpers/date";
+
+export const tasksRef = collection(db, "tasks");
 
 export async function getTasks(query?: Query): Promise<Task[]> {
   let querySnapshot = null;
@@ -49,7 +51,7 @@ export function subscribeToTasks(
 export function onTasksUpdate(
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
-  const q = query(collection(db, "tasks"));
+  const q = query(tasksRef);
   const unsub = subscribeToTasks(q, setTasks);
 
   return () => unsub();
@@ -107,7 +109,6 @@ export async function afterDragUpdate(
 
 export async function addTask(fields: TaskInputFields) {
   try {
-    const tasksRef = collection(db, "tasks");
     const { statusHistory, duration } = fields;
     const { start, end } = duration.planned ?? { start: null, end: null };
 

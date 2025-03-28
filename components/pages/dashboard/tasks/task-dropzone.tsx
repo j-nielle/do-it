@@ -1,20 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 import { Task, TaskContainer, TaskDragData } from "@/types/task";
-import {
-  deleteTask,
-  getTasks,
-  onTasksUpdate,
-  afterDragUpdate,
-} from "@/services/tasks";
+import { deleteTask, getTasks, onTasksUpdate } from "@/services/tasks";
 import { TaskStatus as Status } from "@/lib/constants";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
 import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
+import { TaskContext } from "@/contexts/taskContext";
+import { getStatusCounts } from "@/lib/helpers/data";
 
 export default function TaskDropzone() {
+  const { setChartData } = useContext(TaskContext);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [containers, setContainers] = useState<TaskContainer>({
     BACKLOG: [],
@@ -30,6 +28,11 @@ export default function TaskDropzone() {
   useEffect(() => {
     onTasksUpdate(setTasks);
   }, []);
+
+  useEffect(() => {
+    const data = getStatusCounts(tasks);
+    setChartData(data);
+  }, [tasks]);
 
   useEffect(() => {
     setContainers({

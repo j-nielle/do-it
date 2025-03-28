@@ -1,3 +1,4 @@
+import { TaskStatus } from "@/lib/constants";
 import { ApexOptions } from "apexcharts";
 
 type ChartDimensions = {
@@ -12,4 +13,9 @@ export interface CommonChartProps {
   series?: ApexAxisChartSeries;
   dimensions?: ChartDimensions;
   type?: ApexChartType;
+}
+
+export interface StatusCountData {
+  statusCounts?: Record<TaskStatus, number>;
+  counts?: number[];
 }

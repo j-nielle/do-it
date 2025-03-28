@@ -29,6 +29,13 @@ export enum TaskCategory {
   UNCATEGORIZED = "UNCATEGORIZED",
 }
 
+export const statusOrder = [
+  TaskStatus.BACKLOG,
+  TaskStatus.TODO,
+  TaskStatus.IN_PROGRESS,
+  TaskStatus.COMPLETED,
+];
+
 export const TASK_COLUMNS = [
   { id: "TODO", title: "To Do" },
   { id: "IN_PROGRESS", title: "In Progress" },
