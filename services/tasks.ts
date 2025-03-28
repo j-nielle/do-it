@@ -145,7 +145,6 @@ export async function deleteTask(taskId: string) {
   try {
     const tasksRef = doc(db, "tasks", taskId);
     await deleteDoc(tasksRef);
-    console.log("Document deleted");
   } catch (error) {
     console.error("Error adding document: ", error);
   }

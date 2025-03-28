@@ -56,10 +56,6 @@ export default function TaskDropzone() {
     });
   }, [tasks]);
 
-  useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
-
   const loadTasks = async () => {
     const tasks = await getTasks();
     setTasks(tasks);
