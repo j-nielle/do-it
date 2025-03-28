@@ -2,4 +2,4 @@
 
 import dynamic from 'next/dynamic';
 
-export const BarChart = dynamic(() => import('@/components/charts/bar-chart'), { ssr: false })
+export const Chart = dynamic(() => import('@/components/charts/chart'), { ssr: false })
