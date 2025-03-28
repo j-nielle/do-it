@@ -10,7 +10,7 @@ import {
   onTasksUpdate,
   afterDragUpdate,
 } from "@/services/tasks";
-import { TaskStatus } from "@/lib/constants";
+import { TaskStatus as Status } from "@/lib/constants";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
 import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
 
@@ -34,24 +34,17 @@ export default function TaskDropzone() {
   useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(
-        (task) =>
-          task.statusHistory[task.statusHistory.length - 1].status ===
-          TaskStatus.BACKLOG
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG
       ),
       TODO: tasks.filter(
-        (task) =>
-          task.statusHistory[task.statusHistory.length - 1].status ===
-          TaskStatus.TODO
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO
       ),
       IN_PROGRESS: tasks.filter(
-        (task) =>
-          task.statusHistory[task.statusHistory.length - 1].status ===
-          TaskStatus.IN_PROGRESS
+        ({ statusHistory: sh }) =>
+          sh[sh.length - 1].status === Status.IN_PROGRESS
       ),
       COMPLETED: tasks.filter(
-        (task) =>
-          task.statusHistory[task.statusHistory.length - 1].status ===
-          TaskStatus.COMPLETED
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.COMPLETED
       ),
     });
   }, [tasks]);
