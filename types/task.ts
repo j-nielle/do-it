@@ -1,4 +1,5 @@
 import { TaskStatus } from "@/lib/constants";
+import { DateRange } from "./date";
 
 export interface Task {
   id: string;
@@ -33,4 +34,5 @@ export type TaskFields = {
   title?: string;
   status?: string;
   category?: TaskCategory;
+  dateRange?: DateRange;
 };

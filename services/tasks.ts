@@ -69,8 +69,13 @@ export async function updateTask(taskId: string, fields: TaskFields) {
 export async function addTask(fields: TaskFields) {
   try {
     const tasksRef = collection(db, "tasks");
+    const { dateRange } = fields;
     const docRef = await addDoc(tasksRef, {
       ...fields,
+      dateRange:
+        dateRange?.start && dateRange?.end
+          ? `${dateRange?.start.toString()}-${dateRange?.end.toString()}`
+          : null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
