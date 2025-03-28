@@ -24,14 +24,19 @@ export const Navbar = async () => {
   const session = cookieStore.get(SESSION_COOKIE_NAME)?.value || null;
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky" className="">
+    <HeroUINavbar
+      maxWidth="full"
+      position="sticky"
+      classNames={{
+        wrapper: "!px-4",
+      }}>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NavLogoLink session={session} />
         </NavbarBrand>
         <ul className="flex w-full items-center">
           <NavLinkItems session={session} />
-          <NavbarItem className="flex w-full justify-end">
+          <NavbarItem className="flex w-full justify-end gap-3">
             <Link isExternal aria-label="Github" href={siteConfig.links.github}>
               <GithubIcon className="text-default-500" />
             </Link>

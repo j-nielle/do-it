@@ -16,7 +16,7 @@ export const TaskBacklog = ({ tasks, id }: TaskBacklogProps) => {
   });
 
   return (
-    <ScrollArea ref={ref} className="h-[253px]">
+    <ScrollArea ref={ref} className="min-h-20">
       <CardBody className="flex flex-col gap-2">
         {tasks?.map((task, index) => (
           <TaskItem
@@ -24,8 +24,7 @@ export const TaskBacklog = ({ tasks, id }: TaskBacklogProps) => {
             id={task.id}
             index={index}
             task={task}
-            containerId={TaskStatus.BACKLOG}
-          >
+            containerId={TaskStatus.BACKLOG}>
             {task.title}
           </TaskItem>
         ))}

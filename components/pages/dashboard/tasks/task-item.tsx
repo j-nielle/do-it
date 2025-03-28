@@ -41,12 +41,7 @@ export default function TaskItem({
   }, [id, status, isDropping]);
 
   return (
-    <Card
-      className="z-20 cursor-grab"
-      ref={ref}
-      id={id}
-      shadow="sm"
-      radius="sm">
+    <Card className="cursor-grab" ref={ref} id={id} shadow="sm" radius="sm">
       <CardBody>
         <div className="flex flex-row justify-between items-center">
           {children}
