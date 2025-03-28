@@ -4,7 +4,7 @@ export const taskColumnStyles = cva(["backlog-status"], {
   variants: {
     status: {
       TODO: ["todo-status"],
-      PENDING: ["pending-status"],
+      IN_PROGRESS: ["pending-status"],
       COMPLETED: ["completed-status"],
     },
   },

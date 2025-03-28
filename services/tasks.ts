@@ -1,18 +1,21 @@
 import {
   DocumentData,
   Query,
+  Timestamp,
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   query,
-  serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
-import { Task, TaskFields } from "@/types/task";
+import { Task, TaskInputFields } from "@/types/task";
+import { TaskStatus } from "@/lib/constants";
+import { convertToTimestamp } from "@/lib/helpers/date";
 
 export async function getTasks(query?: Query): Promise<Task[]> {
   let querySnapshot = null;
@@ -52,34 +55,87 @@ export function onTasksUpdate(
   return () => unsub();
 }
 
-export async function updateTask(taskId: string, fields: TaskFields) {
-  const taskRef = doc(db, "tasks", taskId);
-
+export async function afterDragUpdate(
+  taskId: string,
+  status: TaskStatus,
+  fields: Pick<Task, "duration" | "statusHistory">
+) {
   try {
-    await updateDoc(taskRef, {
-      ...fields,
-      updatedAt: serverTimestamp(),
-    });
-    console.log("Task updated successfully");
+    const taskRef = doc(db, "tasks", taskId);
+    const taskSnap = await getDoc(taskRef);
+
+    if (!taskSnap.exists()) {
+      throw new Error("Task not found");
+    }
+
+    const taskData = taskSnap.data();
+    const actualStart = taskData.duration.actual.start;
+    const actualEnd = taskData.duration.actual.end;
+
+    const {
+      statusHistory,
+      duration: { actual },
+    } = fields;
+
+    if (!actual) return;
+
+    if (statusHistory && statusHistory.length > 0) {
+      const recentStatus = statusHistory[statusHistory.length - 1].status;
+      if (recentStatus !== status) {
+        statusHistory?.push({
+          timestamp: Timestamp.now(),
+          status,
+        });
+      }
+    }
+
+    if (status === TaskStatus.IN_PROGRESS && !actualStart) {
+      actual.start = Timestamp.now();
+    } else if (status === TaskStatus.COMPLETED && !actualEnd) {
+      const now = Timestamp.now();
+      if (!actualStart) {
+        actual.start = now;
+      }
+      actual.end = now;
+    }
+
+    await updateDoc(taskRef, fields);
   } catch (error) {
     console.error("Error updating task: ", error);
   }
 }
 
-export async function addTask(fields: TaskFields) {
+export async function addTask(fields: TaskInputFields) {
   try {
     const tasksRef = collection(db, "tasks");
-    const { dateRange } = fields;
-    const docRef = await addDoc(tasksRef, {
+    const { statusHistory, duration } = fields;
+    const { start, end } = duration.planned ?? { start: null, end: null };
+
+    const recentStatus = statusHistory[statusHistory.length - 1].status;
+
+    let actualStart = null;
+    let actualEnd = null;
+
+    if (recentStatus === TaskStatus.IN_PROGRESS) {
+      actualStart = Timestamp.now();
+    } else if (recentStatus === TaskStatus.COMPLETED) {
+      actualStart = Timestamp.now();
+      actualEnd = actualStart;
+    }
+
+    await addDoc(tasksRef, {
       ...fields,
-      dateRange:
-        dateRange?.start && dateRange?.end
-          ? `${dateRange?.start.toString()}-${dateRange?.end.toString()}`
-          : null,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
+      duration: {
+        planned: {
+          start: start ? convertToTimestamp(start) : null,
+          end: end ? convertToTimestamp(end) : null,
+        },
+        actual: {
+          start: actualStart,
+          end: actualEnd,
+        },
+      },
     });
-    console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error("Error adding document: ", error);
   }

@@ -16,13 +16,22 @@ export const SESSION_COOKIE_NAME = "user_session";
 export enum TaskStatus {
   BACKLOG = "BACKLOG",
   TODO = "TODO",
-  PENDING = "PENDING",
+  IN_PROGRESS = "IN_PROGRESS",
   COMPLETED = "COMPLETED",
+}
+
+export enum TaskCategory {
+  HEALTH = "HEALTH",
+  WORK = "WORK",
+  LEARNING = "LEARNING",
+  FINANCE = "FINANCE",
+  SOCIAL = "SOCIAL",
+  UNCATEGORIZED = "UNCATEGORIZED",
 }
 
 export const TASK_COLUMNS = [
   { id: "TODO", title: "To Do" },
-  { id: "PENDING", title: "Pending" },
+  { id: "IN_PROGRESS", title: "In Progress" },
   { id: "COMPLETED", title: "Completed" },
 ] as const;
 

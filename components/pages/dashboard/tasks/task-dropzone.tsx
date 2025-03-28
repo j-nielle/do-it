@@ -8,7 +8,7 @@ import {
   deleteTask,
   getTasks,
   onTasksUpdate,
-  updateTask,
+  afterDragUpdate,
 } from "@/services/tasks";
 import { TaskStatus } from "@/lib/constants";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
@@ -19,7 +19,7 @@ export default function TaskDropzone() {
   const [containers, setContainers] = useState<TaskContainer>({
     BACKLOG: [],
     TODO: [],
-    PENDING: [],
+    IN_PROGRESS: [],
     COMPLETED: [],
   });
 
@@ -33,11 +33,31 @@ export default function TaskDropzone() {
 
   useEffect(() => {
     setContainers({
-      BACKLOG: tasks.filter(({ status }) => status === TaskStatus.BACKLOG),
-      TODO: tasks.filter(({ status }) => status === TaskStatus.TODO),
-      PENDING: tasks.filter(({ status }) => status === TaskStatus.PENDING),
-      COMPLETED: tasks.filter(({ status }) => status === TaskStatus.COMPLETED),
+      BACKLOG: tasks.filter(
+        (task) =>
+          task.statusHistory[task.statusHistory.length - 1].status ===
+          TaskStatus.BACKLOG
+      ),
+      TODO: tasks.filter(
+        (task) =>
+          task.statusHistory[task.statusHistory.length - 1].status ===
+          TaskStatus.TODO
+      ),
+      IN_PROGRESS: tasks.filter(
+        (task) =>
+          task.statusHistory[task.statusHistory.length - 1].status ===
+          TaskStatus.IN_PROGRESS
+      ),
+      COMPLETED: tasks.filter(
+        (task) =>
+          task.statusHistory[task.statusHistory.length - 1].status ===
+          TaskStatus.COMPLETED
+      ),
     });
+  }, [tasks]);
+
+  useEffect(() => {
+    console.log(tasks);
   }, [tasks]);
 
   const loadTasks = async () => {
