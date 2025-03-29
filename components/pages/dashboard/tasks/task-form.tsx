@@ -44,25 +44,17 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
           : "Planned Duration"
     );
 
-    setValues((prev) => {
-      const history =
-        prev.statusHistory.filter(
-          (h) => h.trigger !== ActionTrigger.USER_ADD
-        ) || [];
-
-      return {
-        ...prev,
-        current_status: value,
-        statusHistory: [
-          ...history,
-          {
-            status: value,
-            timestamp: Timestamp.now(),
-            trigger: ActionTrigger.USER_ADD,
-          },
-        ],
-      };
-    });
+    setValues((prev) => ({
+      ...prev,
+      current_status: value,
+      statusHistory: [
+        {
+          status: value,
+          timestamp: Timestamp.now(),
+          trigger: ActionTrigger.USER_ADD,
+        },
+      ],
+    }));
   };
 
   const handleSelectCategory = (keys: SharedSelection) => {
@@ -90,38 +82,34 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         };
       }
 
-      const prevTimeline = prev.timeline || {};
-      const prevPeriods = prevTimeline.actualWorkPeriods || [];
+      const timeline = prev.timeline || {};
 
       const start = Timestamp.fromDate(value.start.toDate("Asia/Manila"));
       const end = Timestamp.fromDate(value.end.toDate("Asia/Manila"));
 
-      let updatedPeriods = [...prevPeriods];
-
       if (isInProgress) {
-        if (
-          updatedPeriods.length === 0 ||
-          updatedPeriods[updatedPeriods.length - 1].end
-        ) {
-          updatedPeriods.push({
+        timeline.actualWorkPeriods = [
+          {
             start: Timestamp.now(),
             end: null,
             duration: 0,
-          });
-        }
+          },
+        ];
       } else {
-        updatedPeriods.push({
-          start,
-          end,
-          duration: end.seconds - start.seconds,
-        });
+        timeline.actualWorkPeriods = [
+          {
+            start,
+            end,
+            duration: end.seconds - start.seconds,
+          },
+        ];
       }
 
       return {
         ...prev,
         timeline: {
           planned: value,
-          actualWorkPeriods: updatedPeriods,
+          actualWorkPeriods: timeline.actualWorkPeriods,
         },
       };
     });
@@ -218,9 +206,6 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
           label={rangeLabel}
           aria-label="Task Duration"
           value={values.timeline.planned}
-          minValue={
-            values.current_status === TS.TODO ? today(getLocalTimeZone()) : null
-          }
           maxValue={
             values.current_status === TS.COMPLETED ||
             values.current_status === TS.IN_PROGRESS
