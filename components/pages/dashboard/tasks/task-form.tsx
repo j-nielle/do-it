@@ -44,18 +44,25 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
           : "Planned Duration"
     );
 
-    setValues((prev) => ({
-      ...prev,
-      current_status: value,
-      statusHistory: [
-        ...(prev.statusHistory || []),
-        {
-          status: value,
-          timestamp: Timestamp.now(),
-          trigger: ActionTrigger.USER_ADD,
-        },
-      ],
-    }));
+    setValues((prev) => {
+      const history =
+        prev.statusHistory.filter(
+          (h) => h.trigger !== ActionTrigger.USER_ADD
+        ) || [];
+
+      return {
+        ...prev,
+        current_status: value,
+        statusHistory: [
+          ...history,
+          {
+            status: value,
+            timestamp: Timestamp.now(),
+            trigger: ActionTrigger.USER_ADD,
+          },
+        ],
+      };
+    });
   };
 
   const handleSelectCategory = (keys: SharedSelection) => {
