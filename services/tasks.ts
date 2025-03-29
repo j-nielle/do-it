@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
 import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
-import { now, TaskStatus } from "@/lib/constants";
+import { TaskStatus } from "@/lib/constants";
 import { convertToTimestamp } from "@/lib/helpers/date";
 
 export const tasksRef = collection(db, "tasks");
@@ -93,7 +93,7 @@ export const afterDragUpdate = async (
       const activePeriod = workPeriods.findLast((p) => p.end === null);
       if (activePeriod && activePeriod.start) {
         activePeriod.end = Timestamp.now();
-        activePeriod.duration = now - activePeriod.start.seconds;
+        activePeriod.duration = Date.now() / 1000 - activePeriod.start.seconds;
       }
     }
 

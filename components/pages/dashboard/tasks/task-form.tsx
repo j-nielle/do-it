@@ -76,8 +76,6 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
       return;
     }
 
-    const now = Date.now() / 1000;
-
     setValues((prev) => {
       const isBacklog = prev.current_status === TS.BACKLOG;
       const isInProgress = prev.current_status === TS.IN_PROGRESS;

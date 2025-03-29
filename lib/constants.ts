@@ -14,10 +14,6 @@ export const authRoutes = [LOGIN_ROUTE, REGISTER_ROUTE];
 
 export const SESSION_COOKIE_NAME = "user_session";
 
-/** etc. */
-
-export const now = Date.now() / 1000;
-
 /** tasks-related section */
 
 export enum TaskStatus {
