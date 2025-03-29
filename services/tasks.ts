@@ -13,8 +13,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
-import { Task, TaskInputFields } from "@/types/task";
-import { statusOrder, TaskStatus } from "@/lib/constants";
+import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
+import { now, TaskStatus } from "@/lib/constants";
 import { convertToTimestamp } from "@/lib/helpers/date";
 
 export const tasksRef = collection(db, "tasks");
@@ -37,7 +37,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>,
+  callback: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -49,7 +49,7 @@ export function subscribeToTasks(
 }
 
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   const q = query(tasksRef);
   const unsub = subscribeToTasks(q, setTasks);
@@ -57,11 +57,10 @@ export function onTasksUpdate(
   return () => unsub();
 }
 
-export async function afterDragUpdate(
+export const afterDragUpdate = async (
   taskId: string,
-  status: TaskStatus,
-  fields: Pick<Task, "duration" | "statusHistory">,
-) {
+  newStatus: TaskStatus
+) => {
   try {
     const taskRef = doc(db, "tasks", taskId);
     const taskSnap = await getDoc(taskRef);
@@ -71,70 +70,59 @@ export async function afterDragUpdate(
     }
 
     const taskData = taskSnap.data();
-    const actualStart = taskData.duration.actual.start;
-    const actualEnd = taskData.duration.actual.end;
 
     const {
-      statusHistory,
-      duration: { actual },
-    } = fields;
+      current_status: prevStatus,
+      timeline: { actualWorkPeriods: workPeriods },
+      statusHistory: history,
+    } = taskData as Task;
 
-    if (!actual) return;
+    if (!prevStatus || !workPeriods) return;
 
-    if (statusHistory && statusHistory.length > 0) {
-      const recentStatus = statusHistory[statusHistory.length - 1].status;
-      if (recentStatus !== status) {
-        statusHistory?.push({
-          timestamp: Timestamp.now(),
-          status,
-        });
+    history.push({
+      timestamp: Timestamp.now(),
+      trigger: ActionTrigger.USER_DRAG,
+      status: newStatus,
+    });
+
+    if (newStatus === "IN_PROGRESS" && prevStatus !== "IN_PROGRESS") {
+      workPeriods.push({
+        start: now,
+        end: 0,
+        duration: 0,
+      });
+    } else if (prevStatus === "IN_PROGRESS" && newStatus !== "IN_PROGRESS") {
+      const activePeriod = workPeriods.findLast((p) => p.end === 0);
+      if (activePeriod) {
+        activePeriod.end = now;
+        activePeriod.duration = now - activePeriod.start;
       }
     }
 
-    if (status === TaskStatus.IN_PROGRESS && !actualStart) {
-      actual.start = Timestamp.now();
-    } else if (status === TaskStatus.COMPLETED && !actualEnd) {
-      const now = Timestamp.now();
-      if (!actualStart) {
-        actual.start = now;
-      }
-      actual.end = now;
-    }
-
-    await updateDoc(taskRef, fields);
+    const current_status = newStatus;
+    await updateDoc(taskRef, {
+      current_status,
+      "timeline.actualWorkPeriods": workPeriods,
+      "statusHistory": history,
+    });
   } catch (error) {
-    console.error("Error updating task: ", error);
+    console.error("Error updating task", error);
   }
-}
+};
 
 export async function addTask(fields: TaskInputFields) {
   try {
-    const { statusHistory, duration } = fields;
-    const { start, end } = duration.planned ?? { start: null, end: null };
-
-    const recentStatus = statusHistory[statusHistory.length - 1].status;
-
-    let actualStart = null;
-    let actualEnd = null;
-
-    if (recentStatus === TaskStatus.IN_PROGRESS) {
-      actualStart = Timestamp.now();
-    } else if (recentStatus === TaskStatus.COMPLETED) {
-      actualStart = Timestamp.now();
-      actualEnd = actualStart;
-    }
-
+    const {
+      timeline: { planned, actualWorkPeriods },
+    } = fields;
     await addDoc(tasksRef, {
       ...fields,
-      duration: {
+      timeline: {
         planned: {
-          start: start ? convertToTimestamp(start) : null,
-          end: end ? convertToTimestamp(end) : null,
+          start: planned?.start ? convertToTimestamp(planned?.start) : null,
+          end: planned?.start ? convertToTimestamp(planned?.end) : null,
         },
-        actual: {
-          start: actualStart,
-          end: actualEnd,
-        },
+        actualWorkPeriods,
       },
     });
   } catch (error) {

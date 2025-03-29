@@ -1,4 +1,7 @@
+import { ActionTrigger, TaskInputFields } from "@/types/task";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import { ApexOptions } from "apexcharts";
+import { serverTimestamp, Timestamp } from "firebase/firestore";
 
 export const ROOT_ROUTE = "/";
 export const DASHBOARD_ROUTE = "/dashboard";
@@ -10,6 +13,10 @@ export const protectedRoutes = [DASHBOARD_ROUTE, SETTINGS_ROUTE];
 export const authRoutes = [LOGIN_ROUTE, REGISTER_ROUTE];
 
 export const SESSION_COOKIE_NAME = "user_session";
+
+/** etc. */
+
+export const now = Timestamp.now().seconds;
 
 /** tasks-related section */
 
@@ -42,6 +49,17 @@ export const TASK_COLUMNS = [
   { id: "COMPLETED", title: "Completed" },
 ] as const;
 
+export const defaultTaskInput: TaskInputFields = {
+  title: "",
+  category: "",
+  statusHistory: [],
+  current_status: null,
+  timeline: {
+    planned: null,
+    actualWorkPeriods: [],
+  },
+};
+
 /** charts-related section */
 
 // bar
@@ -63,6 +81,8 @@ export const defaultBarChartSeries: ApexAxisChartSeries = [
 ];
 
 // range bar
+
+export const rangeBarColors = ["#008FFB", "#00E396", "#775DD0", "#FEB019"];
 
 export const defaultRangeBarSeries: ApexAxisChartSeries = [
   {

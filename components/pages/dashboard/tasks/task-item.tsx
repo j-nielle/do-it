@@ -34,11 +34,10 @@ export default function TaskItem({
   });
 
   const status = sortable.group as TaskStatus;
-  const { statusHistory, duration } = task;
 
   useEffect(() => {
     if (isDropping && id && status !== undefined) {
-      afterDragUpdate(id, status, { statusHistory, duration });
+      afterDragUpdate(id, status);
     }
   }, [id, status, isDropping]);
 
@@ -48,8 +47,7 @@ export default function TaskItem({
         <div className="flex flex-row justify-start items-center gap-x-2">
           <span
             ref={handleRef}
-            className="p-1 opacity-35 active:opacity-100 *:opacity-35 *:active:opacity-100"
-          >
+            className="p-1 opacity-35 active:opacity-100 *:opacity-35 *:active:opacity-100">
             <IconArrowsMove size={14} />
           </span>
           {children}
