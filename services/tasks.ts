@@ -73,11 +73,9 @@ export const afterDragUpdate = async (
 
     const {
       current_status: prevStatus,
-      timeline: { actualWorkPeriods: workPeriods },
+      timeline: { actualWorkPeriods: workPeriods, planned },
       statusHistory: history,
     } = taskData as Task;
-
-    if (!prevStatus || !workPeriods) return;
 
     history.push({
       timestamp: Timestamp.now(),
@@ -87,15 +85,15 @@ export const afterDragUpdate = async (
 
     if (newStatus === "IN_PROGRESS" && prevStatus !== "IN_PROGRESS") {
       workPeriods.push({
-        start: now,
-        end: 0,
+        start: Timestamp.now(),
+        end: null,
         duration: 0,
       });
     } else if (prevStatus === "IN_PROGRESS" && newStatus !== "IN_PROGRESS") {
-      const activePeriod = workPeriods.findLast((p) => p.end === 0);
-      if (activePeriod) {
-        activePeriod.end = now;
-        activePeriod.duration = now - activePeriod.start;
+      const activePeriod = workPeriods.findLast((p) => p.end === null);
+      if (activePeriod && activePeriod.start) {
+        activePeriod.end = Timestamp.now();
+        activePeriod.duration = now - activePeriod.start.seconds;
       }
     }
 

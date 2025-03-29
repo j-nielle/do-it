@@ -16,11 +16,9 @@ export type TaskHistory = {
 
 export type TaskDuration = { start: Timestamp | null; end: Timestamp | null };
 
-export interface WorkPeriod {
-  start: number;
-  end: number;
+export type WorkPeriod = TaskDuration & {
   duration: number;
-}
+};
 
 export interface TaskTimeline {
   planned?: TaskDuration;

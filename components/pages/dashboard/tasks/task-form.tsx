@@ -95,8 +95,8 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
       const prevTimeline = prev.timeline || {};
       const prevPeriods = prevTimeline.actualWorkPeriods || [];
 
-      const start = value.start.toDate("Asia/Manila").getTime() / 1000;
-      const end = value.end.toDate("Asia/Manila").getTime() / 1000;
+      const start = Timestamp.fromDate(value.start.toDate("Asia/Manila"));
+      const end = Timestamp.fromDate(value.end.toDate("Asia/Manila"));
 
       let updatedPeriods = [...prevPeriods];
 
@@ -105,13 +105,17 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
           updatedPeriods.length === 0 ||
           updatedPeriods[updatedPeriods.length - 1].end
         ) {
-          updatedPeriods.push({ start: now, end: 0, duration: 0 });
+          updatedPeriods.push({
+            start: Timestamp.now(),
+            end: null,
+            duration: 0,
+          });
         }
       } else {
         updatedPeriods.push({
           start,
           end,
-          duration: end - start,
+          duration: end.seconds - start.seconds,
         });
       }
 
