@@ -20,7 +20,7 @@ export default function Error({
     <div>
       <h2>
         Something went wrong!{" "}
-        <span className="font-bold text-red-600">[{error.message}]</span>
+        <span className="font-bold text-red-600">{error.message}</span>
       </h2>
       <Button onPress={() => reset()}>Try again</Button>
     </div>
