@@ -9,9 +9,9 @@ export default function AnalyticsSection() {
       <Card radius="sm">
         <CardBody>
           <p>Charts here and there</p>
-          <StatusBarChart />
-          <TimelineChart />
-          <Heatmap />
+          {/* <StatusBarChart /> */}
+          {/* <TimelineChart /> */}
+          {/* <Heatmap /> */}
         </CardBody>
       </Card>
     </section>

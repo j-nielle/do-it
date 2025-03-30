@@ -13,9 +13,14 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
-import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
-import { TaskStatus } from "@/lib/constants";
-import { convertToTimestamp } from "@/lib/helpers/date";
+import {
+  ActionTrigger,
+  Task,
+  TaskInputFields,
+} from "@/types/task";
+import { TaskStatus as TS } from "@/lib/constants";
+import { getDifference, isToday, timestamp } from "@/lib/helpers/date";
+import { getProgress } from "@/lib/helpers/data";
 
 export const tasksRef = collection(db, "tasks");
 
@@ -57,10 +62,7 @@ export function onTasksUpdate(
   return () => unsub();
 }
 
-export const afterDragUpdate = async (
-  taskId: string,
-  newStatus: TaskStatus
-) => {
+export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
   try {
     const taskRef = doc(db, "tasks", taskId);
     const taskSnap = await getDoc(taskRef);
@@ -72,8 +74,9 @@ export const afterDragUpdate = async (
     const taskData = taskSnap.data();
 
     const {
-      current_status: prevStatus,
-      timeline: { actualWorkPeriods: workPeriods, planned },
+      status: prevStatus,
+      actual: actualDuration,
+      planned: plannedDuration,
       statusHistory: history,
     } = taskData as Task;
 
@@ -83,25 +86,71 @@ export const afterDragUpdate = async (
       status: newStatus,
     });
 
-    if (newStatus === "IN_PROGRESS" && prevStatus !== "IN_PROGRESS") {
-      workPeriods.push({
+    let progress = getProgress(newStatus);
+    let planned = plannedDuration;
+    let actual = actualDuration;
+
+    const isStarting =
+      newStatus === TS.IN_PROGRESS && prevStatus !== TS.IN_PROGRESS;
+    const isCompleting =
+      newStatus === TS.COMPLETED && prevStatus !== TS.COMPLETED;
+    const isRevertingFromComplete =
+      prevStatus === TS.COMPLETED && newStatus !== TS.COMPLETED;
+    const isMovingToBacklog =
+      prevStatus !== TS.BACKLOG && newStatus === TS.BACKLOG;
+    const isMovingToTodo = prevStatus !== TS.TODO && newStatus === TS.TODO;
+
+    if (isStarting) {
+      actual = {
         start: Timestamp.now(),
         end: null,
         duration: 0,
-      });
-    } else if (prevStatus === "IN_PROGRESS" && newStatus !== "IN_PROGRESS") {
-      const activePeriod = workPeriods.findLast((p) => p.end === null);
-      if (activePeriod && activePeriod.start) {
-        activePeriod.end = Timestamp.now();
-        activePeriod.duration = Date.now() / 1000 - activePeriod.start.seconds;
+      };
+    }
+    if (isCompleting) {
+      actual = actual
+        ? {
+            ...actual,
+            end: Timestamp.now(),
+            duration:
+              Timestamp.now().seconds -
+              (actual.start?.seconds || Timestamp.now().seconds),
+          }
+        : {
+            start: Timestamp.now(),
+            end: Timestamp.now(),
+            duration: 0,
+          };
+    }
+    if (isRevertingFromComplete) {
+      actual = actual
+        ? {
+            start: actual.start,
+            end: null,
+            duration: 0,
+          }
+        : {
+            start: Timestamp.now(),
+            end: null,
+            duration: 0,
+          };
+    }
+    if (isMovingToBacklog) {
+      planned = null;
+      actual = null;
+    } else if (isMovingToTodo) {
+      actual = null;
+      if (planned && isToday(planned.start as Timestamp)) {
+        console.log("today is within the planned date range");
       }
     }
-
-    const current_status = newStatus;
+    // console.log(planned, actual);
     await updateDoc(taskRef, {
-      current_status,
-      "timeline.actualWorkPeriods": workPeriods,
-      "statusHistory": history,
+      status: newStatus,
+      planned,
+      actual,
+      statusHistory: history,
+      progress,
     });
   } catch (error) {
     console.error("Error updating task", error);
@@ -110,18 +159,31 @@ export const afterDragUpdate = async (
 
 export async function addTask(fields: TaskInputFields) {
   try {
-    const {
-      timeline: { planned, actualWorkPeriods },
-    } = fields;
+    const { planned: p, actual: a, status } = fields;
+
+    const isProgressCompleted =
+      status === TS.IN_PROGRESS || status === TS.COMPLETED;
+
+    const planned = p?.start
+      ? {
+          start: timestamp(p.start),
+          end: p.end ? timestamp(p.end) : null,
+        }
+      : null;
+
+    const actual = a?.start
+      ? {
+          start: timestamp(a.start),
+          end: a.end ? timestamp(a.end) : null,
+          duration:
+            isProgressCompleted && a.end ? getDifference(a.end, a.start) : 0,
+        }
+      : null;
+
     await addDoc(tasksRef, {
       ...fields,
-      timeline: {
-        planned: {
-          start: planned?.start ? convertToTimestamp(planned?.start) : null,
-          end: planned?.start ? convertToTimestamp(planned?.end) : null,
-        },
-        actualWorkPeriods,
-      },
+      planned,
+      actual,
     });
   } catch (error) {
     console.error("Error adding document: ", error);

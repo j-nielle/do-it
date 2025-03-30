@@ -9,7 +9,7 @@ import { TaskStatus as Status } from "@/lib/constants";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
 import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
 import { TaskContext } from "@/contexts/taskContext";
-import { getStatusCounts } from "@/lib/helpers/data";
+import { getStatusCounts, getTimeline } from "@/lib/helpers/data";
 
 export default function TaskDropzone() {
   const { setChartData } = useContext(TaskContext);
@@ -30,25 +30,27 @@ export default function TaskDropzone() {
   }, []);
 
   useEffect(() => {
-    const data = getStatusCounts(tasks);
-    setChartData(data);
+    if(tasks.length > 0) console.log(tasks)
+    // const { counts } = getStatusCounts(tasks);
+    // const timeline = getTimeline(tasks);
+    // console.log(timeline, tasks)
+    // setChartData({ counts, timeline });
   }, [tasks]);
 
   useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG
       ),
       TODO: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO
       ),
       IN_PROGRESS: tasks.filter(
         ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.IN_PROGRESS,
+          sh[sh.length - 1].status === Status.IN_PROGRESS
       ),
       COMPLETED: tasks.filter(
-        ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.COMPLETED,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.COMPLETED
       ),
     });
   }, [tasks]);

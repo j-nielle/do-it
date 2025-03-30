@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Timestamp } from "firebase/firestore";
-import { getLocalTimeZone, today } from "@internationalized/date";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { DateRangePicker } from "@heroui/date-picker";
@@ -28,25 +27,22 @@ import {
 import { addTask } from "@/services/tasks";
 import { ActionTrigger, TaskInputFields } from "@/types/task";
 import { DateRange } from "@/types/date";
+import {
+  getDateRangeLabel,
+  getDateRangeMaxValue,
+  getProgress,
+  isTaskPlanned,
+} from "@/lib/helpers/data";
 
 export default function TaskForm({ onClose }: { onClose: () => void }) {
   const [values, setValues] = useState<TaskInputFields>(defaultTaskInput);
-  const [rangeLabel, setRangeLabel] = useState("Planned Duration");
 
   const handleSelectStatus = (keys: SharedSelection) => {
     const value = Array.from(keys)[0] as TS;
 
-    setRangeLabel(
-      value === TS.IN_PROGRESS
-        ? "Work Period"
-        : value === TS.COMPLETED
-          ? "Completion Period"
-          : "Planned Duration"
-    );
-
     setValues((prev) => ({
       ...prev,
-      current_status: value,
+      status: value,
       statusHistory: [
         {
           status: value,
@@ -69,48 +65,43 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
     }
 
     setValues((prev) => {
-      const isBacklog = prev.current_status === TS.BACKLOG;
-      const isInProgress = prev.current_status === TS.IN_PROGRESS;
+      const isBacklog = prev.status === TS.BACKLOG;
+      const isTodo = prev.status === TS.TODO;
+      const isInProgress = prev.status === TS.IN_PROGRESS;
+      const isCompleted = prev.status === TS.COMPLETED;
+
+      const progress = getProgress(prev.status as TS);
+
+      let planned: typeof prev.planned = null;
+      let actual: typeof prev.actual = null;
+
+      // backlog, planned (no) | actual (no) | progress = 0
+      // todo, planned (yes) | actual (no) | progress = 0
+      // in progress && completed, planned (no) | actual (yes)
+      // in progress, progress = 50
+      // completed, progress = 100
+
+      if (isTodo) {
+        actual = null;
+        planned = value;
+      }
 
       if (isBacklog) {
         return {
           ...prev,
-          timeline: {
-            planned: null,
-            actualWorkPeriods: [],
-          },
+          planned,
+          actual,
         };
-      }
-
-      const timeline = prev.timeline || {};
-
-      const start = Timestamp.fromDate(value.start.toDate("Asia/Manila"));
-      const end = Timestamp.fromDate(value.end.toDate("Asia/Manila"));
-
-      if (isInProgress) {
-        timeline.actualWorkPeriods = [
-          {
-            start: Timestamp.now(),
-            end: null,
-            duration: 0,
-          },
-        ];
-      } else {
-        timeline.actualWorkPeriods = [
-          {
-            start,
-            end,
-            duration: end.seconds - start.seconds,
-          },
-        ];
+      } else if (isInProgress || isCompleted) {
+        planned = null;
+        actual = value;
       }
 
       return {
         ...prev,
-        timeline: {
-          planned: value,
-          actualWorkPeriods: timeline.actualWorkPeriods,
-        },
+        planned,
+        actual,
+        progress,
       };
     });
   };
@@ -124,7 +115,7 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addTask({ ...values });
+    addTask(values);
     onClose();
   };
 
@@ -200,19 +191,18 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
           Completed
         </SelectItem>
       </Select>
-      {values.current_status !== TS.BACKLOG && (
+      {values.status !== TS.BACKLOG && (
         <DateRangePicker
-          isRequired
-          label={rangeLabel}
+          label={getDateRangeLabel(values.status as TS)}
           aria-label="Task Duration"
-          value={values.timeline.planned}
-          maxValue={
-            values.current_status === TS.COMPLETED ||
-            values.current_status === TS.IN_PROGRESS
-              ? today(getLocalTimeZone())
-              : null
-          }
+          value={isTaskPlanned(
+            values.status as TS,
+            values.actual,
+            values.planned
+          )}
+          maxValue={getDateRangeMaxValue(values.status as TS)}
           onChange={handleSelectDateRange}
+          isRequired
         />
       )}
     </Form>

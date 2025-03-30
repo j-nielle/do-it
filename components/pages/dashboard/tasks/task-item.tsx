@@ -34,9 +34,11 @@ export default function TaskItem({
   });
 
   const status = sortable.group as TaskStatus;
+  const sameStatus =
+    task.statusHistory[task.statusHistory.length - 1].status === status;
 
   useEffect(() => {
-    if (isDropping && id && status !== undefined) {
+    if (isDropping && !sameStatus) {
       afterDragUpdate(id, status);
     }
   }, [id, status, isDropping]);

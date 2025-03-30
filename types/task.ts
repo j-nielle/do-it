@@ -16,33 +16,35 @@ export type TaskHistory = {
 
 export type TaskDuration = { start: Timestamp | null; end: Timestamp | null };
 
-export type WorkPeriod = TaskDuration & {
-  duration: number;
+export type ActualDuration = TaskDuration & {
+  duration?: number;
 };
 
 export interface TaskTimeline {
   planned?: TaskDuration;
-  actualWorkPeriods: WorkPeriod[];
+  actualWorkPeriods: ActualDuration[];
 }
 
 export interface Task {
   id: string;
   title: string;
   category: TaskCategory;
-  timeline: TaskTimeline;
-  current_status?: TaskStatus;
+  status: TaskStatus;
+  planned: TaskDuration | null;
+  actual: ActualDuration | null;
+  progress: number;
+  dependencies?: string[];
   statusHistory: TaskHistory[];
 }
 
 export type TaskInputFields = {
   title: string;
   category: string;
+  status: string;
+  planned: DateRange | null;
+  actual: DateRange | null;
+  progress: number;
   statusHistory: TaskHistory[];
-  timeline: {
-    planned: DateRange;
-    actualWorkPeriods: WorkPeriod[];
-  };
-  current_status: TaskStatus | null;
 };
 
 export type TaskDragData = {

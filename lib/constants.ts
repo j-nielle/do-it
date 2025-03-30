@@ -1,7 +1,5 @@
-import { ActionTrigger, TaskInputFields } from "@/types/task";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import { TaskInputFields } from "@/types/task";
 import { ApexOptions } from "apexcharts";
-import { serverTimestamp, Timestamp } from "firebase/firestore";
 
 export const ROOT_ROUTE = "/";
 export const DASHBOARD_ROUTE = "/dashboard";
@@ -48,12 +46,11 @@ export const TASK_COLUMNS = [
 export const defaultTaskInput: TaskInputFields = {
   title: "",
   category: "",
+  status: "",
+  planned: null,
+  actual: null,
+  progress: 0,
   statusHistory: [],
-  current_status: null,
-  timeline: {
-    planned: null,
-    actualWorkPeriods: [],
-  },
 };
 
 /** charts-related section */
@@ -112,22 +109,50 @@ export const defaultRangeBarSeries: ApexAxisChartSeries = [
   },
 ];
 
-export const defaultRangeBarOptions: ApexOptions = {
-  chart: { height: 350, type: "rangeBar", id: "basic-range-bar" },
+export const rangeBarOptions: ApexOptions = {
+  chart: {
+    height: 150,
+    type: "rangeBar",
+  },
   plotOptions: {
     bar: {
+      borderRadius: 10,
       horizontal: true,
-      distributed: true,
-      dataLabels: { hideOverflowingLabels: false },
     },
   },
   dataLabels: {
     enabled: true,
-    style: { colors: ["#f3f4f5", "#fff"] },
+    // formatter: function (val) {
+    //   const [start, end] = val as number[];
+    //   const a = new Date(start);
+    //   const b = new Date(end);
+    //   const diff = Math.floor((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24));
+    //   return diff + (diff > 1 ? " days" : " day");
   },
-  xaxis: { type: "datetime" },
-  yaxis: { show: false },
-  grid: { row: { colors: ["#f3f4f5", "#fff"], opacity: 1 } },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shade: "light",
+      type: "vertical",
+      shadeIntensity: 0.25,
+      gradientToColors: undefined,
+      inverseColors: true,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [50, 0, 100, 100],
+    },
+  },
+  xaxis: {
+    type: "datetime",
+  },
+  yaxis: {
+    labels: {
+      show: false,
+    },
+  },
+  legend: {
+    position: "top",
+  },
 };
 
 // heatmap
