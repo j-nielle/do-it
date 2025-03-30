@@ -10,17 +10,17 @@ export const siteConfig = {
     },
   ],
   navMenuItems: [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
+    // {
+    //   label: "Dashboard",
+    //   href: "/dashboard",
+    // },
+    // {
+    //   label: "Settings",
+    //   href: "/settings",
+    // },
   ],
   links: {
-    github: "https://github.com/heroui-inc/heroui",
+    github: "https://github.com/j-nielle/do-it",
     login: "/login",
     register: "/register",
   },

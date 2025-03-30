@@ -11,7 +11,7 @@ import { cookies } from "next/headers";
 
 import {
   AuthNavLink,
-  NavLinkItems,
+  // NavLinkItems,
   NavLogoLink,
   NavMenuItems,
 } from "./nav-link";
@@ -39,7 +39,7 @@ export const Navbar = async () => {
           <NavLogoLink session={session} />
         </NavbarBrand>
         <ul className="flex w-full items-center">
-          <NavLinkItems session={session} />
+          {/* <NavLinkItems session={session} /> */}
           <NavbarItem className="flex w-full justify-end gap-3">
             <Link isExternal aria-label="Github" href={siteConfig.links.github}>
               <GithubIcon className="text-default-500" />
