@@ -31,6 +31,7 @@
     "@heroui/switch": "2.2.14",
     "@heroui/system": "2.4.12",
     "@heroui/theme": "2.4.12",
+    "@heroui/toast": "^2.0.6",
     "@internationalized/date": "^3.7.0",
     "@radix-ui/react-scroll-area": "^1.2.3",
     "@react-aria/i18n": "^3.12.7",
