@@ -8,7 +8,6 @@ import {
 } from "@heroui/navbar";
 import { Link } from "@heroui/link";
 import { cookies } from "next/headers";
-import { SESSION_COOKIE_NAME } from "@/lib/constants";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import {
@@ -17,6 +16,7 @@ import {
   NavLogoLink,
   NavMenuItems,
 } from "./nav-link";
+import { SESSION_COOKIE_NAME } from "@/lib/constants";
 import { GithubIcon } from "@/components/icons";
 
 export const Navbar = async () => {

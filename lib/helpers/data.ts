@@ -1,8 +1,8 @@
-import { Task } from "@/types/task";
-import { STATUS_ORDER, TaskStatus as TS, WEEK_DAYS } from "@/lib/constants";
-import { getWeekday } from "./date";
 import { DateRange } from "@react-types/datepicker";
 import { getLocalTimeZone, today } from "@internationalized/date";
+import { getWeekday } from "./date";
+import { Task } from "@/types/task";
+import { STATUS_ORDER, TaskStatus as TS, WEEK_DAYS } from "@/lib/constants";
 
 export const getProgress = (status: TS) => {
   return status === TS.IN_PROGRESS ? 50 : status === TS.COMPLETED ? 100 : 0;
@@ -19,7 +19,7 @@ export const getDateRangeLabel = (status: TS) => {
 export const isTaskPlanned = (
   status: TS,
   actual: DateRange | null,
-  planned: DateRange | null
+  planned: DateRange | null,
 ) => {
   return status === TS.IN_PROGRESS || status === TS.COMPLETED
     ? actual
@@ -43,7 +43,7 @@ export const weekdayCounts = (tasks: Task[]) => {
       acc[weekday] = (acc[weekday] || 0) + 1;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   return WEEK_DAYS.map((day) => ({
@@ -60,7 +60,7 @@ export const getStatusCounts = (tasks: Task[]) => {
       acc[lastStatus] = (acc[lastStatus] || 0) + 1;
       return acc;
     },
-    {} as Record<TS, number>
+    {} as Record<TS, number>,
   );
 
   const counts = STATUS_ORDER.map((status) => statusCounts[status] || 0);

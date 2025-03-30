@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
+import { IconArrowsMove } from "@tabler/icons-react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { afterDragUpdate } from "@/services/tasks";
 import { Task } from "@/types/task";
-import { IconArrowsMove } from "@tabler/icons-react";
 import { TaskStatus } from "@/lib/constants";
 
 export default function TaskItem({
@@ -49,7 +49,8 @@ export default function TaskItem({
         <div className="flex flex-row justify-start items-center gap-x-2">
           <span
             ref={handleRef}
-            className="p-1 opacity-35 active:opacity-100 *:opacity-35 *:active:opacity-100">
+            className="p-1 opacity-35 active:opacity-100 *:opacity-35 *:active:opacity-100"
+          >
             <IconArrowsMove size={14} />
           </span>
           {children}

@@ -1,4 +1,3 @@
-import { auth, googleProvider } from "@/config/firebase";
 import {
   signInWithPopup,
   signOut,
@@ -6,6 +5,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { createSession, removeSession } from "@/lib/actions/auth";
+import { auth, googleProvider } from "@/config/firebase";
 
 export const handleAuthChange = (callback: (authUser: User | null) => void) => {
   return onAuthStateChanged(auth, callback);

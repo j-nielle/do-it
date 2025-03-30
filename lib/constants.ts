@@ -1,5 +1,5 @@
-import { TaskInputFields } from "@/types/task";
 import { ApexOptions } from "apexcharts";
+import { TaskInputFields } from "@/types/task";
 
 export const ROOT_ROUTE = "/";
 export const DASHBOARD_ROUTE = "/dashboard";
@@ -80,7 +80,7 @@ export const rangeBarOptions: ApexOptions = {
       horizontal: true,
       dataLabels: {
         total: {
-          formatter: function (val, opts) {
+          formatter: function (val) {
             return "val" + val;
           },
           enabled: true,
@@ -102,7 +102,7 @@ export const rangeBarOptions: ApexOptions = {
         w: {
           config: { series },
         },
-      }
+      },
     ) {
       const dataPoint = series[seriesIndex].data[dataPointIndex];
       const title = dataPoint.x;
@@ -117,23 +117,10 @@ export const rangeBarOptions: ApexOptions = {
         end = Number(value) || 0;
       }
 
-      const durationMs = end - start;
-
-      const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (durationMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
-
-      let formattedDuration = "";
-      if (days > 0) formattedDuration += `${days}d `;
-      if (hours > 0) formattedDuration += `${hours}h `;
-      if (minutes > 0) formattedDuration += `${minutes}m`;
-
       const a = new Date(start);
       const b = new Date(end);
       const diff = Math.floor(
-        (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24)
+        (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24),
       );
       return `${title}: ${diff + (diff > 1 ? " days" : " day")}`;
     },

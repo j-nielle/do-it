@@ -13,11 +13,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
-import {
-  ActionTrigger,
-  Task,
-  TaskInputFields,
-} from "@/types/task";
+import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
 import { TaskStatus as TS } from "@/lib/constants";
 import { getDifference, isToday, timestamp } from "@/lib/helpers/date";
 import { getProgress } from "@/lib/helpers/data";
@@ -42,7 +38,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>
+  callback: React.Dispatch<React.SetStateAction<Task[]>>,
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -54,7 +50,7 @@ export function subscribeToTasks(
 }
 
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
 ) {
   const q = query(tasksRef);
   const unsub = subscribeToTasks(q, setTasks);
