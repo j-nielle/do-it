@@ -5,9 +5,9 @@ import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HeroUIProvider } from "@heroui/system";
-import { addToast, ToastProvider } from "@heroui/toast";
+import { ToastProvider } from "@heroui/toast";
 import { useRouter } from "next/navigation";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -27,7 +27,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <ToastProvider />
+      <ToastProvider placement="top-right" toastOffset={40} />
       <Analytics />
       <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
     </HeroUIProvider>

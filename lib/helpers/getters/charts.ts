@@ -13,18 +13,25 @@ export const weekdayCounts = (tasks: Task[]) => {
       const isInProgress = t.status === TS.IN_PROGRESS;
       const isCompleted = t.status === TS.COMPLETED;
 
-      const end = isToDo
-        ? ((t.planned?.end as Timestamp).seconds ?? 0)
-        : isInProgress || isCompleted
-          ? ((t.actual?.end as Timestamp).seconds ?? 0)
+      let endSeconds = 0;
+
+      if (isToDo) {
+        endSeconds = t.planned?.end
+          ? (t.planned.end as Timestamp).seconds || 0
           : 0;
-      const weekday = getWeekday(end);
+      } else if (isInProgress || isCompleted) {
+        endSeconds = t.actual?.end
+          ? (t.actual.end as Timestamp).seconds || 0
+          : 0;
+      }
+
+      const weekday = getWeekday(endSeconds);
 
       acc[weekday] = (acc[weekday] || 0) + 1;
 
       return acc;
     },
-    {} as Record<string, number>,
+    {} as Record<string, number>
   );
 
   return WEEK_DAYS.map((day) => ({

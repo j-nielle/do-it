@@ -12,7 +12,7 @@ export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
   return (
     <section className="sm:col-span-3 flex flex-col gap-2">
       <p className="font-bold text-xl">Kanban Board</p>
-      <Card className="h-full" radius="sm">
+      <Card className="h-full " radius="sm">
         <CardBody>
           <section className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
             {TASK_COLUMNS.map((column) => (

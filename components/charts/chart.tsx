@@ -21,6 +21,7 @@ export default function Chart({
       series={series}
       type={type}
       width={dimensions?.width}
+      
     />
   );
 }

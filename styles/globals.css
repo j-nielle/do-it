@@ -2,18 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/** had to do the styles here **/
-/** because the inline tailwindcss did not worked for some reason **/
-
-.backlog-status {
-  @apply !bg-gray-200;
-}
 .todo-status {
-  @apply !bg-blue-500/65;
+  @apply !bg-blue-500/65 dark:!bg-blue-500/75;
 }
 .pending-status {
-  @apply !bg-yellow-500/65;
+  @apply !bg-yellow-500/65 dark:!bg-yellow-500/75;
 }
 .completed-status {
-  @apply !bg-green-500/65;
+  @apply !bg-green-500/65 dark:!bg-green-500/75;
+}
+
+.apexcharts-series.apexcharts-heatmap-series rect {
+  @apply !stroke-2 dark:!stroke-[#171719] dark:!stroke-2;
 }

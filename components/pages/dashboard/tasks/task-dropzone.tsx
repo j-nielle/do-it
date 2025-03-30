@@ -10,8 +10,10 @@ import { TaskStatus as Status } from "@/lib/constants/task";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
 import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
 import { ChartContext } from "@/contexts/chartContext";
+import { useToast } from "@/hooks/useToast";
 
 export default function TaskDropzone() {
+  const toast = useToast();
   const { setChartContext } = useContext(ChartContext);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [containers, setContainers] = useState<TaskContainer>({
@@ -39,18 +41,17 @@ export default function TaskDropzone() {
   useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG
       ),
       TODO: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO
       ),
       IN_PROGRESS: tasks.filter(
         ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.IN_PROGRESS,
+          sh[sh.length - 1].status === Status.IN_PROGRESS
       ),
       COMPLETED: tasks.filter(
-        ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.COMPLETED,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.COMPLETED
       ),
     });
   }, [tasks]);
@@ -73,7 +74,7 @@ export default function TaskDropzone() {
       const { task } = data;
 
       if (target && target.id === "TRASH_ZONE") {
-        deleteTask(task.id);
+        toast(deleteTask(task.id), 'delete');
       }
     }
   };

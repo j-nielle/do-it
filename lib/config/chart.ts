@@ -1,11 +1,11 @@
 import { ApexOptions } from "apexcharts";
 
-export const STATUS_COLORS = ["#dde4ec", "#7eaef8", "#f2ce5e", "#6fda96"];
+export const STATUS_COLORS = ["#e1e8f0", "#7eaef8", "#f2ce5e", "#6fda96"];
 
 export const rangeBarOptions: ApexOptions = {
   chart: {
-    height: 150,
-    width: 250,
+    height: '100%',
+    width: '100%',
     type: "rangeBar",
   },
   colors: ["#90A4AE", "#E64A19"],
@@ -37,7 +37,7 @@ export const rangeBarOptions: ApexOptions = {
         w: {
           config: { series },
         },
-      },
+      }
     ) {
       const dataPoint = series[seriesIndex].data[dataPointIndex];
       const title = dataPoint.x;
@@ -55,7 +55,7 @@ export const rangeBarOptions: ApexOptions = {
       const a = new Date(start);
       const b = new Date(end);
       const diff = Math.floor(
-        (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24),
+        (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24)
       );
 
       return `${title}: ${diff + (diff > 1 ? " days" : " day")}`;
@@ -84,7 +84,7 @@ export const rangeBarOptions: ApexOptions = {
   },
   yaxis: {
     labels: {
-      show: false,
+      show: true,
     },
   },
   legend: {
@@ -100,13 +100,52 @@ export const heatmapOptions: ApexOptions = {
   dataLabels: {
     enabled: false,
   },
-  colors: STATUS_COLORS,
   xaxis: {
     type: "category",
+    labels: {
+      show: true,
+      rotate: -90,
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+  },
+  yaxis: {
+    show: true,
+    showAlways: false,
+    labels: {
+      show: true,
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
   },
   grid: {
+    show: false,
     padding: {
       right: 20,
+    },
+    xaxis: {
+      lines: {
+        show: false,
+      },
+    },
+    yaxis: {
+      lines: {
+        show: false,
+      },
+    },
+  },
+  plotOptions: {
+    heatmap: {
+      enableShades: true,
+      distributed: true,
     },
   },
   legend: {

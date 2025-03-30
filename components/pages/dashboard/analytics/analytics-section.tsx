@@ -7,8 +7,8 @@ export default function AnalyticsSection() {
   return (
     <section className="sm:col-span-4 flex flex-col gap-2">
       <p className="font-bold text-xl">Analytics</p>
-      <Card radius="sm">
-        <CardBody className="grid  grid-cols-1 sm:grid-cols-2">
+      <Card radius="sm" className="">
+        <CardBody className="grid grid-cols-1 sm:grid-cols-2">
           <Heatmap />
           <TimelineChart />
         </CardBody>

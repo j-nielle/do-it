@@ -28,6 +28,7 @@ export const Navbar = async () => {
   return (
     <HeroUINavbar
       classNames={{
+        base: "border-b dark:border-b dark:border-neutral-800",
         wrapper: "!px-4",
       }}
       maxWidth="full"

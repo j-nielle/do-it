@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-export const taskColumnStyles = cva(["backlog-status"], {
+export const taskColumnStyles = cva([""], {
   variants: {
     status: {
       TODO: ["todo-status"],

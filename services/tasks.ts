@@ -39,7 +39,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>,
+  callback: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -52,7 +52,7 @@ export function subscribeToTasks(
 }
 
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   const q = query(tasksRef);
   const unsub = subscribeToTasks(q, setTasks);
@@ -142,8 +142,7 @@ export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
         console.log("today is within the planned date range");
       }
     }
-    // console.log(planned, actual);
-    await updateDoc(taskRef, {
+    return await updateDoc(taskRef, {
       status: newStatus,
       planned,
       actual,
@@ -151,7 +150,8 @@ export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
       progress,
     });
   } catch (error) {
-    console.error("Error updating task", error);
+    console.error(error);
+    throw error;
   }
 };
 
@@ -178,13 +178,14 @@ export async function addTask(fields: TaskInputFields) {
         }
       : null;
 
-    await addDoc(tasksRef, {
+    return await addDoc(tasksRef, {
       ...fields,
       planned,
       actual,
     });
   } catch (error) {
-    console.error("Error adding document: ", error);
+    console.error(error);
+    throw error;
   }
 }
 
@@ -192,8 +193,9 @@ export async function deleteTask(taskId: string) {
   try {
     const tasksRef = doc(db, "tasks", taskId);
 
-    await deleteDoc(tasksRef);
+    return await deleteDoc(tasksRef);
   } catch (error) {
     console.error("Error adding document: ", error);
+    throw error;
   }
 }

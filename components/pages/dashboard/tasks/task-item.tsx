@@ -2,12 +2,13 @@
 
 import React, { useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
-import { IconArrowsMove } from "@tabler/icons-react";
 import { useSortable } from "@dnd-kit/react/sortable";
 
 import { afterDragUpdate } from "@/services/tasks";
 import { Task } from "@/types/task";
 import { TaskStatus } from "@/lib/constants/task";
+import { useToast } from "@/hooks/useToast";
+import { MoveIcon } from "@/components/icons";
 
 export default function TaskItem({
   id,
@@ -22,6 +23,7 @@ export default function TaskItem({
   children?: React.ReactNode;
   task: Task;
 }) {
+  const toast = useToast();
   const { ref, sortable, isDropping, handleRef } = useSortable({
     id,
     index,
@@ -40,7 +42,7 @@ export default function TaskItem({
 
   useEffect(() => {
     if (isDropping && !sameStatus) {
-      afterDragUpdate(id, status);
+      toast(afterDragUpdate(id, status), "update");
     }
   }, [id, status, isDropping]);
 
@@ -50,9 +52,8 @@ export default function TaskItem({
         <div className="flex flex-row justify-start items-center gap-x-2">
           <span
             ref={handleRef}
-            className="p-1 opacity-35 active:opacity-100 *:opacity-35 *:active:opacity-100"
-          >
-            <IconArrowsMove size={14} />
+            className="p-1 opacity-65 active:opacity-100 *:opacity-65 *:active:opacity-100 dark:opacity-100">
+            <MoveIcon size={16} className="dark:text-white h-4 w-4 rotate-45" />
           </span>
           {children}
         </div>
