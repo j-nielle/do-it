@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Button } from "@heroui/button";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { createSession } from "@/lib/actions/auth";
 
 export default function Register() {
@@ -17,6 +18,7 @@ export default function Register() {
     e.preventDefault();
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
+
       await createSession(cred.user.uid);
     } catch (error) {
       console.error("Registration failed:", error);
@@ -45,7 +47,7 @@ export default function Register() {
           />
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button className="w-full" type="submit">
           Create Account
         </Button>
       </Form>

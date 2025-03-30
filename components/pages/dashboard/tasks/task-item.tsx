@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { IconArrowsMove } from "@tabler/icons-react";
 import { useSortable } from "@dnd-kit/react/sortable";
+
 import { afterDragUpdate } from "@/services/tasks";
 import { Task } from "@/types/task";
 import { TaskStatus } from "@/lib/constants/task";
@@ -44,7 +45,7 @@ export default function TaskItem({
   }, [id, status, isDropping]);
 
   return (
-    <Card className="cursor-grab" ref={ref} id={id} shadow="sm" radius="sm">
+    <Card ref={ref} className="cursor-grab" id={id} radius="sm" shadow="sm">
       <CardBody>
         <div className="flex flex-row justify-start items-center gap-x-2">
           <span

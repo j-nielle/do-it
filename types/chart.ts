@@ -1,4 +1,5 @@
 import { ApexOptions } from "apexcharts";
+
 import { Task } from "./task";
 
 type ChartDimensions = {

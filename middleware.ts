@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+
 import {
   DASHBOARD_ROUTE,
   ROOT_ROUTE,
@@ -12,6 +13,7 @@ export default function middleware(request: NextRequest) {
 
   if (!session && protectedRoutes.includes(request.nextUrl.pathname)) {
     const absoluteURL = new URL(ROOT_ROUTE, request.url);
+
     return NextResponse.redirect(absoluteURL.toString());
   }
 
@@ -21,6 +23,7 @@ export default function middleware(request: NextRequest) {
       authRoutes.includes(request.nextUrl.pathname)
     ) {
       const absoluteURL = new URL(DASHBOARD_ROUTE, request.url);
+
       return NextResponse.redirect(absoluteURL.toString());
     }
   }

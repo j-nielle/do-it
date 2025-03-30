@@ -4,6 +4,7 @@ import {
   type User,
   onAuthStateChanged,
 } from "firebase/auth";
+
 import { createSession, removeSession } from "@/lib/actions/auth";
 import { auth, googleProvider } from "@/config/firebase";
 

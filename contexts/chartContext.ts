@@ -1,7 +1,8 @@
 "use client";
 
-import { ChartContext as Context } from "@/types/chart";
 import { createContext } from "react";
+
+import { ChartContext as Context } from "@/types/chart";
 
 export const ChartContext = createContext<{
   chartContext: Context;

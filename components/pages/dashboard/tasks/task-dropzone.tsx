@@ -3,6 +3,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
+
 import { Task, TaskContainer, TaskDragData } from "@/types/task";
 import { deleteTask, getTasks, onTasksUpdate } from "@/services/tasks";
 import { TaskStatus as Status } from "@/lib/constants/task";
@@ -56,6 +57,7 @@ export default function TaskDropzone() {
 
   const loadTasks = async () => {
     const tasks = await getTasks();
+
     setTasks(tasks);
   };
 
@@ -66,8 +68,10 @@ export default function TaskDropzone() {
   const handleDropEnd = (event: any) => {
     const { source, target } = event.operation;
     const { data } = source as { data: TaskDragData };
+
     if (data && "task" in data) {
       const { task } = data;
+
       if (target && target.id === "TRASH_ZONE") {
         deleteTask(task.id);
       }
@@ -75,7 +79,7 @@ export default function TaskDropzone() {
   };
 
   return (
-    <DragDropProvider onDragOver={handleDragOver} onDragEnd={handleDropEnd}>
+    <DragDropProvider onDragEnd={handleDropEnd} onDragOver={handleDragOver}>
       <TaskSection tasks={containers.BACKLOG} />
       <BoardSection tasks={containers} />
     </DragDropProvider>

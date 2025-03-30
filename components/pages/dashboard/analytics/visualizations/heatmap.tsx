@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useContext } from "react";
+
 import { Chart } from "@/components/charts";
 import { STATUS_ORDER, TaskStatus as TS } from "@/lib/constants/task";
 import { ChartContext } from "@/contexts/chartContext";
@@ -21,5 +22,5 @@ export default function Heatmap() {
     });
   }, [tasks]);
 
-  return <Chart type="heatmap" options={heatmapOptions} series={series} />;
+  return <Chart options={heatmapOptions} series={series} type="heatmap" />;
 }

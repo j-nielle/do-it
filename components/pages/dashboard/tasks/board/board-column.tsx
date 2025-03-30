@@ -15,12 +15,13 @@ export default function BoardColumn({
   const { ref } = useDroppable({
     id,
   });
+
   return (
     <Card
       ref={ref}
-      shadow="sm"
-      radius="sm"
       className={clsx("min-h-32 transition-colors", className)}
+      radius="sm"
+      shadow="sm"
     >
       <CardBody className="flex flex-col gap-2">{children}</CardBody>
     </Card>

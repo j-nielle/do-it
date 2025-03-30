@@ -57,6 +57,7 @@ export const rangeBarOptions: ApexOptions = {
       const diff = Math.floor(
         (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24),
       );
+
       return `${title}: ${diff + (diff > 1 ? " days" : " day")}`;
     },
     style: {

@@ -8,14 +8,16 @@ import {
 } from "@heroui/navbar";
 import { Link } from "@heroui/link";
 import { cookies } from "next/headers";
-import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
+
 import {
   AuthNavLink,
   NavLinkItems,
   NavLogoLink,
   NavMenuItems,
 } from "./nav-link";
+
+import { siteConfig } from "@/config/site";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { SESSION_COOKIE_NAME } from "@/lib/config/server";
 import { GithubIcon } from "@/components/icons";
 
@@ -25,11 +27,11 @@ export const Navbar = async () => {
 
   return (
     <HeroUINavbar
-      maxWidth="full"
-      position="sticky"
       classNames={{
         wrapper: "!px-4",
       }}
+      maxWidth="full"
+      position="sticky"
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">

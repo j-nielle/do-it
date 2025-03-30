@@ -8,6 +8,7 @@ import { link as linkStyles } from "@heroui/theme";
 import { usePathname } from "next/navigation";
 import { Button } from "@heroui/button";
 import { NavbarItem, NavbarMenuItem } from "@heroui/navbar";
+
 import { siteConfig } from "@/config/site";
 import { handleLogout } from "@/lib/firebase/auth";
 import { useUserSession } from "@/hooks/useUserSession";
@@ -54,6 +55,7 @@ export const NavLogoLink = ({ session }: { session: string | null }) => {
 
 export const NavLinkItems = ({ session }: { session: string | null }) => {
   const userSessionId = useUserSession(session);
+
   return (
     userSessionId && (
       <div className="hidden sm:flex">

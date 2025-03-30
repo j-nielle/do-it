@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardBody } from "@heroui/card";
+
 import { Heatmap, TimelineChart } from "./visualizations";
 
 export default function AnalyticsSection() {

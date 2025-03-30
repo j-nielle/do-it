@@ -19,6 +19,7 @@ import {
   IconCheckbox,
   IconArchive,
 } from "@tabler/icons-react";
+
 import {
   defaultTaskInput,
   TaskCategory,
@@ -55,12 +56,14 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
 
   const handleSelectCategory = (keys: SharedSelection) => {
     const selectedValue = Array.from(keys)[0] as string;
+
     setValues((prev) => ({ ...prev, category: selectedValue }));
   };
 
   const handleSelectDateRange = (value: DateRange) => {
     if (!value?.start || !value?.end) {
       console.warn("Date range is incomplete or null");
+
       return;
     }
 
@@ -123,18 +126,18 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
     <Form className="w-full" id="taskForm" onSubmit={handleSubmit}>
       <Input
         isRequired
-        type="text"
+        aria-label="Task Title"
         id="title"
         label="Task Title"
-        aria-label="Task Title"
         placeholder="Enter title"
+        type="text"
         value={values.title}
         onValueChange={handleInput}
       />
       <Select
         isRequired
-        label="Task Category"
         aria-label="Task Category"
+        label="Task Category"
         placeholder="Select category"
         onSelectionChange={handleSelectCategory}
       >
@@ -177,8 +180,8 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
       </Select>
       <Select
         isRequired
-        label="Task Status"
         aria-label="Task Status"
+        label="Task Status"
         placeholder="Select status"
         onSelectionChange={handleSelectStatus}
       >
@@ -203,16 +206,16 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
       </Select>
       {values.status !== TS.BACKLOG && (
         <DateRangePicker
-          label={getDateRangeLabel(values.status as TS)}
+          isRequired
           aria-label="Task Duration"
+          label={getDateRangeLabel(values.status as TS)}
+          maxValue={getDateRangeMaxValue(values.status as TS)}
           value={isTaskPlanned(
             values.status as TS,
             values.actual,
             values.planned,
           )}
-          maxValue={getDateRangeMaxValue(values.status as TS)}
           onChange={handleSelectDateRange}
-          isRequired
         />
       )}
     </Form>

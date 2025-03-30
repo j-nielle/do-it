@@ -1,15 +1,18 @@
 import { DateValue } from "@react-types/datepicker";
 import { differenceInDays } from "date-fns";
 import { Timestamp } from "firebase/firestore";
+
 import { WEEK_DAYS } from "@/lib/constants/date";
 
 export const timestamp = (dateValue: DateValue): Timestamp => {
   const date = new Date(dateValue.year, dateValue.month - 1, dateValue.day);
+
   return Timestamp.fromDate(date);
 };
 
 export const getLocalDateString = (date: Date) => {
   if (!date) return;
+
   return new Date(date.toLocaleString("en-US", { timeZone: "Asia/Manila" }))
     .toISOString()
     .split("T")[0];
@@ -17,6 +20,7 @@ export const getLocalDateString = (date: Date) => {
 
 export const getWeekday = (seconds: number) => {
   const date = new Date(seconds * 1000);
+
   return WEEK_DAYS[date.getDay()];
 };
 
@@ -61,7 +65,9 @@ export const isToday = (timestamp: Timestamp) => {
 
   const getDateObject = (parts: Intl.DateTimeFormatPart[]) => {
     const obj: { [key: string]: string } = {};
+
     parts.forEach((part) => (obj[part.type] = part.value));
+
     return obj;
   };
 

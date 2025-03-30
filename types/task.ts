@@ -1,6 +1,8 @@
-import { TaskStatus } from "@/lib/constants/task";
-import { DateRange } from "./date";
 import { Timestamp } from "firebase/firestore";
+
+import { DateRange } from "./date";
+
+import { TaskStatus } from "@/lib/constants/task";
 
 export enum ActionTrigger {
   USER_ADD = "USER_ADD",

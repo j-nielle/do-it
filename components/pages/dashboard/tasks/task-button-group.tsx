@@ -12,6 +12,7 @@ import {
   useDisclosure,
   useDraggable,
 } from "@heroui/modal";
+
 import TaskForm from "./task-form";
 import TaskDeleteZone from "./task-delete-zone";
 
@@ -19,11 +20,12 @@ export default function TaskButtonGroup() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const targetRef = useRef<HTMLElement>(null!);
   const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen });
+
   return (
     <>
       <CardHeader className="flex gap-3">
         <div className="flex flex-col md:flex-row justify-between gap-3 w-full">
-          <Button color="primary" fullWidth onPress={onOpen}>
+          <Button fullWidth color="primary" onPress={onOpen}>
             Add new task
           </Button>
           <TaskDeleteZone />
@@ -32,9 +34,9 @@ export default function TaskButtonGroup() {
       <Modal
         ref={targetRef}
         {...moveProps}
-        size="sm"
         isOpen={isOpen}
         placement="top"
+        size="sm"
         onOpenChange={onOpenChange}
       >
         <ModalContent>
@@ -55,7 +57,7 @@ export default function TaskButtonGroup() {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" fullWidth color="primary" form="taskForm">
+                <Button fullWidth color="primary" form="taskForm" type="submit">
                   Save
                 </Button>
               </ModalFooter>

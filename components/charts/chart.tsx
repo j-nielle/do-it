@@ -1,8 +1,9 @@
 "use client";
 
-import { CommonChartProps } from "@/types/chart";
 import { useId } from "react";
 import ReactApexChart from "react-apexcharts";
+
+import { CommonChartProps } from "@/types/chart";
 
 export default function Chart({
   options,
@@ -11,14 +12,15 @@ export default function Chart({
   type = "heatmap",
 }: CommonChartProps) {
   const id = useId();
+
   return (
     <ReactApexChart
+      height={dimensions?.height}
       id={id}
       options={options}
       series={series}
       type={type}
       width={dimensions?.width}
-      height={dimensions?.height}
     />
   );
 }

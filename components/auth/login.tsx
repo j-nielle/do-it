@@ -5,6 +5,7 @@ import { Button } from "@heroui/button";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { signInWithEmailAndPassword } from "firebase/auth";
+
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
 import { createSession } from "@/lib/actions/auth";
@@ -17,6 +18,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
+
       await createSession(cred.user.uid);
     } catch (error) {
       console.error("Login failed:", error);
@@ -45,7 +47,7 @@ export default function Login() {
           />
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button className="w-full" type="submit">
           Sign In
         </Button>
       </Form>

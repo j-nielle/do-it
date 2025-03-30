@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+
 import { getWeekday } from "@/lib/helpers/getters/date";
 import { TaskStatus as TS } from "@/lib/constants/task";
 import { Task } from "@/types/task";
@@ -13,13 +14,14 @@ export const weekdayCounts = (tasks: Task[]) => {
       const isCompleted = t.status === TS.COMPLETED;
 
       const end = isToDo
-        ? (t.planned?.end as Timestamp).seconds
+        ? ((t.planned?.end as Timestamp).seconds ?? 0)
         : isInProgress || isCompleted
-          ? (t.actual?.end as Timestamp).seconds
+          ? ((t.actual?.end as Timestamp).seconds ?? 0)
           : 0;
       const weekday = getWeekday(end);
 
       acc[weekday] = (acc[weekday] || 0) + 1;
+
       return acc;
     },
     {} as Record<string, number>,

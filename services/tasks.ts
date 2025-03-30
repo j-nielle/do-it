@@ -12,6 +12,7 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
+
 import { db, tasksCollection } from "@/config/firebase";
 import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
 import { TaskStatus as TS } from "@/lib/constants/task";
@@ -45,6 +46,7 @@ export function subscribeToTasks(
       id: doc.id,
       ...doc.data(),
     })) as Task[];
+
     callback(tasks);
   });
 }
@@ -189,6 +191,7 @@ export async function addTask(fields: TaskInputFields) {
 export async function deleteTask(taskId: string) {
   try {
     const tasksRef = doc(db, "tasks", taskId);
+
     await deleteDoc(tasksRef);
   } catch (error) {
     console.error("Error adding document: ", error);

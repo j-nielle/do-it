@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useContext, useMemo } from "react";
+
 import { Chart } from "@/components/charts";
 import { ChartContext } from "@/contexts/chartContext";
 import { rangeBarOptions } from "@/lib/config/chart";
@@ -15,5 +16,5 @@ export default function TimelineChart() {
     return getTimeline(tasks);
   }, [tasks]);
 
-  return <Chart type="rangeBar" options={rangeBarOptions} series={series} />;
+  return <Chart options={rangeBarOptions} series={series} type="rangeBar" />;
 }
