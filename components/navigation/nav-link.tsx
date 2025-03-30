@@ -100,7 +100,7 @@ export const NavMenuItems = ({ session }: { session: string | null }) => {
         </NavbarMenuItem>
       ) : (
         <>
-          {siteConfig.navMenuItems.map((item, index) => (
+          {/* {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color={item.href === pathname ? "primary" : "foreground"}
@@ -110,7 +110,7 @@ export const NavMenuItems = ({ session }: { session: string | null }) => {
                 {item.label}
               </Link>
             </NavbarMenuItem>
-          ))}
+          ))} */}
           <Button onPress={handleLogout}>Logout</Button>
         </>
       )}
