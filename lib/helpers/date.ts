@@ -1,10 +1,11 @@
 import { DateValue } from "@react-types/datepicker";
 import { differenceInDays } from "date-fns";
 import { Timestamp } from "firebase/firestore";
+import { WEEK_DAYS } from "../constants";
 
 export const timestamp = (
   dateValue: DateValue,
-  timeZone: string = "UTC"
+  timeZone: string = "Asia/Manila"
 ): Timestamp => {
   const date = new Date(dateValue.year, dateValue.month - 1, dateValue.day);
   return Timestamp.fromDate(date);
@@ -15,6 +16,11 @@ export const getLocalDateString = (date: Date) => {
   return new Date(date.toLocaleString("en-US", { timeZone: "Asia/Manila" }))
     .toISOString()
     .split("T")[0];
+};
+
+export const getWeekday = (seconds: number) => {
+  const date = new Date(seconds * 1000);
+  return WEEK_DAYS[date.getDay()];
 };
 
 export const getDifference = (

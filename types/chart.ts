@@ -1,5 +1,5 @@
-import { TaskStatus } from "@/lib/constants";
 import { ApexOptions } from "apexcharts";
+import { Task } from "./task";
 
 type ChartDimensions = {
   width?: string | number;
@@ -15,7 +15,6 @@ export interface CommonChartProps {
   type?: ApexChartType;
 }
 
-export interface StatusCountData {
-  statusCounts?: Record<TaskStatus, number>;
-  counts?: number[];
+export interface ChartContext {
+  tasks: Task[];
 }

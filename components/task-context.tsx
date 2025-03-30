@@ -1,21 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import { TaskContext } from "@/contexts/taskContext";
-import { StatusCountData } from "@/types/chart";
+import { ChartContext as Context } from "@/contexts/chartContext";
+import { ChartContext } from "@/types/chart";
 
-export default function TaskContextWrapper({
+export default function ChartContextWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [chartData, setChartData] = useState<StatusCountData>({
-    statusCounts: { BACKLOG: 0, TODO: 0, IN_PROGRESS: 0, COMPLETED: 0 },
-    counts: [],
+  const [chartContext, setChartContext] = useState<ChartContext>({
+    tasks: [],
   });
   return (
-    <TaskContext.Provider value={{ chartData, setChartData }}>
+    <Context.Provider value={{ chartContext, setChartContext }}>
       {children}
-    </TaskContext.Provider>
+    </Context.Provider>
   );
 }

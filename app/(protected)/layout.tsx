@@ -1,4 +1,4 @@
-import TaskContextWrapper from "@/components/task-context";
+import ChartContextWrapper from "@/components/task-context";
 import React from "react";
 
 export default function MainLayout({
@@ -6,5 +6,5 @@ export default function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <TaskContextWrapper>{children}</TaskContextWrapper>;
+  return <ChartContextWrapper>{children}</ChartContextWrapper>;
 }

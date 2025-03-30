@@ -22,7 +22,7 @@ export default function TaskButtonGroup() {
   return (
     <>
       <CardHeader className="flex gap-3">
-        <div className="flex flex-row justify-between gap-3 w-full">
+        <div className="flex flex-col md:flex-row justify-between gap-3 w-full">
           <Button color="primary" fullWidth onPress={onOpen}>
             Add new task
           </Button>

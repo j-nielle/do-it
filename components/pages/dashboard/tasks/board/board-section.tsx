@@ -8,7 +8,7 @@ import BoardColumn from "./board-column";
 
 export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
   return (
-    <section className="sm:col-span-3 flex flex-col gap-2 min-h-[346px]">
+    <section className="sm:col-span-3 flex flex-col gap-2">
       <p className="font-bold text-xl">Kanban Board</p>
       <Card className="h-full" radius="sm">
         <CardBody>

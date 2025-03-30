@@ -8,8 +8,18 @@ export default function TaskDeleteZone() {
   });
 
   return (
-    <Button ref={ref} isIconOnly variant="faded">
-      <IconTrash size={16} />
+    <Button
+      color="danger"
+      ref={ref}
+      isIconOnly
+      variant="faded"
+      className="w-full md:w-fit !border-dashed !border-red-500 hover:!bg-red-500 hover:!text-white hover:!border-white">
+      <span className="flex flex-row justify-between items-center gap-4">
+        <p className="md:hidden font-medium">Drop to delete</p>
+        <span className="hidden md:block">
+          <IconTrash size={16} />
+        </span>
+      </span>
     </Button>
   );
 }

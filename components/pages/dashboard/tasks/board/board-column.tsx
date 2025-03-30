@@ -20,7 +20,7 @@ export default function BoardColumn({
       ref={ref}
       shadow="sm"
       radius="sm"
-      className={clsx("h-full transition-colors", className)}
+      className={clsx("min-h-32 transition-colors", className)}
     >
       <CardBody className="flex flex-col gap-2">{children}</CardBody>
     </Card>
