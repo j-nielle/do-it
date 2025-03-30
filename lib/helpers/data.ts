@@ -3,6 +3,7 @@ import { getLocalTimeZone, today } from "@internationalized/date";
 import { getWeekday } from "./date";
 import { Task } from "@/types/task";
 import { STATUS_ORDER, TaskStatus as TS, WEEK_DAYS } from "@/lib/constants";
+import { Timestamp } from "firebase/firestore";
 
 export const getProgress = (status: TS) => {
   return status === TS.IN_PROGRESS ? 50 : status === TS.COMPLETED ? 100 : 0;
@@ -19,7 +20,7 @@ export const getDateRangeLabel = (status: TS) => {
 export const isTaskPlanned = (
   status: TS,
   actual: DateRange | null,
-  planned: DateRange | null,
+  planned: DateRange | null
 ) => {
   return status === TS.IN_PROGRESS || status === TS.COMPLETED
     ? actual
@@ -34,16 +35,22 @@ export const getDateRangeMaxValue = (status: TS) => {
 
 export const weekdayCounts = (tasks: Task[]) => {
   const counts = tasks.reduce(
-    (acc, task) => {
-      if (!task.statusHistory.length) return acc;
+    (acc, t) => {
+      const isToDo = t.status === TS.TODO;
+      const isInProgress = t.status === TS.IN_PROGRESS;
+      const isCompleted = t.status === TS.COMPLETED;
 
-      const lastEntry = task.statusHistory[task.statusHistory.length - 1];
-      const weekday = getWeekday(lastEntry.timestamp.seconds);
+      const end = isToDo
+        ? (t.planned?.end as Timestamp).seconds
+        : isInProgress || isCompleted
+          ? (t.actual?.end as Timestamp).seconds
+          : 0;
+      const weekday = getWeekday(end);
 
       acc[weekday] = (acc[weekday] || 0) + 1;
       return acc;
     },
-    {} as Record<string, number>,
+    {} as Record<string, number>
   );
 
   return WEEK_DAYS.map((day) => ({
@@ -60,7 +67,7 @@ export const getStatusCounts = (tasks: Task[]) => {
       acc[lastStatus] = (acc[lastStatus] || 0) + 1;
       return acc;
     },
-    {} as Record<TS, number>,
+    {} as Record<TS, number>
   );
 
   const counts = STATUS_ORDER.map((status) => statusCounts[status] || 0);
