@@ -45,7 +45,7 @@ export default async function RootLayout({
           inconsolata.className,
         )}
       >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
             <main className="w-full px-4 pt-6 sm:px-6 flex-grow">
