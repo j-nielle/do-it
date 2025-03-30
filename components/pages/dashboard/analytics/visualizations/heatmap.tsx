@@ -2,13 +2,10 @@
 
 import React, { useMemo, useContext } from "react";
 import { Chart } from "@/components/charts";
-import {
-  heatmapOptions,
-  STATUS_ORDER,
-  TaskStatus as TS,
-} from "@/lib/constants";
+import { STATUS_ORDER, TaskStatus as TS } from "@/lib/constants/task";
 import { ChartContext } from "@/contexts/chartContext";
-import { weekdayCounts } from "@/lib/helpers/data";
+import { heatmapOptions } from "@/lib/config/chart";
+import { weekdayCounts } from "@/lib/helpers/getters/charts";
 
 export default function Heatmap() {
   const {

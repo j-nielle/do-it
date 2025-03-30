@@ -6,7 +6,7 @@ import { IconArrowsMove } from "@tabler/icons-react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { afterDragUpdate } from "@/services/tasks";
 import { Task } from "@/types/task";
-import { TaskStatus } from "@/lib/constants";
+import { TaskStatus } from "@/lib/constants/task";
 
 export default function TaskItem({
   id,

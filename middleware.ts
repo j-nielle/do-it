@@ -5,7 +5,7 @@ import {
   SESSION_COOKIE_NAME,
   protectedRoutes,
   authRoutes,
-} from "@/lib/constants";
+} from "@/lib/config/server";
 
 export default function middleware(request: NextRequest) {
   const session = request.cookies.get(SESSION_COOKIE_NAME)?.value || "";

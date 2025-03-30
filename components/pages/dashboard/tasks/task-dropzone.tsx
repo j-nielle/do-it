@@ -5,7 +5,7 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 import { Task, TaskContainer, TaskDragData } from "@/types/task";
 import { deleteTask, getTasks, onTasksUpdate } from "@/services/tasks";
-import { TaskStatus as Status } from "@/lib/constants";
+import { TaskStatus as Status } from "@/lib/constants/task";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
 import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
 import { ChartContext } from "@/contexts/chartContext";
@@ -29,7 +29,10 @@ export default function TaskDropzone() {
   }, []);
 
   useEffect(() => {
-    if (tasks) setChartContext({ tasks });
+    if (tasks) {
+      setChartContext({ tasks });
+      console.log(tasks);
+    }
   }, [tasks]);
 
   useEffect(() => {

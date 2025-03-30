@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody } from "@heroui/card";
 import { TaskContainer } from "@/types/task";
-import { TASK_COLUMNS } from "@/lib/constants";
+import { TASK_COLUMNS } from "@/lib/constants/task";
 import { taskColumnStyles } from "@/lib/variants/task";
 import TaskItem from "@/components/pages/dashboard/tasks/task-item";
 import BoardColumn from "./board-column";

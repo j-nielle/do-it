@@ -1,72 +1,7 @@
 import { ApexOptions } from "apexcharts";
-import { TaskInputFields } from "@/types/task";
 
-export const ROOT_ROUTE = "/";
-export const DASHBOARD_ROUTE = "/dashboard";
-export const SETTINGS_ROUTE = "/settings";
-export const LOGIN_ROUTE = "/login";
-export const REGISTER_ROUTE = "/register";
-
-export const protectedRoutes = [DASHBOARD_ROUTE, SETTINGS_ROUTE];
-export const authRoutes = [LOGIN_ROUTE, REGISTER_ROUTE];
-
-export const SESSION_COOKIE_NAME = "user_session";
-
-export const WEEK_DAYS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-/** tasks-related section */
-
-export enum TaskStatus {
-  BACKLOG = "BACKLOG",
-  TODO = "TODO",
-  IN_PROGRESS = "IN_PROGRESS",
-  COMPLETED = "COMPLETED",
-}
-
-export enum TaskCategory {
-  HEALTH = "HEALTH",
-  WORK = "WORK",
-  LEARNING = "LEARNING",
-  FINANCE = "FINANCE",
-  SOCIAL = "SOCIAL",
-  UNCATEGORIZED = "UNCATEGORIZED",
-}
-
-export const STATUS_ORDER = [
-  TaskStatus.BACKLOG,
-  TaskStatus.TODO,
-  TaskStatus.IN_PROGRESS,
-  TaskStatus.COMPLETED,
-];
-
-export const TASK_COLUMNS = [
-  { id: "TODO", title: "To Do" },
-  { id: "IN_PROGRESS", title: "In Progress" },
-  { id: "COMPLETED", title: "Completed" },
-] as const;
-
-export const defaultTaskInput: TaskInputFields = {
-  title: "",
-  category: "",
-  status: "",
-  planned: null,
-  actual: null,
-  progress: 0,
-  statusHistory: [],
-};
-
-/** charts-related section */
-
-// range bar
 export const STATUS_COLORS = ["#dde4ec", "#7eaef8", "#f2ce5e", "#6fda96"];
+
 export const rangeBarOptions: ApexOptions = {
   chart: {
     height: 150,
@@ -156,7 +91,6 @@ export const rangeBarOptions: ApexOptions = {
   },
 };
 
-// heatmap
 export const heatmapOptions: ApexOptions = {
   chart: {
     height: 450,

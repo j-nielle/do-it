@@ -3,8 +3,8 @@
 import React, { useContext, useMemo } from "react";
 import { Chart } from "@/components/charts";
 import { ChartContext } from "@/contexts/chartContext";
-import { rangeBarOptions } from "@/lib/constants";
-import { getTimeline } from "@/lib/helpers/data";
+import { rangeBarOptions } from "@/lib/config/chart";
+import { getTimeline } from "@/lib/helpers/getters/charts";
 
 export default function TimelineChart() {
   const {

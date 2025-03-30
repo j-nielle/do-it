@@ -14,9 +14,9 @@ import {
 } from "firebase/firestore";
 import { db, tasksCollection } from "@/config/firebase";
 import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
-import { TaskStatus as TS } from "@/lib/constants";
-import { getDifference, isToday, timestamp } from "@/lib/helpers/date";
-import { getProgress } from "@/lib/helpers/data";
+import { TaskStatus as TS } from "@/lib/constants/task";
+import { getDifference, isToday, timestamp } from "@/lib/helpers/getters/date";
+import { getProgress } from "@/lib/helpers/getters/task";
 
 export const tasksRef = collection(db, "tasks");
 

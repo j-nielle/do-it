@@ -3,7 +3,7 @@ import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
 import { TaskBacklog } from "./task-backlog";
 import TaskButtonGroup from "./task-button-group";
-import { TaskStatus } from "@/lib/constants";
+import { TaskStatus } from "@/lib/constants/task";
 import { Task } from "@/types/task";
 
 export default function TaskSection({ tasks }: { tasks: Task[] }) {

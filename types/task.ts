@@ -1,4 +1,4 @@
-import { TaskStatus } from "@/lib/constants";
+import { TaskStatus } from "@/lib/constants/task";
 import { DateRange } from "./date";
 import { Timestamp } from "firebase/firestore";
 

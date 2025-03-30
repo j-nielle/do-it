@@ -1,7 +1,7 @@
 import { DateValue } from "@react-types/datepicker";
 import { differenceInDays } from "date-fns";
 import { Timestamp } from "firebase/firestore";
-import { WEEK_DAYS } from "../constants";
+import { WEEK_DAYS } from "@/lib/constants/date";
 
 export const timestamp = (dateValue: DateValue): Timestamp => {
   const date = new Date(dateValue.year, dateValue.month - 1, dateValue.day);

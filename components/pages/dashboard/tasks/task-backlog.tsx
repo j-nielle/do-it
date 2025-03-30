@@ -2,7 +2,7 @@ import { useDroppable } from "@dnd-kit/react";
 import { Card, CardBody } from "@heroui/card";
 import TaskItem from "./task-item";
 import { ScrollArea } from "@/components/shadcn-ui/scroll-area";
-import { TaskStatus } from "@/lib/constants";
+import { TaskStatus } from "@/lib/constants/task";
 import { Task } from "@/types/task";
 
 interface TaskBacklogProps {

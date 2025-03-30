@@ -7,7 +7,7 @@ import {
   DASHBOARD_ROUTE,
   ROOT_ROUTE,
   SESSION_COOKIE_NAME,
-} from "@/lib/constants";
+} from "@/lib/config/server";
 
 export async function createSession(uid: string) {
   const cookieStore = await cookies();

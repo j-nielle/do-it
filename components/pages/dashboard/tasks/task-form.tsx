@@ -23,7 +23,7 @@ import {
   defaultTaskInput,
   TaskCategory,
   TaskStatus as TS,
-} from "@/lib/constants";
+} from "@/lib/constants/task";
 import { addTask } from "@/services/tasks";
 import { ActionTrigger, TaskInputFields } from "@/types/task";
 import { DateRange } from "@/types/date";
@@ -32,7 +32,7 @@ import {
   getDateRangeMaxValue,
   getProgress,
   isTaskPlanned,
-} from "@/lib/helpers/data";
+} from "@/lib/helpers/getters/task";
 
 export default function TaskForm({ onClose }: { onClose: () => void }) {
   const [values, setValues] = useState<TaskInputFields>(defaultTaskInput);

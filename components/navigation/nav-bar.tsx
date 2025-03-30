@@ -16,7 +16,7 @@ import {
   NavLogoLink,
   NavMenuItems,
 } from "./nav-link";
-import { SESSION_COOKIE_NAME } from "@/lib/constants";
+import { SESSION_COOKIE_NAME } from "@/lib/config/server";
 import { GithubIcon } from "@/components/icons";
 
 export const Navbar = async () => {
