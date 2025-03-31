@@ -3,7 +3,7 @@ import { Card, CardBody } from "@heroui/card";
 
 import TaskItem from "./task-item";
 
-import { ScrollArea } from "@/components/shadcn-ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { TaskStatus } from "@/lib/constants/task";
 import { Task } from "@/types/task";
 
