@@ -5,7 +5,12 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 
 import { Task, TaskContainer, TaskDragData } from "@/types/task";
-import { deleteTask, getTasks, onTasksUpdate } from "@/services/tasks";
+import {
+  afterDragUpdate,
+  deleteTask,
+  getTasks,
+  onTasksUpdate,
+} from "@/services/tasks";
 import { TaskStatus as Status } from "@/lib/constants/task";
 import TaskSection from "@/components/pages/dashboard/tasks/task-section";
 import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
@@ -15,6 +20,7 @@ import { useToast } from "@/hooks/useToast";
 export default function TaskDropzone() {
   const toast = useToast();
   const { setChartContext } = useContext(ChartContext);
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [containers, setContainers] = useState<TaskContainer>({
     BACKLOG: [],
@@ -63,6 +69,11 @@ export default function TaskDropzone() {
   };
 
   const handleDragOver = (event: any) => {
+    // const { target } = event.operation;
+
+    // if (target && target.id === "TRASH_ZONE") {
+    //   return;
+    // }
     setContainers((items) => move(items, event));
   };
 
@@ -70,11 +81,16 @@ export default function TaskDropzone() {
     const { source, target } = event.operation;
     const { data } = source as { data: TaskDragData };
 
-    if (data && "task" in data) {
-      const { task } = data;
+    if (data && "task" in data && "selectedStatus" in data) {
+      const { task, selectedStatus } = data;
+      const { statusHistory: history } = task;
+      const sameStatus = history[history.length - 1].status === selectedStatus;
 
       if (target && target.id === "TRASH_ZONE") {
-        toast(deleteTask(task.id), 'delete');
+        toast(deleteTask(task.id), "delete");
+      }
+      if (!sameStatus) {
+        toast(afterDragUpdate(task.id, selectedStatus), "update");
       }
     }
   };
