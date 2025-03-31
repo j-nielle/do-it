@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { Chart } from "@/components/charts";
 import { ChartContext } from "@/contexts/chartContext";
 import { rangeBarOptions } from "@/lib/config/chart";
-import { getTimeline } from "@/lib/helpers/getters/charts";
+import { getTimeline } from "@/lib/helpers/charts";
 
 export default function TimelineChart() {
   const { theme } = useTheme();

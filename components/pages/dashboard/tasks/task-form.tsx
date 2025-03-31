@@ -34,7 +34,7 @@ import {
   getDateRangeMaxValue,
   getProgress,
   isTaskPlanned,
-} from "@/lib/helpers/getters/task";
+} from "@/lib/helpers/task";
 
 export default function TaskForm({ onClose }: { onClose: () => void }) {
   const toast = useToast();

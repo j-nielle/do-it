@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
-import { getWeekday } from "@/lib/helpers/getters/date";
+import { getWeekday } from "@/lib/helpers/date";
 import { TaskStatus as TS } from "@/lib/constants/task";
 import { Task } from "@/types/task";
 import { WEEK_DAYS } from "@/lib/constants/date";
