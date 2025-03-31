@@ -7,24 +7,8 @@ import { Input } from "@heroui/input";
 import { DateRangePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from "@heroui/select";
 import { SharedSelection } from "@heroui/system";
-import {
-  IconBooks,
-  IconBrandGoogleFit,
-  IconBriefcase,
-  IconHourglassHigh,
-  IconCoin,
-  IconGlassChampagne,
-  IconPin,
-  IconQuestionMark,
-  IconCheckbox,
-  IconArchive,
-} from "@tabler/icons-react";
 
-import {
-  defaultTaskInput,
-  TaskCategory,
-  TaskStatus as TS,
-} from "@/lib/constants/task";
+import { CATEGORIES, defaultTaskInput, STATUSES, TaskStatus as TS } from "@/lib/constants/task";
 import { addTask } from "@/services/tasks";
 import { ActionTrigger, TaskInputFields } from "@/types/task";
 import { DateRange } from "@/types/date";
@@ -35,6 +19,8 @@ import {
   getProgress,
   isTaskPlanned,
 } from "@/lib/helpers/task";
+import CategoryIcon from "@/components/ui/task/category-icon";
+import StatusIcon from "@/components/ui/task/status-icon";
 
 export default function TaskForm({ onClose }: { onClose: () => void }) {
   const toast = useToast();
@@ -142,36 +128,13 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         label="Task Category"
         placeholder="Select category"
         onSelectionChange={handleSelectCategory}>
-        <SelectItem
-          key={TaskCategory.HEALTH}
-          startContent={<IconBrandGoogleFit size={12} />}>
-          Health
-        </SelectItem>
-        <SelectItem
-          key={TaskCategory.WORK}
-          startContent={<IconBriefcase size={12} />}>
-          Work
-        </SelectItem>
-        <SelectItem
-          key={TaskCategory.LEARNING}
-          startContent={<IconBooks size={12} />}>
-          Learning
-        </SelectItem>
-        <SelectItem
-          key={TaskCategory.FINANCE}
-          startContent={<IconCoin size={12} />}>
-          Finance
-        </SelectItem>
-        <SelectItem
-          key={TaskCategory.SOCIAL}
-          startContent={<IconGlassChampagne size={12} />}>
-          Social
-        </SelectItem>
-        <SelectItem
-          key={TaskCategory.UNCATEGORIZED}
-          startContent={<IconQuestionMark size={12} />}>
-          Uncategorized
-        </SelectItem>
+        {CATEGORIES.map((category) => (
+          <SelectItem
+            key={category.key}
+            startContent={<CategoryIcon category={category.key} />}>
+            {category.label}
+          </SelectItem>
+        ))}
       </Select>
       <Select
         isRequired
@@ -179,22 +142,13 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         label="Task Status"
         placeholder="Select status"
         onSelectionChange={handleSelectStatus}>
-        <SelectItem key={TS.BACKLOG} startContent={<IconArchive size={12} />}>
-          Backlog
-        </SelectItem>
-        <SelectItem key={TS.TODO} startContent={<IconPin size={12} />}>
-          To Do
-        </SelectItem>
-        <SelectItem
-          key={TS.IN_PROGRESS}
-          startContent={<IconHourglassHigh size={12} />}>
-          In Progress
-        </SelectItem>
-        <SelectItem
-          key={TS.COMPLETED}
-          startContent={<IconCheckbox size={12} />}>
-          Completed
-        </SelectItem>
+        {STATUSES.map((status) => (
+          <SelectItem
+            key={status.key}
+            startContent={<StatusIcon status={status.key} />}>
+            {status.label}
+          </SelectItem>
+        ))}
       </Select>
       {values.status !== TS.BACKLOG && (
         <DateRangePicker
