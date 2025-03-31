@@ -2,7 +2,7 @@ import { Timestamp } from "firebase/firestore";
 
 import { DateRange } from "./date";
 
-import { TaskStatus } from "@/lib/constants/task";
+import { TaskCategory, TaskStatus } from "@/lib/constants/task";
 
 export enum ActionTrigger {
   USER_ADD = "USER_ADD",
@@ -52,15 +52,8 @@ export type TaskInputFields = {
 export type TaskDragData = {
   task: Task;
   type: "task";
+  selectedStatus: TaskStatus;
 };
-
-export type TaskCategory =
-  | "HEALTH"
-  | "WORK"
-  | "LEARNING"
-  | "FINANCE"
-  | "SOCIAL"
-  | "UNCATEGORIZED";
 
 export type TaskContainer = {
   BACKLOG: Task[];
