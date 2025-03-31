@@ -46,7 +46,8 @@ export default function CategoryChip({
     <Chip
       color={getChipColor(category)}
       startContent={<CategoryIcon category={category} size={size} />}
-      variant="faded">
+      variant="faded"
+    >
       {category}
     </Chip>
   );
