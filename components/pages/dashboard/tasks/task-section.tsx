@@ -7,12 +7,13 @@ import TaskButtonGroup from "./task-button-group";
 
 import { TaskStatus } from "@/lib/constants/task";
 import { Task } from "@/types/task";
+import TaskDeleteZone from "./task-delete-zone";
 
 export default function TaskSection({ tasks }: { tasks: Task[] }) {
   return (
-    <section className="sm:col-span-1 gap-2">
+    <section className="col-span-2 lg:col-span-1 gap-2">
       <div className="flex flex-col gap-2 h-full">
-        <p className="font-bold text-xl">Tasks Section</p>
+        <TaskDeleteZone />
         <Card className="h-full" radius="sm">
           <TaskButtonGroup />
           <Divider />

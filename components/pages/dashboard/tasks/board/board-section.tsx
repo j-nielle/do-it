@@ -10,29 +10,25 @@ import TaskItem from "@/components/pages/dashboard/tasks/task-item";
 
 export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
   return (
-    <section className="sm:col-span-3 flex flex-col gap-2">
-      <p className="font-bold text-xl">Kanban Board</p>
+    <section className="col-span-2 lg:col-span-3 flex flex-col gap-2">
       <Card className="h-full " radius="sm">
         <CardBody>
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
             {TASK_COLUMNS.map((column) => (
               <BoardColumn
                 key={column.id}
                 className={taskColumnStyles({ status: column.id })}
-                id={column.id}
-              >
+                id={column.id}>
                 <div className="mb-2 font-bold">{column.title}</div>
                 {tasks[column.id].map((task, index) => {
                   return (
                     <TaskItem
-                      key={task.id}
-                      containerId={column.id}
                       id={task.id}
-                      index={index}
+                      key={task.id}
                       task={task}
-                    >
-                      {task.title}
-                    </TaskItem>
+                      index={index}
+                      statusId={column.id}
+                    />
                   );
                 })}
               </BoardColumn>
