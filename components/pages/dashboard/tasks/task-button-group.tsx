@@ -14,7 +14,6 @@ import {
 } from "@heroui/modal";
 
 import TaskForm from "./task-form";
-import TaskDeleteZone from "./task-delete-zone";
 
 export default function TaskButtonGroup() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -26,9 +25,8 @@ export default function TaskButtonGroup() {
       <CardHeader className="flex gap-3">
         <div className="flex flex-col md:flex-row justify-between gap-3 w-full">
           <Button fullWidth color="primary" onPress={onOpen}>
-            Add new task
+            Create a new task
           </Button>
-          <TaskDeleteZone />
         </div>
       </CardHeader>
       <Modal
