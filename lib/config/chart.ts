@@ -4,8 +4,8 @@ export const STATUS_COLORS = ["#e1e8f0", "#7eaef8", "#f2ce5e", "#6fda96"];
 
 export const rangeBarOptions: ApexOptions = {
   chart: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     type: "rangeBar",
   },
   colors: ["#90A4AE", "#E64A19"],
@@ -37,7 +37,7 @@ export const rangeBarOptions: ApexOptions = {
         w: {
           config: { series },
         },
-      }
+      },
     ) {
       const dataPoint = series[seriesIndex].data[dataPointIndex];
       const title = dataPoint.x;
@@ -55,7 +55,7 @@ export const rangeBarOptions: ApexOptions = {
       const a = new Date(start);
       const b = new Date(end);
       const diff = Math.floor(
-        (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24)
+        (b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24),
       );
 
       return `${title}: ${diff + (diff > 1 ? " days" : " day")}`;

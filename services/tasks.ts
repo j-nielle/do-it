@@ -139,9 +139,10 @@ export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
     } else if (isMovingToTodo) {
       actual = null;
       if (planned && isToday(planned.start as Timestamp)) {
-        console.log("today is within the planned date range");
+        // console.log("today is within the planned date range");
       }
     }
+
     return await updateDoc(taskRef, {
       status: newStatus,
       planned,
@@ -150,7 +151,7 @@ export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
       progress,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in updating a task:", error);
     throw error;
   }
 };
@@ -184,7 +185,7 @@ export async function addTask(fields: TaskInputFields) {
       actual,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in adding a task:", error);
     throw error;
   }
 }
@@ -195,7 +196,7 @@ export async function deleteTask(taskId: string) {
 
     return await deleteDoc(tasksRef);
   } catch (error) {
-    console.error("Error adding document: ", error);
+    console.error("Error in deleting a task:", error);
     throw error;
   }
 }

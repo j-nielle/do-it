@@ -6,7 +6,7 @@ import { useSortable } from "@dnd-kit/react/sortable";
 
 import { Task } from "@/types/task";
 import { getLocalDateString } from "@/lib/helpers/date";
-import CategoryChip from '@/components/ui/task/category-chip';
+import CategoryChip from "@/components/ui/task/category-chip";
 
 interface TaskItemProps {
   id: string;
@@ -39,8 +39,7 @@ export default function TaskItem({
       <CardBody>
         <div className="flex flex-col justify-start items-start gap-x-2 text-sm">
           <p className="flex flex-row justify-between items-center w-full">
-            <span>{task.title}</span>{" "}
-            <CategoryChip category={task.category} />
+            <span>{task.title}</span> <CategoryChip category={task.category} />
           </p>
           {task.planned && (
             <span>

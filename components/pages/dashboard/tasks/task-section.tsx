@@ -4,10 +4,10 @@ import { Divider } from "@heroui/divider";
 
 import { TaskBacklog } from "./task-backlog";
 import TaskButtonGroup from "./task-button-group";
+import TaskDeleteZone from "./task-delete-zone";
 
 import { TaskStatus } from "@/lib/constants/task";
 import { Task } from "@/types/task";
-import TaskDeleteZone from "./task-delete-zone";
 
 export default function TaskSection({ tasks }: { tasks: Task[] }) {
   return (

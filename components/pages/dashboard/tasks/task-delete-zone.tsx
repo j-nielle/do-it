@@ -11,9 +11,10 @@ export default function TaskDeleteZone() {
   return (
     <Card
       ref={ref}
+      className="bg-transparent border h-16 items-center justify-center text-red-500 border-dashed border-red-500"
       radius="sm"
       shadow="sm"
-      className="bg-transparent border h-16 items-center justify-center text-red-500 border-dashed border-red-500">
+    >
       <span className="font-medium text-center">Drop here to delete</span>
     </Card>
   );

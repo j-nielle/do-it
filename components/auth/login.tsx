@@ -9,8 +9,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
 import { createSession } from "@/lib/actions/auth";
+import { useToast } from "@/hooks/useToast";
 
 export default function Login() {
+  const toast = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,10 +27,14 @@ export default function Login() {
     }
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    toast(handleLogin(e), undefined, "Successfully logged in");
+  };
+
   return (
     <section className="p-4 sm:p-6 outline outline-slate-200 sm:mx-auto flex flex-col items-center justify-center w-max gap-4">
       <h2>Login</h2>
-      <Form onSubmit={handleLogin}>
+      <Form onSubmit={onSubmit}>
         <div>
           <label htmlFor="email">Email</label>
           <Input

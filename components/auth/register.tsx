@@ -9,8 +9,10 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
 import { createSession } from "@/lib/actions/auth";
+import { useToast } from "@/hooks/useToast";
 
 export default function Register() {
+  const toast = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,10 +27,14 @@ export default function Register() {
     }
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    toast(handleRegister(e), undefined, "Account created successfully");
+  };
+
   return (
     <section className="p-4 sm:p-6 outline outline-slate-200 sm:mx-auto flex flex-col items-center justify-center w-max gap-4">
       <h2>Create an account</h2>
-      <Form onSubmit={handleRegister}>
+      <Form onSubmit={onSubmit}>
         <div>
           <label htmlFor="email">Email</label>
           <Input

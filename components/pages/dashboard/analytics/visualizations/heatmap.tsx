@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useMemo, useContext } from "react";
+import { useTheme } from "next-themes";
 
 import { Chart } from "@/components/charts";
 import { STATUS_ORDER, TaskStatus as TS } from "@/lib/constants/task";
 import { ChartContext } from "@/contexts/chartContext";
 import { heatmapOptions, STATUS_COLORS } from "@/lib/config/chart";
 import { weekdayCounts } from "@/lib/helpers/charts";
-import { useTheme } from "next-themes";
 
 export default function Heatmap() {
   const { theme } = useTheme();
@@ -30,7 +30,7 @@ export default function Heatmap() {
         ...heatmapOptions,
         chart: {
           ...heatmapOptions.chart,
-          background: theme === 'dark' ? '#171719' : '#fff',
+          background: theme === "dark" ? "#171719" : "#fff",
         },
         theme: { mode: theme as "light" | "dark" },
         colors:

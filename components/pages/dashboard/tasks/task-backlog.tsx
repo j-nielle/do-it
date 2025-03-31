@@ -6,7 +6,7 @@ import { Card, CardBody } from "@heroui/card";
 import TaskItem from "./task-item";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { TaskStatus } from "@/lib/constants/task";
+import { TaskStatus as TS } from "@/lib/constants/task";
 import { Task } from "@/types/task";
 
 interface TaskBacklogProps {
@@ -24,17 +24,18 @@ export const TaskBacklog = ({ tasks, id }: TaskBacklogProps) => {
         <Card
           className="bg-slate-300/55 h-full dark:bg-slate-300/25"
           radius="sm"
-          shadow="sm">
+          shadow="sm"
+        >
           <CardBody className="gap-2">
             <div className="mb-2 font-bold">Backlog</div>
             {tasks.length > 0 &&
               tasks?.map((task, index) => (
                 <TaskItem
-                  id={task.id}
                   key={task.id}
-                  task={task}
+                  id={task.id}
                   index={index}
                   statusId={TS.BACKLOG}
+                  task={task}
                 />
               ))}
           </CardBody>

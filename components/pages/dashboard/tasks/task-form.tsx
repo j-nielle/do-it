@@ -8,7 +8,12 @@ import { DateRangePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from "@heroui/select";
 import { SharedSelection } from "@heroui/system";
 
-import { CATEGORIES, defaultTaskInput, STATUSES, TaskStatus as TS } from "@/lib/constants/task";
+import {
+  CATEGORIES,
+  defaultTaskInput,
+  STATUSES,
+  TaskStatus as TS,
+} from "@/lib/constants/task";
 import { addTask } from "@/services/tasks";
 import { ActionTrigger, TaskInputFields } from "@/types/task";
 import { DateRange } from "@/types/date";
@@ -50,8 +55,6 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
 
   const handleSelectDateRange = (value: DateRange) => {
     if (!value?.start || !value?.end) {
-      console.warn("Date range is incomplete or null");
-
       return;
     }
 
@@ -127,11 +130,13 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         aria-label="Task Category"
         label="Task Category"
         placeholder="Select category"
-        onSelectionChange={handleSelectCategory}>
+        onSelectionChange={handleSelectCategory}
+      >
         {CATEGORIES.map((category) => (
           <SelectItem
             key={category.key}
-            startContent={<CategoryIcon category={category.key} />}>
+            startContent={<CategoryIcon category={category.key} />}
+          >
             {category.label}
           </SelectItem>
         ))}
@@ -141,11 +146,13 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
         aria-label="Task Status"
         label="Task Status"
         placeholder="Select status"
-        onSelectionChange={handleSelectStatus}>
+        onSelectionChange={handleSelectStatus}
+      >
         {STATUSES.map((status) => (
           <SelectItem
             key={status.key}
-            startContent={<StatusIcon status={status.key} />}>
+            startContent={<StatusIcon status={status.key} />}
+          >
             {status.label}
           </SelectItem>
         ))}
@@ -159,7 +166,7 @@ export default function TaskForm({ onClose }: { onClose: () => void }) {
           value={isTaskPlanned(
             values.status as TS,
             values.actual,
-            values.planned
+            values.planned,
           )}
           onChange={handleSelectDateRange}
         />

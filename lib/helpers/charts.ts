@@ -31,7 +31,7 @@ export const weekdayCounts = (tasks: Task[]) => {
 
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   return WEEK_DAYS.map((day) => ({
