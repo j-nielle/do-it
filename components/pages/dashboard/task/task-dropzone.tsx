@@ -12,12 +12,12 @@ import {
   onTasksUpdate,
 } from "@/services/tasks";
 import { TaskStatus as Status } from "@/lib/constants/task";
-import TaskSection from "@/components/pages/dashboard/tasks/task-section";
-import BoardSection from "@/components/pages/dashboard/tasks/board/board-section";
+import TaskSection from "@/components/pages/dashboard/task-section";
+import BoardSection from "@/components/pages/dashboard/board-section";
 import { ChartContext } from "@/contexts/chartContext";
 import { useToast } from "@/hooks/useToast";
 
-export default function TaskDropzone() {
+export default function Dropzone() {
   const toast = useToast();
   const { setChartContext } = useContext(ChartContext);
 
@@ -97,9 +97,11 @@ export default function TaskDropzone() {
   };
 
   return (
-    <DragDropProvider onDragEnd={handleDropEnd} onDragOver={handleDragOver}>
-      <TaskSection tasks={containers.BACKLOG} />
-      <BoardSection tasks={containers} />
-    </DragDropProvider>
+    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 w-full">
+      <DragDropProvider onDragEnd={handleDropEnd} onDragOver={handleDragOver}>
+        <TaskSection tasks={containers.BACKLOG} />
+        <BoardSection tasks={containers} />
+      </DragDropProvider>
+    </div>
   );
 }

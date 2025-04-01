@@ -15,7 +15,7 @@ import {
 
 import TaskForm from "./task-form";
 
-export default function TaskButtonGroup() {
+export default function CreateTask() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const targetRef = useRef<HTMLElement>(null!);
   const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen });

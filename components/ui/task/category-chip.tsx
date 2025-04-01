@@ -1,54 +1,57 @@
 import React from "react";
-import { Chip } from "@heroui/chip";
+import { Tooltip } from "@heroui/tooltip";
+import { useTheme } from "next-themes";
 
 import CategoryIcon from "./category-icon";
 
-import { TaskCategory as TC } from "@/lib/constants/task";
-
-type ChipColor =
-  | "secondary"
-  | "success"
-  | "primary"
-  | "default"
-  | "warning"
-  | "danger"
-  | undefined;
+import { CATEGORY_ORDER, TaskCategory as TC } from "@/lib/constants/task";
+import { getCategoryColors as getColors } from "@/lib/helpers/ui";
+import { cn } from "@/lib/utils";
 
 interface CategoryChipProps {
   category: TC;
-  size?: string | number;
+  iconSize?: string | number;
 }
 
 export default function CategoryChip({
   category,
-  size = 16,
+  iconSize = 16,
 }: CategoryChipProps) {
-  function getChipColor(category: TC): ChipColor {
-    switch (category) {
-      case TC.HEALTH:
-        return "success";
-      case TC.WORK:
-        return "primary";
-      case TC.LEARNING:
-        return "secondary";
-      case TC.FINANCE:
-        return "secondary";
-      case TC.SOCIAL:
-        return "warning";
-      case TC.UNCATEGORIZED:
-        return "default";
-      default:
-        return undefined;
-    }
-  }
+  const { theme } = useTheme();
+  const chipColor = getColors(category);
 
   return (
-    <Chip
-      color={getChipColor(category)}
-      startContent={<CategoryIcon category={category} size={size} />}
-      variant="faded"
+    <Tooltip
+      classNames={{
+        content: cn({
+          "bg-green-500 text-white": category === TC.HEALTH,
+          "bg-blue-500": category === TC.WORK,
+          "bg-purple-600 text-white": category === TC.LEARNING,
+          "bg-rose-500": category === TC.FINANCE,
+          "bg-amber-400": category === TC.SOCIAL,
+        }),
+      }}
+      color={chipColor}
+      content={category}
     >
-      {category}
-    </Chip>
+      <div
+        className={cn(
+          "relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap h-6 text-small bg-default-100 text-success rounded-full border-2 p-1 cursor-default border-dashed opacity-75 !bg-transparent border-black",
+          {
+            "border-green-500": category === TC.HEALTH,
+            "border-blue-500": category === TC.WORK,
+            "border-purple-600": category === TC.LEARNING,
+            "border-rose-500": category === TC.FINANCE,
+            "border-amber-400": category === TC.SOCIAL,
+            // had to do this because doing it the normal way did not worked
+            "border-black":
+              theme === "light" && !CATEGORY_ORDER.includes(category),
+            "border-white": theme === "dark" && category === TC.UNCATEGORIZED,
+          },
+        )}
+      >
+        <CategoryIcon category={category} iconSize={iconSize} />
+      </div>
+    </Tooltip>
   );
 }

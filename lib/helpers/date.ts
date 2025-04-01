@@ -13,9 +13,30 @@ export const timestamp = (dateValue: DateValue): Timestamp => {
 export const getLocalDateString = (date: Date) => {
   if (!date) return;
 
-  return new Date(date.toLocaleString("en-US", { timeZone: "Asia/Manila" }))
-    .toISOString()
-    .split("T")[0];
+  const newDate = new Date(
+    date.toLocaleString("en-US", { timeZone: "Asia/Manila" }),
+  );
+  const month = newDate.getMonth();
+  const day = newDate.getDay();
+  const year = newDate.getFullYear();
+
+  if (newDate === new Date()) {
+    return "Today";
+  } else if (isYesterday(newDate)) {
+    return "Yesterday";
+  }
+  if (year === new Date().getFullYear()) {
+    return newDate.toLocaleDateString("en-us", {
+      month: "short",
+      day: "2-digit",
+    } as Intl.DateTimeFormatOptions);
+  } else {
+    return `${month}/${day}/${year}`;
+  }
+
+  // return new Date(date.toLocaleString("en-US", { timeZone: "Asia/Manila" }))
+  //   .toISOString()
+  //   .split("T")[0];
 };
 
 export const getWeekday = (seconds: number) => {
@@ -41,6 +62,18 @@ export const getDifference = (
   }
 
   return differenceInDays(endDate, startDate);
+};
+
+export const isYesterday = (date: Date) => {
+  const yesterday = new Date();
+
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  return (
+    date.getDate() === yesterday.getDate() &&
+    date.getMonth() === yesterday.getMonth() &&
+    date.getFullYear() === yesterday.getFullYear()
+  );
 };
 
 export const isToday = (timestamp: Timestamp) => {

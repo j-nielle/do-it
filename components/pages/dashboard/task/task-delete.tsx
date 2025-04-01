@@ -3,7 +3,7 @@
 import { useDroppable } from "@dnd-kit/react";
 import { Card } from "@heroui/card";
 
-export default function TaskDeleteZone() {
+export default function DeleteZone() {
   const { ref } = useDroppable({
     id: "TRASH_ZONE",
   });
