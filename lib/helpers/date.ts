@@ -1,10 +1,19 @@
 import { DateValue } from "@react-types/datepicker";
 import { differenceInDays } from "date-fns";
 import { Timestamp } from "firebase/firestore";
+import {
+  CalendarDate,
+  parseAbsoluteToLocal as parseToLocal,
+  parseDate,
+} from "@internationalized/date";
+
+import { TaskStatus } from "../constants/task";
 
 import { WEEK_DAYS } from "@/lib/constants/date";
+import { DateRange } from "@/types/date";
+import { TaskDuration } from "@/types/task";
 
-export const timestamp = (dateValue: DateValue): Timestamp => {
+export const toTimestamp = (dateValue: DateValue): Timestamp => {
   const date = new Date(dateValue.year, dateValue.month - 1, dateValue.day);
 
   return Timestamp.fromDate(date);
@@ -33,10 +42,6 @@ export const getLocalDateString = (date: Date) => {
   } else {
     return `${month}/${day}/${year}`;
   }
-
-  // return new Date(date.toLocaleString("en-US", { timeZone: "Asia/Manila" }))
-  //   .toISOString()
-  //   .split("T")[0];
 };
 
 export const getWeekday = (seconds: number) => {
@@ -114,8 +119,77 @@ export const isToday = (timestamp: Timestamp) => {
   );
 };
 
-export const hasTodayDate = (range: { start: Timestamp; end: Timestamp }) => {
-  return (
-    (range.start && isToday(range.start)) || (range.end && isToday(range.end))
-  );
+export const isSameDay = (first?: string, second?: string) => {
+  if (!first || !second) return;
+
+  return first === second;
+};
+
+/**
+ *
+ * @param duration start/end from HeroUI `<DateRangePicker />`
+ * @returns
+ */
+export const getDateRange = (
+  duration: TaskDuration | null,
+): DateRange | null => {
+  if (!duration) {
+    return null;
+  }
+
+  const start = duration?.start
+    ? parseToLocal((duration.start as Timestamp).toDate().toISOString())
+    : getCalendarDate();
+
+  const end = duration?.end
+    ? parseToLocal((duration?.end as Timestamp).toDate().toISOString())
+    : getCalendarDate();
+
+  return { start, end };
+};
+
+/**
+ *
+ * @param value start/end value from the `<DateRangePicker />` from HeroUI
+ * @returns `CalendarDate` to be used for the said component
+ */
+export const getDateString = (value?: DateValue): CalendarDate => {
+  if (value) {
+    try {
+      const newDate = value.toDate("Asia/Manila");
+      const month = newDate.getMonth() + 1;
+      const day = newDate.getDate();
+      const year = newDate.getFullYear();
+
+      const formattedMonth = String(month).padStart(2, "0");
+      const formattedDay = String(day).padStart(2, "0");
+
+      return parseDate(`${year}-${formattedMonth}-${formattedDay}`);
+    } catch (error) {
+      console.error("Error parsing date:", error);
+
+      return getCalendarDate();
+    }
+  }
+
+  return getCalendarDate();
+};
+
+export const getCalendarDate = (): CalendarDate => {
+  const now = new Date();
+
+  return new CalendarDate(now.getFullYear(), now.getMonth() + 1, now.getDate());
+};
+
+export const getDefaultValue = (
+  status: TaskStatus,
+  planned: DateRange | null,
+  actual: DateRange | null,
+) => {
+  const duration = status === TaskStatus.TODO ? planned : actual;
+
+  return {
+    start: getDateString(duration?.start),
+    end: getDateString(duration?.end),
+  };
 };

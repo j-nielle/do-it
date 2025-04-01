@@ -16,6 +16,7 @@ import TaskSection from "@/components/pages/dashboard/task-section";
 import BoardSection from "@/components/pages/dashboard/board-section";
 import { ChartContext } from "@/contexts/chartContext";
 import { useToast } from "@/hooks/useToast";
+import { TaskContext } from "@/contexts/taskContext";
 
 export default function Dropzone() {
   const toast = useToast();
@@ -29,6 +30,8 @@ export default function Dropzone() {
     COMPLETED: [],
   });
 
+  const [selected, setSelected] = useState<Task | null>(null);
+
   useEffect(() => {
     loadTasks();
   }, []);
@@ -40,7 +43,7 @@ export default function Dropzone() {
   useEffect(() => {
     if (tasks) {
       setChartContext({ tasks });
-      console.log(tasks);
+      // console.log(tasks);
     }
   }, [tasks]);
 
@@ -70,11 +73,6 @@ export default function Dropzone() {
   };
 
   const handleDragOver = (event: any) => {
-    // const { target } = event.operation;
-
-    // if (target && target.id === "TRASH_ZONE") {
-    //   return;
-    // }
     setContainers((items) => move(items, event));
   };
 
@@ -97,11 +95,13 @@ export default function Dropzone() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 w-full">
-      <DragDropProvider onDragEnd={handleDropEnd} onDragOver={handleDragOver}>
-        <TaskSection tasks={containers.BACKLOG} />
-        <BoardSection tasks={containers} />
-      </DragDropProvider>
-    </div>
+    <TaskContext.Provider value={{ selected, setSelected }}>
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 w-full">
+        <DragDropProvider onDragEnd={handleDropEnd} onDragOver={handleDragOver}>
+          <TaskSection tasks={containers.BACKLOG} />
+          <BoardSection tasks={containers} />
+        </DragDropProvider>
+      </div>
+    </TaskContext.Provider>
   );
 }

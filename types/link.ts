@@ -1,4 +1,4 @@
 export interface BreadcrumbLinks {
-	href: string;
-	label: string;
+  href: string;
+  label: string;
 }

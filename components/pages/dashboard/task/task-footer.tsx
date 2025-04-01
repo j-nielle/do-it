@@ -1,7 +1,7 @@
 import { Divider } from "@heroui/divider";
 import { IconCalendarTime, IconClockHour3 } from "@tabler/icons-react";
 
-import { getLocalDateString as getDate } from "@/lib/helpers/date";
+import { getLocalDateString as getDate, isSameDay } from "@/lib/helpers/date";
 import { ActualDuration, TaskDuration } from "@/types/task";
 
 interface TaskFooterProps {
@@ -20,16 +20,25 @@ export default function TaskFooter({ planned, actual }: TaskFooterProps) {
             </span>
             <Divider orientation="vertical" />
             <p>
-              {getDate(planned.start?.toDate()!!)} -{" "}
-              <span
-                className={
-                  getDate(planned.end?.toDate()!!) === "Yesterday"
-                    ? "text-red-500"
-                    : ""
-                }
-              >
-                {getDate(planned.end?.toDate()!!)}
-              </span>
+              {getDate(planned.start?.toDate()!!)}
+              {!isSameDay(
+                getDate(planned.start?.toDate()!!),
+                getDate(planned.end?.toDate()!!),
+              ) && (
+                <>
+                  {" "}
+                  -{" "}
+                  <span
+                    className={
+                      getDate(planned.end?.toDate()!!) === "Yesterday"
+                        ? "text-red-500"
+                        : ""
+                    }
+                  >
+                    {getDate(planned.end?.toDate()!!)}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         </>
@@ -44,7 +53,11 @@ export default function TaskFooter({ planned, actual }: TaskFooterProps) {
             <p>
               {" "}
               {getDate(actual.start?.toDate()!!)}{" "}
-              {actual.end && <>- {getDate(actual.end?.toDate()!!)}</>}
+              {actual.end &&
+                !isSameDay(
+                  getDate(actual.start?.toDate()!!),
+                  getDate(actual.end?.toDate()!!),
+                ) && <>- {getDate(actual.end?.toDate()!!)}</>}
             </p>
           </div>
         </>

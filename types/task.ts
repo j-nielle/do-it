@@ -6,6 +6,7 @@ import { TaskCategory, TaskStatus } from "@/lib/constants/task";
 
 export enum ActionTrigger {
   USER_ADD = "USER_ADD",
+  USER_UPDATE = "USER_UPDATE",
   USER_DRAG = "USER_DRAG",
   AUTO_SYSTEM = "AUTO_SYSTEM",
 }
@@ -16,16 +17,16 @@ export type TaskHistory = {
   trigger?: ActionTrigger;
 };
 
+export type TaskContextType = {
+  selected: Task | null;
+  setSelected: React.Dispatch<React.SetStateAction<Task | null>>;
+};
+
 export type TaskDuration = { start: Timestamp | null; end: Timestamp | null };
 
 export type ActualDuration = TaskDuration & {
   duration?: number;
 };
-
-export interface TaskTimeline {
-  planned?: TaskDuration;
-  actualWorkPeriods: ActualDuration[];
-}
 
 export interface Task {
   id: string;

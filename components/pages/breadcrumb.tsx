@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import React from "react";
+import { usePathname } from "next/navigation";
 
 import {
   Breadcrumb,
@@ -11,8 +13,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { BreadcrumbLinks } from "@/types/link";
-import React from "react";
-import { usePathname } from "next/navigation";
 
 interface BreadcrumbProps {
   links: BreadcrumbLinks[];
@@ -20,6 +20,7 @@ interface BreadcrumbProps {
 
 export default function BreadCrumb({ links }: BreadcrumbProps) {
   const pathname = usePathname();
+
   return (
     <div className="mb-4">
       <Breadcrumb>

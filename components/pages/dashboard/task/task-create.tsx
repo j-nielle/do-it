@@ -3,20 +3,14 @@
 import React, { useRef } from "react";
 import { CardHeader } from "@heroui/card";
 import { Button } from "@heroui/button";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  useDraggable,
-} from "@heroui/modal";
+import { useDisclosure, useDraggable } from "@heroui/modal";
 
 import TaskForm from "./task-form";
 
+import FormModal from "@/components/modal/form-modal";
+
 export default function CreateTask() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const targetRef = useRef<HTMLElement>(null!);
   const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen });
 
@@ -29,40 +23,17 @@ export default function CreateTask() {
           </Button>
         </div>
       </CardHeader>
-      <Modal
+      <FormModal
         ref={targetRef}
-        {...moveProps}
         isOpen={isOpen}
+        moveprops={moveProps}
         placement="top"
         size="sm"
+        title="Add new task"
         onOpenChange={onOpenChange}
       >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Add new task
-              </ModalHeader>
-              <ModalBody>
-                <TaskForm onClose={onClose} />
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  fullWidth
-                  color="danger"
-                  variant="flat"
-                  onPress={onClose}
-                >
-                  Cancel
-                </Button>
-                <Button fullWidth color="primary" form="taskForm" type="submit">
-                  Save
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+        <TaskForm onClose={onClose} />
+      </FormModal>
     </>
   );
 }
