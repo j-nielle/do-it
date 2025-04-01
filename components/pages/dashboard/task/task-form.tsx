@@ -37,7 +37,7 @@ export default function TaskForm({ onClose }: TaskFormProps) {
   const toast = useToast();
   const { selected } = useContext(TaskContext);
   const [values, setValues] = useState<TaskInputFields>(
-    selected !== null ? getTaskInput(selected) : defaultTaskInput,
+    selected !== null ? getTaskInput(selected) : defaultTaskInput
   );
 
   // useEffect(() => {
@@ -123,7 +123,7 @@ export default function TaskForm({ onClose }: TaskFormProps) {
     if (selected == null) {
       toast(addTask(values), "add");
     } else {
-      updateTask(selected.id, values);
+      toast(updateTask(selected.id, values), "update");
     }
     onClose();
   };
@@ -148,13 +148,11 @@ export default function TaskForm({ onClose }: TaskFormProps) {
         }
         label="Task Category"
         placeholder="Select category"
-        onSelectionChange={handleSelectCategory}
-      >
+        onSelectionChange={handleSelectCategory}>
         {CATEGORIES.map((category) => (
           <SelectItem
             key={category.key}
-            startContent={<CategoryIcon category={category.key} />}
-          >
+            startContent={<CategoryIcon category={category.key} />}>
             {category.label}
           </SelectItem>
         ))}
@@ -167,13 +165,11 @@ export default function TaskForm({ onClose }: TaskFormProps) {
         }
         label="Task Status"
         placeholder="Select status"
-        onSelectionChange={handleSelectStatus}
-      >
+        onSelectionChange={handleSelectStatus}>
         {STATUSES.map((status) => (
           <SelectItem
             key={status.key}
-            startContent={<StatusIcon status={status.key} />}
-          >
+            startContent={<StatusIcon status={status.key} />}>
             {status.label === "In_progress" ? "In Progress" : status.label}
           </SelectItem>
         ))}
@@ -185,7 +181,7 @@ export default function TaskForm({ onClose }: TaskFormProps) {
           defaultValue={getDefaultValue(
             values.status as TS,
             values.planned,
-            values.actual,
+            values.actual
           )}
           label={getLabel(values.status as TS)}
           maxValue={getMaxValue(values.status as TS)}

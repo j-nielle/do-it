@@ -202,7 +202,7 @@ export async function updateTask(taskId: string, fields: TaskInputFields) {
     const taskData = taskSnap.data();
 
     const newStatus = fields.status as TS;
-    const { statusHistory: currentHistory, title } = fields;
+    const { statusHistory: currentHistory, title, category } = fields;
 
     const {
       status: prevStatus,
@@ -285,6 +285,7 @@ export async function updateTask(taskId: string, fields: TaskInputFields) {
 
     return await updateDoc(taskRef, {
       title,
+      category,
       status: newStatus,
       planned,
       actual,
