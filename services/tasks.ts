@@ -39,7 +39,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>,
+  callback: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -52,7 +52,7 @@ export function subscribeToTasks(
 }
 
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 ) {
   const q = query(tasksRef);
   const unsub = subscribeToTasks(q, setTasks);
@@ -193,87 +193,86 @@ export async function addTask(fields: TaskInputFields) {
 export async function updateTask(taskId: string, fields: TaskInputFields) {
   try {
     const taskRef = doc(db, "tasks", taskId);
-    const taskSnap = await getDoc(taskRef);
+    // const taskSnap = await getDoc(taskRef);
 
-    if (!taskSnap.exists()) {
-      throw new Error("Task not found");
-    }
+    // if (!taskSnap.exists()) {
+    //   throw new Error("Task not found");
+    // }
 
-    const taskData = taskSnap.data();
+    // const taskData = taskSnap.data();
 
     const newStatus = fields.status as TS;
-    const { statusHistory: currentHistory, title, category } = fields;
-
-    const {
-      status: prevStatus,
-      actual: prevActual,
-      planned: prevPlanned,
-    } = taskData as Task;
-
-    currentHistory.push({
-      timestamp: Timestamp.now(),
-      trigger: ActionTrigger.USER_DRAG,
-      status: newStatus,
-    });
-
     let progress = getProgress(newStatus);
-    let planned = prevPlanned;
-    let actual = prevActual;
+    // const {
+    //   status: prevStatus,
+    //   actual: prevActual,
+    //   planned: prevPlanned,
+    // } = taskData as Task;
 
-    const isStarting =
-      newStatus === TS.IN_PROGRESS && prevStatus !== TS.IN_PROGRESS;
-    const isCompleting =
-      newStatus === TS.COMPLETED && prevStatus !== TS.COMPLETED;
-    const isRevertingFromComplete =
-      prevStatus === TS.COMPLETED && newStatus !== TS.COMPLETED;
-    const isMovingToBacklog =
-      prevStatus !== TS.BACKLOG && newStatus === TS.BACKLOG;
-    const isMovingToTodo = prevStatus !== TS.TODO && newStatus === TS.TODO;
+    // currentHistory.push({
+    //   timestamp: Timestamp.now(),
+    //   trigger: ActionTrigger.USER_DRAG,
+    //   status: newStatus,
+    // });
 
-    if (isStarting) {
-      actual = {
-        start: Timestamp.now(),
-        end: null,
-        duration: 0,
-      };
-    }
-    if (isCompleting) {
-      actual = actual
-        ? {
-            ...actual,
-            end: Timestamp.now(),
-            duration:
-              Timestamp.now().seconds -
-              (actual.start?.seconds || Timestamp.now().seconds),
-          }
-        : {
-            start: Timestamp.now(),
-            end: Timestamp.now(),
-            duration: 0,
-          };
-    }
-    if (isRevertingFromComplete) {
-      actual = actual
-        ? {
-            start: actual.start,
-            end: null,
-            duration: 0,
-          }
-        : {
-            start: Timestamp.now(),
-            end: null,
-            duration: 0,
-          };
-    }
-    if (isMovingToBacklog) {
-      planned = null;
-      actual = null;
-    } else if (isMovingToTodo) {
-      actual = null;
-      if (planned && isToday(planned.start as Timestamp)) {
-        // console.log("today is within the planned date range");
-      }
-    }
+    // let progress = getProgress(newStatus);
+    // let planned = prevPlanned;
+    // let actual = prevActual;
+
+    // const isStarting =
+    //   newStatus === TS.IN_PROGRESS && prevStatus !== TS.IN_PROGRESS;
+    // const isCompleting =
+    //   newStatus === TS.COMPLETED && prevStatus !== TS.COMPLETED;
+    // const isRevertingFromComplete =
+    //   prevStatus === TS.COMPLETED && newStatus !== TS.COMPLETED;
+    // const isMovingToBacklog =
+    //   prevStatus !== TS.BACKLOG && newStatus === TS.BACKLOG;
+    // const isMovingToTodo = prevStatus !== TS.TODO && newStatus === TS.TODO;
+
+    // if (isStarting) {
+    //   actual = {
+    //     start: Timestamp.now(),
+    //     end: null,
+    //     duration: 0,
+    //   };
+    // }
+    // if (isCompleting) {
+    //   actual = actual
+    //     ? {
+    //         ...actual,
+    //         end: Timestamp.now(),
+    //         duration:
+    //           Timestamp.now().seconds -
+    //           (actual.start?.seconds || Timestamp.now().seconds),
+    //       }
+    //     : {
+    //         start: Timestamp.now(),
+    //         end: Timestamp.now(),
+    //         duration: 0,
+    //       };
+    // }
+    // if (isRevertingFromComplete) {
+    //   actual = actual
+    //     ? {
+    //         start: actual.start,
+    //         end: null,
+    //         duration: 0,
+    //       }
+    //     : {
+    //         start: Timestamp.now(),
+    //         end: null,
+    //         duration: 0,
+    //       };
+    // }
+    // if (isMovingToBacklog) {
+    //   planned = null;
+    //   actual = null;
+    // } else if (isMovingToTodo) {
+    //   actual = null;
+    //   if (planned && isToday(planned.start as Timestamp)) {
+    //     // console.log("today is within the planned date range");
+    //   }
+    // }
 
     // console.log({
     //   status: newStatus,
@@ -283,13 +282,31 @@ export async function updateTask(taskId: string, fields: TaskInputFields) {
     //   progress,
     // });
 
+    const isProgressCompleted =
+      newStatus === TS.IN_PROGRESS || newStatus === TS.COMPLETED;
+
+    const planned = fields.planned?.start
+      ? {
+          start: toTimestamp(fields.planned.start),
+          end: fields.planned.end ? toTimestamp(fields.planned.end) : null,
+        }
+      : null;
+
+    const actual = fields.actual?.start
+      ? {
+          start: toTimestamp(fields.actual.start),
+          end: fields.actual.end ? toTimestamp(fields.actual.end) : null,
+          duration:
+            isProgressCompleted && fields.actual.end
+              ? getDifference(fields.actual.end, fields.actual.start)
+              : 0,
+        }
+      : null;
+
     return await updateDoc(taskRef, {
-      title,
-      category,
-      status: newStatus,
+      ...fields,
       planned,
       actual,
-      statusHistory: currentHistory,
       progress,
     });
     // return await updateDoc(tasksRef, {
