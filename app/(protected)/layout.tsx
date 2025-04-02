@@ -1,7 +1,7 @@
 import React from "react";
 
-import ChartContextWrapper from "@/components/chart-context";
 import BreadCrumb from "@/components/pages/breadcrumb";
+import TaskContextProvider from "@/components/task-context";
 
 export default function MainLayout({
   children,
@@ -14,9 +14,9 @@ export default function MainLayout({
   ];
 
   return (
-    <ChartContextWrapper>
+    <TaskContextProvider>
       <BreadCrumb links={links} />
       {children}
-    </ChartContextWrapper>
+    </TaskContextProvider>
   );
 }

@@ -16,6 +16,6 @@ export interface CommonChartProps {
   type?: ApexChartType;
 }
 
-export interface ChartContext {
+export interface ChartDataContext {
   tasks: Task[];
 }

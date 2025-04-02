@@ -2,11 +2,11 @@
 
 import { createContext } from "react";
 
-import { ChartContext as Context } from "@/types/chart";
+import { ChartDataContext } from "@/types/chart";
 
 export const ChartContext = createContext<{
-  chartContext: Context;
-  setChartContext: React.Dispatch<React.SetStateAction<Context>>;
+  chartContext: ChartDataContext;
+  setChartContext: React.Dispatch<React.SetStateAction<ChartDataContext>>;
 }>({
   chartContext: {
     tasks: [],

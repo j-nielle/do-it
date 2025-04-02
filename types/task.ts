@@ -18,6 +18,8 @@ export type TaskHistory = {
 };
 
 export type TaskContextType = {
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   selected: Task | null;
   setSelected: React.Dispatch<React.SetStateAction<Task | null>>;
 };
