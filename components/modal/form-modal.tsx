@@ -15,7 +15,6 @@ interface FormModalProps {
   title: string;
   children: React.ReactNode;
   ref?: React.Ref<HTMLElement | null>;
-  moveprops: DOMAttributes<FocusableElement>;
   isOpen: boolean;
   placement?:
     | "center"
@@ -48,7 +47,7 @@ export default function FormModal(props: FormModalProps) {
   }, [props.isOpen]);
 
   return (
-    <Modal {...props} {...props.moveprops}>
+    <Modal {...props}>
       <ModalContent>
         {(onClose) => (
           <>
