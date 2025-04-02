@@ -5,12 +5,12 @@ import { Button } from "@heroui/button";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Card, CardBody } from "@heroui/card";
 
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
 import { createSession } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/useToast";
-import { Card, CardBody } from "@heroui/card";
 
 export default function Register() {
   const toast = useToast();
@@ -39,33 +39,34 @@ export default function Register() {
           <h2 className="mb-4 w-full text-center text-xl font-bold">
             Create an account
           </h2>
-          <Form onSubmit={onSubmit} className="flex flex-col gap-4 mb-4">
+          <Form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
             <Input
               fullWidth
-              label="Email Address"
               aria-label="Email Address"
+              label="Email Address"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               fullWidth
-              label="Password"
               aria-label="Password"
+              label="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <Button color="primary" fullWidth type="submit">
+            <Button fullWidth color="primary" type="submit">
               Create Account
             </Button>
           </Form>
           <div className="flex flex-col gap-4 ">
             <Button
+              color="primary"
               variant="faded"
               onPress={handleLoginWithGoogle}
-              color="primary">
+            >
               Login with{" "}
               <span className="space-x-0.5">
                 <span className="text-[#4387f3] font-semibold">G</span>
@@ -78,7 +79,7 @@ export default function Register() {
             </Button>
             <div>
               <p>Already have an account?</p>
-              <a href="/login" className="text-blue-500">
+              <a className="text-blue-500" href="/login">
                 Login
               </a>
             </div>

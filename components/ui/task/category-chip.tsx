@@ -31,7 +31,8 @@ export default function CategoryChip({
         }),
       }}
       color={chipColor}
-      content={category}>
+      content={category}
+    >
       <div
         className={cn(
           "relative max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap h-6 text-small bg-default-100 text-success rounded-full border-2 p-1 cursor-default border-dashed opacity-75 !bg-transparent border-black",
@@ -42,8 +43,9 @@ export default function CategoryChip({
             "border-rose-700": category === TC.FINANCE,
             "border-orange-600": category === TC.SOCIAL,
             "border-fuchsia-700": category === TC.UNCATEGORIZED,
-          }
-        )}>
+          },
+        )}
+      >
         <CategoryIcon category={category} iconSize={iconSize} />
       </div>
     </Tooltip>

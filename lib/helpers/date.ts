@@ -167,19 +167,6 @@ export const getDuration = (range: DateRange) => {
   };
 };
 
-function isDateValue(value: any): value is DateValue {
-  if (!value || typeof value !== "object") return false;
-
-  return (
-    "year" in value &&
-    "month" in value &&
-    "day" in value &&
-    typeof value.year === "number" &&
-    typeof value.month === "number" &&
-    typeof value.day === "number"
-  );
-}
-
 export const getCalendarDate = () => {
   const now = new Date();
 

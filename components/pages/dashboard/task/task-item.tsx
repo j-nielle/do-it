@@ -2,7 +2,6 @@
 
 import React, { useContext, useId } from "react";
 import { Card, CardBody } from "@heroui/card";
-import { useSortable } from "@dnd-kit/react/sortable";
 import { useDraggable } from "@dnd-kit/react";
 
 import TaskHeader from "./task-header";
@@ -38,7 +37,8 @@ export default function TaskItem({ id, task }: TaskItemProps) {
       className="cursor-grab !overflow-hidden dark:!bg-gray-900"
       id={elementId}
       radius="sm"
-      shadow="sm">
+      shadow="sm"
+    >
       <CategoryTopLine category={task.category} />
       <CardBody>
         <div className="flex flex-col justify-start items-start gap-2 text-sm">

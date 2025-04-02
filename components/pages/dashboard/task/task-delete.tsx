@@ -19,7 +19,8 @@ export default function DeleteZone() {
       ref={ref}
       className="bg-transparent border h-16 items-center justify-center text-red-500 border-dashed border-red-500"
       radius="sm"
-      shadow="sm">
+      shadow="sm"
+    >
       <span className="font-medium text-center">Drop here to delete</span>
     </Card>
   );

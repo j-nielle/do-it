@@ -5,12 +5,12 @@ import { Button } from "@heroui/button";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Card, CardBody } from "@heroui/card";
 
 import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
 import { createSession } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/useToast";
-import { Card, CardBody } from "@heroui/card";
 
 export default function Login() {
   const toast = useToast();
@@ -37,34 +37,35 @@ export default function Login() {
       <Card fullWidth className="p-4 min-w-72">
         <CardBody>
           <h2 className="mb-4 w-full text-center text-xl font-bold">Login</h2>
-          <Form onSubmit={onSubmit} className="flex flex-col gap-4 mb-4">
+          <Form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
             <Input
               fullWidth
-              label="Email Address"
               aria-label="Email Address"
+              label="Email Address"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               fullWidth
-              label="Password"
               aria-label="Password"
+              label="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <Button color="primary" fullWidth type="submit">
+            <Button fullWidth color="primary" type="submit">
               Login
             </Button>
           </Form>
 
           <div className="flex flex-col gap-4 ">
             <Button
+              color="primary"
               variant="faded"
               onPress={handleLoginWithGoogle}
-              color="primary">
+            >
               Login with{" "}
               <span className="space-x-0.5">
                 <span className="text-[#4387f3] font-semibold">G</span>
@@ -76,8 +77,8 @@ export default function Login() {
               </span>
             </Button>
             <div>
-              <p>Don't have an account?</p>
-              <a href="/register" className="text-blue-500">
+              <p>Don&apos;t have an account?</p>
+              <a className="text-blue-500" href="/register">
                 Register
               </a>
             </div>

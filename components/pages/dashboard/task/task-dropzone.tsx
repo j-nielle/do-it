@@ -50,17 +50,18 @@ export default function Dropzone() {
   useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG,
       ),
       TODO: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO,
       ),
       IN_PROGRESS: tasks.filter(
         ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.IN_PROGRESS
+          sh[sh.length - 1].status === Status.IN_PROGRESS,
       ),
       COMPLETED: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.COMPLETED
+        ({ statusHistory: sh }) =>
+          sh[sh.length - 1].status === Status.COMPLETED,
       ),
     });
   }, [tasks]);
@@ -83,6 +84,7 @@ export default function Dropzone() {
 
     if (sourceStatus === targetStatus) {
       console.warn("dropped in the same column");
+
       return;
     }
 
@@ -90,6 +92,7 @@ export default function Dropzone() {
 
     if (data && "task" in data) {
       const { task } = data;
+
       if (targetStatus && targetStatus === "TRASH_ZONE") {
         toast(deleteTask(task.id), "delete");
       } else {
