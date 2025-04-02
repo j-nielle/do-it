@@ -14,7 +14,7 @@ import {
   STATUSES,
   TaskStatus as TS,
 } from "@/lib/constants/task";
-import { addTask } from "@/services/tasks";
+import { addTask, updateTask } from "@/services/tasks";
 import {
   ActionTrigger as Trigger,
   TaskInputFields as Fields,
@@ -38,12 +38,8 @@ export default function TaskForm({ onClose }: TaskFormProps) {
   const toast = useToast();
   const { selected } = useContext(TaskContext);
   const [values, setValues] = useState<Fields>(
-    selected ? getInput(selected) : defaultInput,
+    selected ? getInput(selected) : defaultInput
   );
-
-  React.useEffect(() => {
-    if (values) console.log("values:", values);
-  }, [values]);
 
   const handleSelectStatus = (keys: SharedSelection) => {
     const status = Array.from(keys)[0] as TS;
@@ -72,7 +68,7 @@ export default function TaskForm({ onClose }: TaskFormProps) {
 
   const handleSelectDateRange = (
     value: DateRange,
-    type: "planned" | "actual" = "planned",
+    type: "planned" | "actual" = "planned"
   ) => {
     setValues((prev) => ({
       ...prev,
@@ -94,8 +90,7 @@ export default function TaskForm({ onClose }: TaskFormProps) {
     if (selected == null) {
       toast(addTask(values), "add");
     } else {
-      console.log(values);
-      // toast(updateTask(selected.id, values), "update");
+      toast(updateTask(selected.id, values), "update");
     }
     onClose();
   };
@@ -118,13 +113,11 @@ export default function TaskForm({ onClose }: TaskFormProps) {
         label="Task Category"
         placeholder="Select category"
         selectedKeys={values.category ? new Set([values.category]) : new Set()}
-        onSelectionChange={handleSelectCategory}
-      >
+        onSelectionChange={handleSelectCategory}>
         {CATEGORIES.map((category) => (
           <SelectItem
             key={category.key}
-            startContent={<CategoryIcon category={category.key} />}
-          >
+            startContent={<CategoryIcon category={category.key} />}>
             {category.label}
           </SelectItem>
         ))}
@@ -135,13 +128,11 @@ export default function TaskForm({ onClose }: TaskFormProps) {
         label="Task Status"
         placeholder="Select status"
         selectedKeys={values.status ? new Set([values.status]) : new Set()}
-        onSelectionChange={handleSelectStatus}
-      >
+        onSelectionChange={handleSelectStatus}>
         {STATUSES.map((status) => (
           <SelectItem
             key={status.key}
-            startContent={<StatusIcon status={status.key} />}
-          >
+            startContent={<StatusIcon status={status.key} />}>
             {status.label === "In_progress" ? "In Progress" : status.label}
           </SelectItem>
         ))}
