@@ -10,6 +10,7 @@ import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/firebase/auth";
 import { createSession } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/useToast";
+import { Card, CardBody } from "@heroui/card";
 
 export default function Register() {
   const toast = useToast();
@@ -32,36 +33,58 @@ export default function Register() {
   };
 
   return (
-    <section className="p-4 sm:p-6 outline outline-slate-200 sm:mx-auto flex flex-col items-center justify-center w-max gap-4">
-      <h2>Create an account</h2>
-      <Form onSubmit={onSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+    <section>
+      <Card fullWidth className="p-4 min-w-72">
+        <CardBody>
+          <h2 className="mb-4 w-full text-center text-xl font-bold">
+            Create an account
+          </h2>
+          <Form onSubmit={onSubmit} className="flex flex-col gap-4 mb-4">
+            <Input
+              fullWidth
+              label="Email Address"
+              aria-label="Email Address"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              fullWidth
+              label="Password"
+              aria-label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <Button className="w-full" type="submit">
-          Create Account
-        </Button>
-      </Form>
-
-      <Button onPress={handleLoginWithGoogle}>Login with Google</Button>
-      <div>
-        Already have an account? <a href="/login">Login</a>
-      </div>
+            <Button color="primary" fullWidth type="submit">
+              Create Account
+            </Button>
+          </Form>
+          <div className="flex flex-col gap-4 ">
+            <Button
+              variant="faded"
+              onPress={handleLoginWithGoogle}
+              color="primary">
+              Login with{" "}
+              <span className="space-x-0.5">
+                <span className="text-[#4387f3] font-semibold">G</span>
+                <span className="text-[#eb4335] font-semibold">o</span>
+                <span className="text-[#f6bd43] font-semibold">o</span>
+                <span className="text-[#4684f3] font-semibold">g</span>
+                <span className="text-[#4caa55] font-semibold">l</span>
+                <span className="text-[#e74335] font-semibold">e</span>
+              </span>
+            </Button>
+            <div>
+              <p>Already have an account?</p>
+              <a href="/login" className="text-blue-500">
+                Login
+              </a>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
     </section>
   );
 }
