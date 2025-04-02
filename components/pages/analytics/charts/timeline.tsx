@@ -4,15 +4,13 @@ import React, { useContext, useMemo } from "react";
 import { useTheme } from "next-themes";
 
 import { Chart } from "@/components/charts";
-import { ChartContext } from "@/contexts/chartContext";
 import { rangeBarOptions } from "@/lib/config/chart";
 import { getTimeline } from "@/lib/helpers/charts";
+import { TaskContext } from "@/contexts/taskContext";
 
 export default function TimelineChart() {
   const { theme } = useTheme();
-  const {
-    chartContext: { tasks },
-  } = useContext(ChartContext);
+  const { tasks } = useContext(TaskContext);
 
   const series = useMemo(() => {
     return getTimeline(tasks);

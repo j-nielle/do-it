@@ -5,15 +5,13 @@ import { useTheme } from "next-themes";
 
 import { Chart } from "@/components/charts";
 import { STATUS_ORDER, TaskStatus as TS } from "@/lib/constants/task";
-import { ChartContext } from "@/contexts/chartContext";
 import { heatmapOptions, STATUS_COLORS } from "@/lib/config/chart";
 import { weekdayCounts } from "@/lib/helpers/charts";
+import { TaskContext } from "@/contexts/taskContext";
 
 export default function Heatmap() {
   const { theme } = useTheme();
-  const {
-    chartContext: { tasks },
-  } = useContext(ChartContext);
+  const { tasks } = useContext(TaskContext);
 
   const series = useMemo(() => {
     return STATUS_ORDER.map((status) => {

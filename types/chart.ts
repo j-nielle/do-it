@@ -15,7 +15,3 @@ export interface CommonChartProps {
   dimensions?: ChartDimensions;
   type?: ApexChartType;
 }
-
-export interface ChartDataContext {
-  tasks: Task[];
-}
