@@ -10,24 +10,25 @@ import { SharedSelection } from "@heroui/system";
 
 import {
   CATEGORIES,
-  defaultTaskInput,
+  defaultTaskInput as defaultInput,
   STATUSES,
   TaskStatus as TS,
 } from "@/lib/constants/task";
-import { addTask, updateTask } from "@/services/tasks";
-import { ActionTrigger, TaskInputFields } from "@/types/task";
+import { addTask } from "@/services/tasks";
+import {
+  ActionTrigger as Trigger,
+  TaskInputFields as Fields,
+} from "@/types/task";
 import { DateRange } from "@/types/date";
 import { useToast } from "@/hooks/useToast";
 import {
-  getDateRangeLabel as getLabel,
   getDateRangeMaxValue as getMaxValue,
   getProgress,
-  getTaskInput,
+  getTaskInput as getInput,
 } from "@/lib/helpers/task";
 import CategoryIcon from "@/components/ui/task/category-icon";
 import StatusIcon from "@/components/ui/task/status-icon";
 import { TaskContext } from "@/contexts/taskContext";
-import { getDefaultValue } from "@/lib/helpers/date";
 
 interface TaskFormProps {
   onClose: () => void;
@@ -36,25 +37,28 @@ interface TaskFormProps {
 export default function TaskForm({ onClose }: TaskFormProps) {
   const toast = useToast();
   const { selected } = useContext(TaskContext);
-  const [values, setValues] = useState<TaskInputFields>(
-    selected !== null ? getTaskInput(selected) : defaultTaskInput
+  const [values, setValues] = useState<Fields>(
+    selected ? getInput(selected) : defaultInput,
   );
 
-  // useEffect(() => {
-  //   if (values) console.log(values);
-  // }, [values, values]);
+  React.useEffect(() => {
+    if (values) console.log("values:", values);
+  }, [values]);
 
   const handleSelectStatus = (keys: SharedSelection) => {
-    const value = Array.from(keys)[0] as TS;
+    const status = Array.from(keys)[0] as TS;
+    const trigger = selected ? Trigger.USER_UPDATE : Trigger.USER_ADD;
 
     setValues((prev) => ({
       ...prev,
-      status: value,
+      progress: getProgress(prev.status as TS),
+      status,
       statusHistory: [
+        ...(prev.statusHistory || []),
         {
-          status: value,
+          status,
           timestamp: Timestamp.now(),
-          trigger: ActionTrigger.USER_ADD,
+          trigger,
         },
       ],
     }));
@@ -66,49 +70,16 @@ export default function TaskForm({ onClose }: TaskFormProps) {
     setValues((prev) => ({ ...prev, category: selectedValue }));
   };
 
-  const handleSelectDateRange = (value: DateRange) => {
-    if (!value?.start || !value?.end) {
-      return;
-    }
-
-    setValues((prev) => {
-      const isBacklog = prev.status === TS.BACKLOG;
-      const isTodo = prev.status === TS.TODO;
-      const isInProgress = prev.status === TS.IN_PROGRESS;
-      const isCompleted = prev.status === TS.COMPLETED;
-
-      const progress = getProgress(prev.status as TS);
-      let { planned, actual } = prev;
-
-      // backlog, planned (no) | actual (no) | progress = 0
-      // todo, planned (yes) | actual (no) | progress = 0
-      // in progress && completed, planned (no) | actual (yes)
-      // in progress, progress = 50
-      // completed, progress = 100
-
-      if (isTodo) {
-        actual = null;
-        planned = value;
-      }
-
-      if (isBacklog) {
-        return {
-          ...prev,
-          planned,
-          actual,
-        };
-      } else if (isInProgress || isCompleted) {
-        planned = null;
-        actual = value;
-      }
-
-      return {
-        ...prev,
-        planned,
-        actual,
-        progress,
-      };
-    });
+  const handleSelectDateRange = (
+    value: DateRange,
+    type: "planned" | "actual" = "planned",
+  ) => {
+    setValues((prev) => ({
+      ...prev,
+      progress: getProgress(prev.status as TS),
+      planned: type === "planned" ? value : prev.planned,
+      actual: type === "actual" ? value : prev.actual,
+    }));
   };
 
   const handleInput = (value: string) => {
@@ -123,7 +94,8 @@ export default function TaskForm({ onClose }: TaskFormProps) {
     if (selected == null) {
       toast(addTask(values), "add");
     } else {
-      toast(updateTask(selected.id, values), "update");
+      console.log(values);
+      // toast(updateTask(selected.id, values), "update");
     }
     onClose();
   };
@@ -143,16 +115,16 @@ export default function TaskForm({ onClose }: TaskFormProps) {
       <Select
         isRequired
         aria-label="Task Category"
-        defaultSelectedKeys={
-          values.category ? new Set([values.category]) : new Set()
-        }
         label="Task Category"
         placeholder="Select category"
-        onSelectionChange={handleSelectCategory}>
+        selectedKeys={values.category ? new Set([values.category]) : new Set()}
+        onSelectionChange={handleSelectCategory}
+      >
         {CATEGORIES.map((category) => (
           <SelectItem
             key={category.key}
-            startContent={<CategoryIcon category={category.key} />}>
+            startContent={<CategoryIcon category={category.key} />}
+          >
             {category.label}
           </SelectItem>
         ))}
@@ -160,34 +132,44 @@ export default function TaskForm({ onClose }: TaskFormProps) {
       <Select
         isRequired
         aria-label="Task Status"
-        defaultSelectedKeys={
-          values.status ? new Set([values.status]) : new Set()
-        }
         label="Task Status"
         placeholder="Select status"
-        onSelectionChange={handleSelectStatus}>
+        selectedKeys={values.status ? new Set([values.status]) : new Set()}
+        onSelectionChange={handleSelectStatus}
+      >
         {STATUSES.map((status) => (
           <SelectItem
             key={status.key}
-            startContent={<StatusIcon status={status.key} />}>
+            startContent={<StatusIcon status={status.key} />}
+          >
             {status.label === "In_progress" ? "In Progress" : status.label}
           </SelectItem>
         ))}
       </Select>
-      {values.status !== TS.BACKLOG && (
-        <DateRangePicker
-          isRequired
-          aria-label="Task Duration"
-          defaultValue={getDefaultValue(
-            values.status as TS,
-            values.planned,
-            values.actual
-          )}
-          label={getLabel(values.status as TS)}
-          maxValue={getMaxValue(values.status as TS)}
-          onChange={handleSelectDateRange}
-        />
-      )}
+      <DateRangePicker
+        aria-label="Planned Duration"
+        isDisabled={values.status === TS.BACKLOG || !values.status}
+        label="Planned Duration"
+        maxValue={getMaxValue(values.status as TS)}
+        value={values.planned}
+        onChange={handleSelectDateRange}
+      />
+
+      <DateRangePicker
+        aria-label="Actual Duration"
+        isDisabled={
+          values.status === TS.BACKLOG ||
+          values.status === TS.TODO ||
+          !values.status
+        }
+        isRequired={
+          values.status === TS.IN_PROGRESS || values.status === TS.COMPLETED
+        }
+        label="Actual Duration"
+        maxValue={getMaxValue(values.status as TS)}
+        value={values.actual}
+        onChange={(value) => handleSelectDateRange(value, "actual")}
+      />
     </Form>
   );
 }

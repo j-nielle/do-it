@@ -14,7 +14,7 @@ export enum ActionTrigger {
 export type TaskHistory = {
   status: TaskStatus;
   timestamp: Timestamp;
-  trigger?: ActionTrigger;
+  trigger: ActionTrigger;
 };
 
 export type TaskContextType = {

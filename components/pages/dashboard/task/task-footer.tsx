@@ -1,7 +1,12 @@
 import { Divider } from "@heroui/divider";
 import { IconCalendarTime, IconClockHour3 } from "@tabler/icons-react";
+import { Timestamp } from "firebase/firestore";
 
-import { getLocalDateString as getDate, isSameDay } from "@/lib/helpers/date";
+import {
+  checkDateStatus,
+  getDateString as getDate,
+  isSameDay,
+} from "@/lib/helpers/date";
 import { ActualDuration, TaskDuration } from "@/types/task";
 
 interface TaskFooterProps {
@@ -10,6 +15,8 @@ interface TaskFooterProps {
 }
 
 export default function TaskFooter({ planned, actual }: TaskFooterProps) {
+  const { isYesterday } = checkDateStatus(planned?.end as Timestamp);
+
   return (
     <div className="flex flex-col gap-2 items-start">
       {planned && (
@@ -20,22 +27,16 @@ export default function TaskFooter({ planned, actual }: TaskFooterProps) {
             </span>
             <Divider orientation="vertical" />
             <p>
-              {getDate(planned.start?.toDate()!!)}
+              {getDate(planned.start as Timestamp)}
               {!isSameDay(
-                getDate(planned.start?.toDate()!!),
-                getDate(planned.end?.toDate()!!),
+                getDate(planned.start as Timestamp),
+                getDate(planned.end as Timestamp),
               ) && (
                 <>
                   {" "}
                   -{" "}
-                  <span
-                    className={
-                      getDate(planned.end?.toDate()!!) === "Yesterday"
-                        ? "text-red-500"
-                        : ""
-                    }
-                  >
-                    {getDate(planned.end?.toDate()!!)}
+                  <span className={isYesterday ? "text-red-500" : ""}>
+                    {getDate(planned.end as Timestamp)}
                   </span>
                 </>
               )}
@@ -52,12 +53,12 @@ export default function TaskFooter({ planned, actual }: TaskFooterProps) {
             <Divider orientation="vertical" />
             <p>
               {" "}
-              {getDate(actual.start?.toDate()!!)}{" "}
+              {getDate(actual.start as Timestamp)}{" "}
               {actual.end &&
                 !isSameDay(
-                  getDate(actual.start?.toDate()!!),
-                  getDate(actual.end?.toDate()!!),
-                ) && <>- {getDate(actual.end?.toDate()!!)}</>}
+                  getDate(actual.start as Timestamp),
+                  getDate(actual.end as Timestamp),
+                ) && <>- {getDate(actual.end as Timestamp)}</>}
             </p>
           </div>
         </>

@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 import { TaskInputFields } from "@/types/task";
 
 export enum TaskStatus {
@@ -108,4 +110,10 @@ export const defaultTaskInput: TaskInputFields = {
   actual: null,
   progress: 0,
   statusHistory: [],
+};
+
+export const defaultActual = {
+  start: Timestamp.now(),
+  end: Timestamp.now(),
+  duration: 0,
 };

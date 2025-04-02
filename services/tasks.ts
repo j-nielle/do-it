@@ -16,10 +16,10 @@ import {
 import { db, tasksCollection } from "@/config/firebase";
 import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
 import { TaskStatus as TS } from "@/lib/constants/task";
-import { getDifference, isToday, toTimestamp } from "@/lib/helpers/date";
-import { getProgress } from "@/lib/helpers/task";
+import { getDifference, getTimestamp, getDuration } from "@/lib/helpers/date";
+import { getProgress, updateTaskDuration } from "@/lib/helpers/task";
 
-export const tasksRef = collection(db, "tasks");
+export const selectedTask = collection(db, "tasks");
 
 export async function getTasks(query?: Query): Promise<Task[]> {
   let querySnapshot = null;
@@ -39,7 +39,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
 
 export function subscribeToTasks(
   queryRef: Query,
-  callback: React.Dispatch<React.SetStateAction<Task[]>>
+  callback: React.Dispatch<React.SetStateAction<Task[]>>,
 ) {
   return onSnapshot(queryRef, (snapshot) => {
     const tasks = snapshot.docs.map((doc) => ({
@@ -51,10 +51,45 @@ export function subscribeToTasks(
   });
 }
 
+export async function addTask(fields: TaskInputFields) {
+  try {
+    const { planned: plannedDuration, actual: actualDuration, status } = fields;
+
+    const isActive = [TS.IN_PROGRESS, TS.COMPLETED].includes(status as TS);
+    const hasActualDuration = isActive && actualDuration?.end;
+
+    const planned = plannedDuration?.start
+      ? {
+          start: getTimestamp(plannedDuration.start),
+          end: getTimestamp(plannedDuration.end),
+        }
+      : null;
+
+    const actual = actualDuration?.start
+      ? {
+          start: getTimestamp(actualDuration.start),
+          end: getTimestamp(actualDuration.end),
+          duration: hasActualDuration
+            ? getDifference(actualDuration.end, actualDuration.start)
+            : 0,
+        }
+      : null;
+
+    return await addDoc(selectedTask, {
+      ...fields,
+      planned,
+      actual,
+    });
+  } catch (error) {
+    console.error("Error in adding a task:", error);
+    throw error;
+  }
+}
+
 export function onTasksUpdate(
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
 ) {
-  const q = query(tasksRef);
+  const q = query(selectedTask);
   const unsub = subscribeToTasks(q, setTasks);
 
   return () => unsub();
@@ -62,8 +97,8 @@ export function onTasksUpdate(
 
 export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
   try {
-    const taskRef = doc(db, "tasks", taskId);
-    const taskSnap = await getDoc(taskRef);
+    const selectedTask = doc(db, "tasks", taskId);
+    const taskSnap = await getDoc(selectedTask);
 
     if (!taskSnap.exists()) {
       throw new Error("Task not found");
@@ -84,71 +119,19 @@ export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
       status: newStatus,
     });
 
-    let progress = getProgress(newStatus);
-    let planned = plannedDuration;
-    let actual = actualDuration;
+    const { planned, actual } = updateTaskDuration(
+      newStatus,
+      prevStatus,
+      plannedDuration,
+      actualDuration,
+    );
 
-    const isStarting =
-      newStatus === TS.IN_PROGRESS && prevStatus !== TS.IN_PROGRESS;
-    const isCompleting =
-      newStatus === TS.COMPLETED && prevStatus !== TS.COMPLETED;
-    const isRevertingFromComplete =
-      prevStatus === TS.COMPLETED && newStatus !== TS.COMPLETED;
-    const isMovingToBacklog =
-      prevStatus !== TS.BACKLOG && newStatus === TS.BACKLOG;
-    const isMovingToTodo = prevStatus !== TS.TODO && newStatus === TS.TODO;
-
-    if (isStarting) {
-      actual = {
-        start: Timestamp.now(),
-        end: null,
-        duration: 0,
-      };
-    }
-    if (isCompleting) {
-      actual = actual
-        ? {
-            ...actual,
-            end: Timestamp.now(),
-            duration:
-              Timestamp.now().seconds -
-              (actual.start?.seconds || Timestamp.now().seconds),
-          }
-        : {
-            start: Timestamp.now(),
-            end: Timestamp.now(),
-            duration: 0,
-          };
-    }
-    if (isRevertingFromComplete) {
-      actual = actual
-        ? {
-            start: actual.start,
-            end: null,
-            duration: 0,
-          }
-        : {
-            start: Timestamp.now(),
-            end: null,
-            duration: 0,
-          };
-    }
-    if (isMovingToBacklog) {
-      planned = null;
-      actual = null;
-    } else if (isMovingToTodo) {
-      actual = null;
-      if (planned && isToday(planned.start as Timestamp)) {
-        // console.log("today is within the planned date range");
-      }
-    }
-
-    return await updateDoc(taskRef, {
+    return await updateDoc(selectedTask, {
       status: newStatus,
       planned,
       actual,
       statusHistory: history,
-      progress,
+      progress: getProgress(newStatus),
     });
   } catch (error) {
     console.error("Error in updating a task:", error);
@@ -156,164 +139,32 @@ export const afterDragUpdate = async (taskId: string, newStatus: TS) => {
   }
 };
 
-export async function addTask(fields: TaskInputFields) {
-  try {
-    const { planned: p, actual: a, status } = fields;
-
-    const isProgressCompleted =
-      status === TS.IN_PROGRESS || status === TS.COMPLETED;
-
-    const planned = p?.start
-      ? {
-          start: toTimestamp(p.start),
-          end: p.end ? toTimestamp(p.end) : null,
-        }
-      : null;
-
-    const actual = a?.start
-      ? {
-          start: toTimestamp(a.start),
-          end: a.end ? toTimestamp(a.end) : null,
-          duration:
-            isProgressCompleted && a.end ? getDifference(a.end, a.start) : 0,
-        }
-      : null;
-
-    return await addDoc(tasksRef, {
-      ...fields,
-      planned,
-      actual,
-    });
-  } catch (error) {
-    console.error("Error in adding a task:", error);
-    throw error;
-  }
-}
-
 export async function updateTask(taskId: string, fields: TaskInputFields) {
   try {
-    const taskRef = doc(db, "tasks", taskId);
-    // const taskSnap = await getDoc(taskRef);
+    const selectedTask = doc(db, "tasks", taskId);
+    const taskSnap = await getDoc(selectedTask);
 
-    // if (!taskSnap.exists()) {
-    //   throw new Error("Task not found");
-    // }
+    if (!taskSnap.exists()) {
+      throw new Error("Task not found");
+    }
 
-    // const taskData = taskSnap.data();
+    const taskData = taskSnap.data();
 
-    const newStatus = fields.status as TS;
-    let progress = getProgress(newStatus);
-    // const {
-    //   status: prevStatus,
-    //   actual: prevActual,
-    //   planned: prevPlanned,
-    // } = taskData as Task;
+    const { status: prevStatus } = taskData as Task;
 
-    // currentHistory.push({
-    //   timestamp: Timestamp.now(),
-    //   trigger: ActionTrigger.USER_DRAG,
-    //   status: newStatus,
-    // });
+    const { planned, actual } = updateTaskDuration(
+      fields.status as TS,
+      prevStatus,
+      getDuration(fields.planned),
+      getDuration(fields.actual),
+    );
 
-    // let progress = getProgress(newStatus);
-    // let planned = prevPlanned;
-    // let actual = prevActual;
-
-    // const isStarting =
-    //   newStatus === TS.IN_PROGRESS && prevStatus !== TS.IN_PROGRESS;
-    // const isCompleting =
-    //   newStatus === TS.COMPLETED && prevStatus !== TS.COMPLETED;
-    // const isRevertingFromComplete =
-    //   prevStatus === TS.COMPLETED && newStatus !== TS.COMPLETED;
-    // const isMovingToBacklog =
-    //   prevStatus !== TS.BACKLOG && newStatus === TS.BACKLOG;
-    // const isMovingToTodo = prevStatus !== TS.TODO && newStatus === TS.TODO;
-
-    // if (isStarting) {
-    //   actual = {
-    //     start: Timestamp.now(),
-    //     end: null,
-    //     duration: 0,
-    //   };
-    // }
-    // if (isCompleting) {
-    //   actual = actual
-    //     ? {
-    //         ...actual,
-    //         end: Timestamp.now(),
-    //         duration:
-    //           Timestamp.now().seconds -
-    //           (actual.start?.seconds || Timestamp.now().seconds),
-    //       }
-    //     : {
-    //         start: Timestamp.now(),
-    //         end: Timestamp.now(),
-    //         duration: 0,
-    //       };
-    // }
-    // if (isRevertingFromComplete) {
-    //   actual = actual
-    //     ? {
-    //         start: actual.start,
-    //         end: null,
-    //         duration: 0,
-    //       }
-    //     : {
-    //         start: Timestamp.now(),
-    //         end: null,
-    //         duration: 0,
-    //       };
-    // }
-    // if (isMovingToBacklog) {
-    //   planned = null;
-    //   actual = null;
-    // } else if (isMovingToTodo) {
-    //   actual = null;
-    //   if (planned && isToday(planned.start as Timestamp)) {
-    //     // console.log("today is within the planned date range");
-    //   }
-    // }
-
-    // console.log({
-    //   status: newStatus,
-    //   planned,
-    //   actual,
-    //   currentHistory,
-    //   progress,
-    // });
-
-    const isProgressCompleted =
-      newStatus === TS.IN_PROGRESS || newStatus === TS.COMPLETED;
-
-    const planned = fields.planned?.start
-      ? {
-          start: toTimestamp(fields.planned.start),
-          end: fields.planned.end ? toTimestamp(fields.planned.end) : null,
-        }
-      : null;
-
-    const actual = fields.actual?.start
-      ? {
-          start: toTimestamp(fields.actual.start),
-          end: fields.actual.end ? toTimestamp(fields.actual.end) : null,
-          duration:
-            isProgressCompleted && fields.actual.end
-              ? getDifference(fields.actual.end, fields.actual.start)
-              : 0,
-        }
-      : null;
-
-    return await updateDoc(taskRef, {
+    return await updateDoc(selectedTask, {
       ...fields,
+      progress: getProgress(fields.status as TS),
       planned,
       actual,
-      progress,
     });
-    // return await updateDoc(tasksRef, {
-    //   ...fields,
-    //   planned,
-    //   actual,
-    // });
   } catch (error) {
     console.error("Error in adding a task:", error);
     throw error;
@@ -322,9 +173,9 @@ export async function updateTask(taskId: string, fields: TaskInputFields) {
 
 export async function deleteTask(taskId: string) {
   try {
-    const tasksRef = doc(db, "tasks", taskId);
+    const selectedTask = doc(db, "tasks", taskId);
 
-    return await deleteDoc(tasksRef);
+    return await deleteDoc(selectedTask);
   } catch (error) {
     console.error("Error in deleting a task:", error);
     throw error;
