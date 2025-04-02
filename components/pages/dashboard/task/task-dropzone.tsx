@@ -50,18 +50,17 @@ export default function Dropzone() {
   useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG
       ),
       TODO: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO
       ),
       IN_PROGRESS: tasks.filter(
         ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.IN_PROGRESS,
+          sh[sh.length - 1].status === Status.IN_PROGRESS
       ),
       COMPLETED: tasks.filter(
-        ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.COMPLETED,
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.COMPLETED
       ),
     });
   }, [tasks]);
@@ -78,18 +77,23 @@ export default function Dropzone() {
 
   const handleDropEnd = (event: any) => {
     const { source, target } = event.operation;
+
+    const sourceStatus = source.id;
+    const targetStatus = target.data.currentBoard;
+
+    if (sourceStatus === targetStatus) {
+      console.warn("dropped in the same column");
+      return;
+    }
+
     const { data } = source as { data: TaskDragData };
 
-    if (data && "task" in data && "selectedStatus" in data) {
-      const { task, selectedStatus } = data;
-      const { statusHistory: history } = task;
-      const sameStatus = history[history.length - 1].status === selectedStatus;
-
-      if (target && target.id === "TRASH_ZONE") {
+    if (data && "task" in data) {
+      const { task } = data;
+      if (targetStatus && targetStatus === "TRASH_ZONE") {
         toast(deleteTask(task.id), "delete");
-      }
-      if (!sameStatus) {
-        toast(afterDragUpdate(task.id, selectedStatus), "update");
+      } else {
+        toast(afterDragUpdate(task.id, targetStatus), "update");
       }
     }
   };

@@ -3,6 +3,7 @@
 import React, { useContext, useId } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useSortable } from "@dnd-kit/react/sortable";
+import { useDraggable } from "@dnd-kit/react";
 
 import TaskHeader from "./task-header";
 import TaskFooter from "./task-footer";
@@ -15,28 +16,18 @@ import { TaskContext } from "@/contexts/taskContext";
 interface TaskItemProps {
   id: string;
   task: Task;
-  index: number;
-  statusId: string;
+  index?: number;
 }
 
-export default function TaskItem({
-  id,
-  task,
-  index,
-  statusId: group,
-}: TaskItemProps) {
+export default function TaskItem({ id, task }: TaskItemProps) {
   const elementId = useId();
   const { setSelected } = useContext(TaskContext);
 
-  const { ref } = useSortable({
+  const { ref } = useDraggable({
     id,
-    index,
-    group,
     type: "task",
-    accept: ["task"],
     data: {
       type: "task",
-      selectedStatus: group,
       task,
     },
   });
@@ -47,8 +38,7 @@ export default function TaskItem({
       className="cursor-grab !overflow-hidden dark:!bg-gray-900"
       id={elementId}
       radius="sm"
-      shadow="sm"
-    >
+      shadow="sm">
       <CategoryTopLine category={task.category} />
       <CardBody>
         <div className="flex flex-col justify-start items-start gap-2 text-sm">

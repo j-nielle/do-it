@@ -53,7 +53,6 @@ export type TaskInputFields = {
 export type TaskDragData = {
   task: Task;
   type: "task";
-  selectedStatus: TaskStatus;
 };
 
 export type TaskContainer = {

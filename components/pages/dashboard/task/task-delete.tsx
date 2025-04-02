@@ -6,6 +6,12 @@ import { Card } from "@heroui/card";
 export default function DeleteZone() {
   const { ref } = useDroppable({
     id: "TRASH_ZONE",
+    accept: ["task"],
+    type: "board",
+    data: {
+      type: "board",
+      currentBoard: "TRASH_ZONE",
+    },
   });
 
   return (
@@ -13,8 +19,7 @@ export default function DeleteZone() {
       ref={ref}
       className="bg-transparent border h-16 items-center justify-center text-red-500 border-dashed border-red-500"
       radius="sm"
-      shadow="sm"
-    >
+      shadow="sm">
       <span className="font-medium text-center">Drop here to delete</span>
     </Card>
   );
