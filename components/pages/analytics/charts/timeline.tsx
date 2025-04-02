@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
 
 import { Chart } from "@/components/charts";
@@ -15,6 +15,10 @@ export default function TimelineChart() {
   const series = useMemo(() => {
     return getTimeline(tasks);
   }, [tasks]);
+
+  useEffect(() => {
+    if (series) console.log(series);
+  }, [series]);
 
   return (
     <Chart

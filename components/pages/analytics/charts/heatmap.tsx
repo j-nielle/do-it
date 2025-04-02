@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useContext } from "react";
+import React, { useMemo, useContext, useEffect } from "react";
 import { useTheme } from "next-themes";
 
 import { Chart } from "@/components/charts";
@@ -21,6 +21,10 @@ export default function Heatmap() {
       };
     });
   }, [tasks]);
+
+  useEffect(() => {
+    if(series) console.log(series)
+  },[series])
 
   return (
     <Chart

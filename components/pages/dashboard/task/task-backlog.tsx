@@ -1,5 +1,3 @@
-"use client";
-
 import { useDroppable } from "@dnd-kit/react";
 import { Card, CardBody } from "@heroui/card";
 
