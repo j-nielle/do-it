@@ -10,7 +10,7 @@ import { Navbar } from "@/components/navigation/nav-bar";
 
 export const metadata: Metadata = {
   title: {
-    default: "Just Do It - Task Management",
+    default: "Do It - Task Management",
     template: `${siteConfig.name} | %s`,
   },
   description: siteConfig.description,

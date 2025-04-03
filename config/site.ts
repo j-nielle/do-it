@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Just Do It - Task Management",
+  name: "Do It - Task Management",
   description: "personal task manager",
   navItems: [
     {

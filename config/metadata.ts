@@ -13,9 +13,9 @@ export const dashboardMetadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Just Do It - Dashboard",
+    title: "Do It - Dashboard",
     description: "dashboard",
     url: "https://do-it-personal-task-manager.vercel.app/dashboard",
-    siteName: "Just Do It - Task Management | Dashboard",
+    siteName: "Do It - Task Management | Dashboard",
   },
 };
