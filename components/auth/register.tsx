@@ -7,7 +7,7 @@ import { Input } from "@heroui/input";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Card, CardBody } from "@heroui/card";
 
-import { auth } from "@/config/firebase";
+import { auth } from "@/lib/firebase/auth";
 import { handleLoginWithGoogle } from "@/lib/utils/auth";
 import { createSession } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/useToast";

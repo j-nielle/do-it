@@ -7,10 +7,10 @@ import { Input } from "@heroui/input";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Card, CardBody } from "@heroui/card";
 
-import { auth } from "@/config/firebase";
 import { handleLoginWithGoogle } from "@/lib/utils/auth";
 import { createSession } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/useToast";
+import { auth } from "@/lib/firebase/auth";
 
 export default function Login() {
   const toast = useToast();

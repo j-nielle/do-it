@@ -1,7 +1,7 @@
 import { signInWithPopup, signOut } from "firebase/auth";
 
 import { createSession, removeSession } from "@/lib/actions/auth";
-import { auth, googleProvider } from "@/config/firebase";
+import { auth, googleProvider } from "@/lib/firebase/auth";
 
 export const handleLoginWithGoogle = async () => {
   try {
