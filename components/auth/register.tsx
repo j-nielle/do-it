@@ -29,7 +29,7 @@ export default function Register() {
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    toast(handleRegister(e), undefined, "Account created successfully");
+    toast(handleRegister(e), "custom", "Account created successfully");
   };
 
   return (

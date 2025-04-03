@@ -29,7 +29,7 @@ export default function Login() {
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    toast(handleLogin(e), undefined, "Successfully logged in");
+    toast(handleLogin(e), "custom", "Successfully logged in");
   };
 
   return (
