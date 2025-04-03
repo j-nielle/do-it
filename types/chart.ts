@@ -1,7 +1,5 @@
 import { ApexOptions } from "apexcharts";
 
-import { Task } from "./task";
-
 type ChartDimensions = {
   width?: string | number;
   height?: string | number;

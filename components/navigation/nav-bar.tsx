@@ -7,7 +7,6 @@ import {
   NavbarItem,
 } from "@heroui/navbar";
 import { Link } from "@heroui/link";
-import { cookies } from "next/headers";
 
 import {
   AuthNavLink,
@@ -18,13 +17,9 @@ import {
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { SESSION_COOKIE_NAME } from "@/lib/config/server";
 import { GithubIcon } from "@/components/icons";
 
 export const Navbar = async () => {
-  const cookieStore = await cookies();
-  const session = cookieStore.get(SESSION_COOKIE_NAME)?.value || null;
-
   return (
     <HeroUINavbar
       classNames={{
@@ -36,16 +31,16 @@ export const Navbar = async () => {
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <NavLogoLink session={session} />
+          <NavLogoLink />
         </NavbarBrand>
         <ul className="flex w-full items-center">
-          {/* <NavLinkItems session={session} /> */}
+          {/* <NavLinkItems /> */}
           <NavbarItem className="flex w-full justify-end gap-3">
             <Link isExternal aria-label="Github" href={siteConfig.links.github}>
               <GithubIcon className="text-default-500" />
             </Link>
             <ThemeSwitch />
-            <AuthNavLink session={session} />
+            <AuthNavLink />
             <div className="sm:hidden basis-1 justify-end">
               <NavbarMenuToggle />
             </div>
@@ -54,7 +49,7 @@ export const Navbar = async () => {
       </NavbarContent>
 
       <NavbarMenu>
-        <NavMenuItems session={session} />
+        <NavMenuItems />
       </NavbarMenu>
     </HeroUINavbar>
   );

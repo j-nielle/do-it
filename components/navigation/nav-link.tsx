@@ -10,15 +10,15 @@ import { Button } from "@heroui/button";
 import { NavbarItem, NavbarMenuItem } from "@heroui/navbar";
 
 import { siteConfig } from "@/config/site";
-import { handleLogout } from "@/lib/firebase/auth";
-import { useUserSession } from "@/hooks/useUserSession";
+import { handleLogout } from "@/lib/utils/auth";
 import { Logo } from "@/components/icons";
+import { useSession } from "@/lib/firebase/auth";
 
-export const AuthNavLink = ({ session }: { session: string | null }) => {
-  const userSessionId = useUserSession(session);
+export const AuthNavLink = () => {
+  const { isAuthenticated } = useSession();
   const pathname = usePathname();
 
-  return userSessionId ? (
+  return isAuthenticated ? (
     <Button
       className="hidden sm:flex justify-center items-center"
       color="danger"
@@ -41,13 +41,13 @@ export const AuthNavLink = ({ session }: { session: string | null }) => {
   );
 };
 
-export const NavLogoLink = ({ session }: { session: string | null }) => {
-  const userSessionId = useUserSession(session);
+export const NavLogoLink = () => {
+  const { isAuthenticated } = useSession();
 
   return (
     <NextLink
       className="flex justify-start items-center gap-1"
-      href={userSessionId ? "/dashboard" : "/"}
+      href={isAuthenticated ? "/dashboard" : "/"}
     >
       <Logo />
       <p className="font-bold text-inherit uppercase">Do It</p>
@@ -55,11 +55,11 @@ export const NavLogoLink = ({ session }: { session: string | null }) => {
   );
 };
 
-export const NavLinkItems = ({ session }: { session: string | null }) => {
-  const userSessionId = useUserSession(session);
+export const NavLinkItems = () => {
+  const { isAuthenticated } = useSession();
 
   return (
-    userSessionId && (
+    isAuthenticated && (
       <div className="hidden sm:flex">
         {siteConfig.navItems.map((item) => (
           <NavbarItem key={item.href}>
@@ -80,13 +80,13 @@ export const NavLinkItems = ({ session }: { session: string | null }) => {
   );
 };
 
-export const NavMenuItems = ({ session }: { session: string | null }) => {
-  const userSessionId = useUserSession(session);
+export const NavMenuItems = () => {
+  const { isAuthenticated } = useSession();
   const pathname = usePathname();
 
   return (
     <div className="mx-4 mt-2 flex flex-col gap-2">
-      {!userSessionId ? (
+      {!isAuthenticated ? (
         <NavbarMenuItem>
           <Link
             color="foreground"

@@ -9,6 +9,8 @@ import { ToastProvider } from "@heroui/toast";
 import { useRouter } from "next/navigation";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
+import { AuthProvider } from "@/lib/firebase/auth";
+
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
@@ -26,10 +28,12 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
 
   return (
-    <HeroUIProvider navigate={router.push}>
-      <ToastProvider placement="top-right" toastOffset={40} />
-      <Analytics />
-      <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-    </HeroUIProvider>
+    <AuthProvider>
+      <HeroUIProvider navigate={router.push}>
+        <ToastProvider placement="top-right" toastOffset={40} />
+        <Analytics />
+        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+      </HeroUIProvider>
+    </AuthProvider>
   );
 }

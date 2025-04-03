@@ -54,17 +54,18 @@ export default function Dropzone() {
   useEffect(() => {
     setContainers({
       BACKLOG: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.BACKLOG,
       ),
       TODO: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO
+        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.TODO,
       ),
       IN_PROGRESS: tasks.filter(
         ({ statusHistory: sh }) =>
-          sh[sh.length - 1].status === Status.IN_PROGRESS
+          sh[sh.length - 1].status === Status.IN_PROGRESS,
       ),
       COMPLETED: tasks.filter(
-        ({ statusHistory: sh }) => sh[sh.length - 1].status === Status.COMPLETED
+        ({ statusHistory: sh }) =>
+          sh[sh.length - 1].status === Status.COMPLETED,
       ),
     });
   }, [tasks]);

@@ -6,8 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@heroui/modal";
-import { FocusableElement } from "@react-types/shared";
-import React, { DOMAttributes, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { TaskContext } from "@/contexts/taskContext";
 

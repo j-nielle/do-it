@@ -28,7 +28,8 @@ export default function CreateTask() {
         placement="top"
         size="sm"
         title="Add new task"
-        onOpenChange={onOpenChange}>
+        onOpenChange={onOpenChange}
+      >
         <TaskForm onClose={onClose} />
       </FormModal>
     </>

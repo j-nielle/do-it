@@ -5,7 +5,7 @@ import CategoryIcon from "./category-icon";
 
 import { TaskCategory as TC } from "@/lib/constants/task";
 import { getCategoryColors as getColors } from "@/lib/helpers/ui";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/ui";
 
 interface CategoryChipProps {
   category: TC;

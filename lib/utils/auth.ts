@@ -1,16 +1,7 @@
-import {
-  signInWithPopup,
-  signOut,
-  type User,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 
 import { createSession, removeSession } from "@/lib/actions/auth";
 import { auth, googleProvider } from "@/config/firebase";
-
-export const handleAuthChange = (callback: (authUser: User | null) => void) => {
-  return onAuthStateChanged(auth, callback);
-};
 
 export const handleLoginWithGoogle = async () => {
   try {

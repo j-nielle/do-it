@@ -23,8 +23,8 @@ export default function Heatmap() {
   }, [tasks]);
 
   useEffect(() => {
-    if(series) console.log(series)
-  },[series])
+    if (series) console.log(series);
+  }, [series]);
 
   return (
     <Chart

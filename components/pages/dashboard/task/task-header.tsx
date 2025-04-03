@@ -30,7 +30,8 @@ export default function TaskHeader({ task, setSelected }: TaskHeaderProps) {
         <button
           aria-label="Edit Task"
           className="dark:text-white"
-          onClick={handleOpen}>
+          onClick={handleOpen}
+        >
           <IconPencil size={16} />
         </button>
         <p className="max-w-[50ch] truncate font-semibold text-start text-base flex-1">
@@ -46,7 +47,8 @@ export default function TaskHeader({ task, setSelected }: TaskHeaderProps) {
         placement="top"
         size="sm"
         title="Edit task"
-        onOpenChange={onOpenChange}>
+        onOpenChange={onOpenChange}
+      >
         <TaskForm onClose={onClose} />
       </FormModal>
     </>

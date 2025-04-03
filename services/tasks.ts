@@ -13,7 +13,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-import { db, tasksCollection } from "@/config/firebase";
+import { db } from "@/config/firebase";
 import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
 import { TaskStatus as TS } from "@/lib/constants/task";
 import { getDifference, getTimestamp, getDuration } from "@/lib/helpers/date";
@@ -27,7 +27,7 @@ export async function getTasks(query?: Query): Promise<Task[]> {
   if (query) {
     querySnapshot = await getDocs(query);
   } else {
-    querySnapshot = await getDocs(tasksCollection);
+    querySnapshot = await getDocs(collection(db, "tasks"));
   }
 
   const localTasks = querySnapshot.docs.map((doc: DocumentData) => {
