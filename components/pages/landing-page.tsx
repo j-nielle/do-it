@@ -24,12 +24,12 @@ export default function LandingPage() {
           Simple moves, <span className="font-bold">big results.</span>
         </h1>
       </span>
-      <div className="relative w-full h-[150px] sm:h-4/6 lg:overflow-hidden flex sm:items-end sm:justify-center">
+      <div className="relative w-full h-[150px] sm:h-4/6 sm:overflow-hidden flex items-end sm:items-end sm:justify-center">
         {theme ? (
           <Image
             src={`/assets/dropzone-${theme}.png`}
             alt={`dropzone-${theme}-theme`}
-            className={clsx("absolute object-cover h-64 sm:h-full sm:w-auto", {
+            className={clsx("absolute object-cover top-12 h-64 sm:h-full sm:w-auto", {
               "shadow-md": theme === "light",
             })}
             width={1250}
