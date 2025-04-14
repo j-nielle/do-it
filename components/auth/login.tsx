@@ -7,10 +7,10 @@ import { Input } from "@heroui/input";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Card, CardBody } from "@heroui/card";
 
-import { handleLoginWithGoogle } from "@/lib/utils/auth";
 import { createSession } from "@/lib/actions/auth";
 import { useToast } from "@/hooks/useToast";
-import { auth } from "@/lib/firebase/auth";
+import { handleGoogleLogin } from "@/lib/firebase/auth";
+import { auth } from "@/lib/firebase/client";
 
 export default function Login() {
   const toast = useToast();
@@ -64,7 +64,7 @@ export default function Login() {
             <Button
               color="primary"
               variant="faded"
-              onPress={handleLoginWithGoogle}
+              onPress={handleGoogleLogin}
             >
               Login with{" "}
               <span className="space-x-0.5">

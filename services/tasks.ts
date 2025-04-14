@@ -17,7 +17,7 @@ import { ActionTrigger, Task, TaskInputFields } from "@/types/task";
 import { TaskStatus as TS } from "@/lib/constants/task";
 import { getDifference, getTimestamp, getDuration } from "@/lib/helpers/date";
 import { getProgress, updateTaskDuration } from "@/lib/helpers/task";
-import { db } from "@/lib/firebase/auth";
+import { db } from "@/lib/firebase/client";
 
 export const selectedTask = collection(db, "tasks");
 

@@ -10,9 +10,9 @@ import { Button } from "@heroui/button";
 import { NavbarItem, NavbarMenuItem } from "@heroui/navbar";
 
 import { siteConfig } from "@/config/site";
-import { handleLogout } from "@/lib/utils/auth";
 import { Logo } from "@/components/icons";
-import { useSession } from "@/lib/firebase/auth";
+import { useSession } from "@/hooks/useSession";
+import { handleLogout } from "@/lib/firebase/auth";
 
 export const AuthNavLink = () => {
   const { isAuthenticated } = useSession();
