@@ -42,15 +42,12 @@ export default async function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          inconsolata.className,
-        )}
-      >
+          inconsolata.className
+        )}>
         <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
-            <main className="w-full px-4 pt-6 sm:px-6 flex flex-col items-center justify-end sm:h-full">
-              {children}
-            </main>
+            {children}
           </div>
         </Providers>
       </body>
