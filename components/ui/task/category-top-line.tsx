@@ -11,7 +11,7 @@ export default function CategoryTopLine({ category }: { category: TC }) {
         "bg-purple-500": category === TC.LEARNING,
         "bg-rose-700": category === TC.FINANCE,
         "bg-orange-600": category === TC.SOCIAL,
-        "bg-fuchsia-700": category === TC.UNCATEGORIZED,
+        "bg-teal-600": category === TC.UNCATEGORIZED,
       })}
     />
   );

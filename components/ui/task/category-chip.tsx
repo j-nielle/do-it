@@ -27,7 +27,7 @@ export default function CategoryChip({
           "bg-purple-600 text-white": category === TC.LEARNING,
           "bg-rose-700": category === TC.FINANCE,
           "bg-orange-600": category === TC.SOCIAL,
-          "bg-fuchsia-700": category === TC.UNCATEGORIZED,
+          "bg-teal-600": category === TC.UNCATEGORIZED,
         }),
       }}
       color={chipColor}
@@ -42,7 +42,7 @@ export default function CategoryChip({
             "border-purple-600": category === TC.LEARNING,
             "border-rose-700": category === TC.FINANCE,
             "border-orange-600": category === TC.SOCIAL,
-            "border-fuchsia-700": category === TC.UNCATEGORIZED,
+            "border-teal-600": category === TC.UNCATEGORIZED,
           },
         )}
       >

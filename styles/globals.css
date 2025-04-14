@@ -2,18 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.todo-status {
-  @apply !bg-blue-500/65 dark:!bg-blue-500/75;
-}
-.pending-status {
-  @apply !bg-yellow-500/65 dark:!bg-yellow-500/75;
-}
-.completed-status {
-  @apply !bg-green-500/65 dark:!bg-green-500/75;
-}
-
 .apexcharts-series.apexcharts-heatmap-series rect {
-  @apply !stroke-2 dark:!stroke-[#171719] dark:!stroke-2;
+  @apply !stroke-2 dark:stroke-[#171719] dark:stroke-2;
 }
 
 @layer base {
@@ -117,10 +107,6 @@
 
     --chart-5: 340 75% 55%;
   }
-}
-
-@theme {
-
 }
 
 @layer base {

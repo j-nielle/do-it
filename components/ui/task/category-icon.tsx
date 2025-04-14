@@ -34,7 +34,7 @@ export default function CategoryIcon({
         );
       default:
         return (
-          <IconQuestionMark className="text-fuchsia-700" size={iconSize} />
+          <IconQuestionMark className="text-teal-600" size={iconSize} />
         );
     }
   };
