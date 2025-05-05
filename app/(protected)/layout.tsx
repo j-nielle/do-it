@@ -15,8 +15,10 @@ export default function MainLayout({
 
   return (
     <TaskContextProvider>
-      <BreadCrumb links={links} />
-      {children}
+      <section className="px-6 py-4">
+        <BreadCrumb links={links} />
+        {children}
+      </section>
     </TaskContextProvider>
   );
 }
