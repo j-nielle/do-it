@@ -23,7 +23,7 @@ export default function BoardColumn({
   });
 
   return (
-    <Card
+    <Card aria-labelledby={id}
       ref={ref}
       className={clsx("min-h-32 transition-colors", className)}
       radius="sm"

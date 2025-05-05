@@ -14,7 +14,7 @@ export default function BoardSection({ tasks }: { tasks: TaskContainer }) {
     <section className="col-span-2 lg:col-span-3 flex flex-col gap-2">
       <Card className="h-full " radius="sm">
         <CardBody>
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-full" aria-labelledby="board">
             {TASK_COLUMNS.map((column) => (
               <BoardColumn
                 key={column.id}

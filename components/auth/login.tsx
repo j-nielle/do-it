@@ -36,7 +36,7 @@ export default function Login() {
     <section>
       <Card fullWidth className="p-4 min-w-72">
         <CardBody>
-          <h2 className="mb-4 w-full text-center text-xl font-bold">Login</h2>
+          <p className="mb-4 w-full text-center text-xl font-bold">Login</p>
           <Form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
             <Input
               fullWidth

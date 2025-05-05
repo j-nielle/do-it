@@ -36,9 +36,9 @@ export default function Register() {
     <section>
       <Card fullWidth className="p-4 min-w-72">
         <CardBody>
-          <h2 className="mb-4 w-full text-center text-xl font-bold">
+          <p className="mb-4 w-full text-center text-xl font-bold">
             Create an account
-          </h2>
+          </p>
           <Form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
             <Input
               fullWidth

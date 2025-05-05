@@ -29,8 +29,8 @@ export const Navbar = async () => {
       maxWidth="full"
       position="sticky"
     >
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
+      <NavbarContent as="div" className="basis-1/5 sm:basis-full" justify="start">
+        <NavbarBrand as="div" className="gap-3 max-w-fit">
           <NavLogoLink />
         </NavbarBrand>
         <ul className="flex w-full items-center">
